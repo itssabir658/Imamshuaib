@@ -5,6 +5,7 @@ import { site } from "@/content/site";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SkipLink } from "@/components/layout/SkipLink";
+import { GlassFilters } from "@/components/ui/GlassFilters";
 import "./globals.css";
 
 /**
@@ -129,6 +130,7 @@ export default function RootLayout({
       className={`${gilroy.variable} ${montserrat.variable}`}
     >
       <body>
+        <GlassFilters />
         <SkipLink />
         <Header />
         <main id="main" tabIndex={-1}>

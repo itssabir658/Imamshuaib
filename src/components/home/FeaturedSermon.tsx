@@ -18,7 +18,8 @@ export function FeaturedSermon() {
     <Section
       labelledBy="sermon-title"
       tone="deep"
-      className="overflow-hidden isolate"
+      className="isolate overflow-hidden"
+      aura
     >
       <div
         aria-hidden="true"
@@ -34,7 +35,7 @@ export function FeaturedSermon() {
           onDark
         />
 
-        <article className="group/btn relative overflow-hidden rounded-card border border-white/12 bg-white/5 backdrop-blur-sm">
+        <article className="glass-surface glass-rim group/btn relative overflow-hidden rounded-card">
           <Link href={href} className="block">
             <div className="relative aspect-[16/9] overflow-hidden">
               <Image

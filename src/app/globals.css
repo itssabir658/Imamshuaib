@@ -86,6 +86,9 @@
   --shadow-float: 0 24px 60px -28px rgb(16 38 42 / 0.4);
 
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Apple's standard material curve — a fast start that settles, which is what
+     makes a surface feel like it has mass rather than easing linearly. */
+  --ease-ios: cubic-bezier(0.32, 0.72, 0, 1);
 
   /* -- Layout ------------------------------------------------------ */
   --container-page: 76rem;
@@ -163,6 +166,141 @@
    UTILITIES
    ============================================================ */
 
+/* ============================================================
+   LIQUID GLASS
+   Frosted material, not transparency: heavy blur + saturate to put back the
+   colour the blur greys out, a 1px specular top edge, and — critically — an
+   aura behind the surface for the frost to refract. Over a flat colour glass
+   looks like a plain translucent box, so `aura` comes first.
+
+   Two grounds, tuned in opposite directions. On the deep-teal bands the panel
+   mix is thick. On the light canvas it must be THINNER with HIGHER saturation,
+   or the white panel simply hides the frost.
+   ============================================================ */
+
+/* ============================================================
+   MARQUEE
+   The track holds two identical copies of its content, so translating it by
+   exactly -50% lands the second copy where the first began and the loop is
+   seamless. The duplicate set is aria-hidden so it is not announced twice.
+   ============================================================ */
+@keyframes marquee-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@utility marquee-viewport {
+  overflow: hidden;
+  /* Feather both ends so logos dissolve rather than clipping at the edge. */
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    #000 7%,
+    #000 93%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    #000 7%,
+    #000 93%,
+    transparent 100%
+  );
+}
+
+@utility marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-x var(--marquee-duration, 44s) linear infinite;
+
+  &:hover {
+    animation-play-state: paused;
+  }
+}
+
+/* Motion off: no animation, and the strip becomes an ordinary scrollable row
+   so every logo is still reachable. */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+    transform: none;
+  }
+  .marquee-viewport {
+    overflow-x: auto;
+  }
+}
+
+/* Ambient colour for glass to refract. Place behind a glass surface, never on
+   it — this element must not itself be frosted. */
+@utility aura {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(72px);
+  pointer-events: none;
+}
+
+/* Large panels on the deep-teal bands. */
+@utility glass-surface {
+  background: color-mix(in srgb, var(--color-teal-900) 42%, transparent);
+  -webkit-backdrop-filter: blur(34px) saturate(190%);
+  backdrop-filter: blur(34px) saturate(190%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.16),
+    inset 0 0 0 1px rgb(255 255 255 / 0.05),
+    0 24px 60px -28px rgb(10 36 38 / 0.55);
+}
+
+/* The same material on the light canvas: thinner mix, more saturation. */
+@utility glass-surface-light {
+  background: color-mix(in srgb, var(--color-surface) 62%, transparent);
+  -webkit-backdrop-filter: blur(30px) saturate(210%);
+  backdrop-filter: blur(30px) saturate(210%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.75),
+    inset 0 0 0 1px rgb(255 255 255 / 0.4),
+    0 1px 2px rgb(16 38 42 / 0.04),
+    0 18px 44px -24px rgb(16 38 42 / 0.16);
+}
+
+/* Dropdowns and popovers. Kept near-opaque: small text over live scrolling
+   content is unreadable through a fully translucent panel, so this keeps the
+   hint of glass (blur + sheen) and drops the transparency. */
+@utility glass-menu {
+  background: color-mix(in srgb, var(--color-surface) 94%, transparent);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  backdrop-filter: blur(24px) saturate(180%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.8),
+    inset 0 0 0 1px rgb(255 255 255 / 0.35),
+    0 24px 60px -28px rgb(16 38 42 / 0.4);
+}
+
+/* Tiles sitting INSIDE a glass panel. No backdrop-filter of its own — nesting
+   one inside another breaks GPU compositing and the inner frost renders
+   blank. The parent already frosted the background; this is a tint and a
+   sheen so it reads as glass on glass. */
+@utility glass-inset {
+  background: color-mix(in srgb, var(--color-teal-800) 55%, transparent);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.1);
+}
+
+@utility glass-inset-hover {
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &:hover {
+    background: color-mix(in srgb, var(--color-teal-800) 68%, transparent);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.18),
+      inset 0 0 0 1px rgb(255 255 255 / 0.06);
+  }
+}
+
 /* Islamic geometric motif (khatim / 8-point star). Drawn as a mask so the
    colour is driven by `color`, letting one asset serve light and dark bands. */
 @utility pattern-khatim {
@@ -206,5 +344,138 @@
     overflow: visible;
     clip-path: none;
     white-space: normal;
+  }
+}
+
+
+/* ============================================================
+   GLASS — RIM, REFRACTION, INTERACTION
+   Written as plain classes rather than @utility so they can be overridden
+   inside @supports, and so the backdrop-filter declarations win over the
+   Tailwind utility layer.
+
+   The rim is where all the optical work happens. Real glass shows a bright
+   specular lip where light catches the top edge, a dimmer bottom, and a faint
+   colour split at the boundary because the material refracts wavelengths by
+   different amounts. That fringe is tinted to the brand — cool teal on one
+   side, warm gold on the other — so it reads as this site's glass rather than
+   a generic prism effect.
+   ============================================================ */
+
+:where(.glass-rim, .glass-rim-light, .glass-btn) {
+  position: relative;
+}
+
+/* A 1px gradient ring. Drawn as a padding-box/border-box mask difference,
+   which is the only way to get a gradient *border* with a rounded radius that
+   follows the element. */
+.glass-rim::after,
+.glass-rim-light::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  transition: opacity 0.4s var(--ease-ios);
+}
+
+/* On the deep-teal bands. */
+.glass-rim::after {
+  background: linear-gradient(
+    145deg,
+    rgb(255 255 255 / 0.6) 0%,
+    rgb(255 255 255 / 0.3) 22%,
+    rgb(255 255 255 / 0.05) 52%,
+    rgb(245 225 180 / 0.18) 80%,
+    rgb(255 255 255 / 0.42) 100%
+  );
+}
+
+/* On the light canvas the same ring has to be much quieter or it reads as a
+   grey outline rather than a lit edge. */
+.glass-rim-light::after {
+  background: linear-gradient(
+    145deg,
+    rgb(255 255 255 / 0.95) 0%,
+    rgb(255 255 255 / 0.55) 22%,
+    rgb(16 38 42 / 0.07) 52%,
+    rgb(221 163 8 / 0.16) 80%,
+    rgb(255 255 255 / 0.85) 100%
+  );
+}
+
+/* --- Refraction ---------------------------------------------------------
+   The base rule is a plain frosted blur, which every browser supports. The
+   @supports block upgrades it to a displacement filter that bends the
+   backdrop at the rim only — the map is neutral grey through the middle, so
+   nothing behind the content area moves and text stays perfectly legible.
+   Browsers without SVG filters in backdrop-filter simply keep the frost. */
+.glass-refract-sm {
+  -webkit-backdrop-filter: blur(26px) saturate(185%);
+  backdrop-filter: blur(26px) saturate(185%);
+}
+
+.glass-refract-md {
+  -webkit-backdrop-filter: blur(30px) saturate(190%);
+  backdrop-filter: blur(30px) saturate(190%);
+}
+
+@supports (backdrop-filter: url("#glass-edge-sm")) {
+  .glass-refract-sm {
+    backdrop-filter: url("#glass-edge-sm") blur(20px) saturate(185%);
+  }
+  .glass-refract-md {
+    backdrop-filter: url("#glass-edge-md") blur(24px) saturate(190%);
+  }
+}
+
+/* Displacement filters resample the backdrop every frame; skip them entirely
+   when the user has asked for less motion. */
+@media (prefers-reduced-motion: reduce) {
+  .glass-refract-sm {
+    backdrop-filter: blur(26px) saturate(185%);
+  }
+  .glass-refract-md {
+    backdrop-filter: blur(30px) saturate(190%);
+  }
+}
+
+/* --- Buttons ------------------------------------------------------------ */
+.glass-btn {
+  isolation: isolate;
+  transition:
+    transform 0.35s var(--ease-ios),
+    box-shadow 0.35s var(--ease-ios),
+    background-color 0.35s var(--ease-ios);
+}
+
+/* Depth, not colour. Hover lifts the surface and brightens its lip; press
+   sinks it and pulls the shadow in — the way a physical material responds. */
+.glass-btn:hover {
+  transform: translateY(-1px);
+}
+
+.glass-btn:hover::after {
+  opacity: 1;
+}
+
+.glass-btn:active {
+  transform: translateY(0) scale(0.985);
+  transition-duration: 0.1s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glass-btn:hover,
+  .glass-btn:active {
+    transform: none;
   }
 }

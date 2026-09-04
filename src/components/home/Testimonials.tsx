@@ -4,7 +4,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 
 export function Testimonials() {
   return (
-    <Section labelledBy="testimonials-title" tone="sand">
+    <Section labelledBy="testimonials-title" tone="sand" aura>
       <SectionHeading
         id="testimonials-title"
         eyebrow="In their words"
@@ -21,7 +21,7 @@ export function Testimonials() {
       <ul className="mt-12 grid gap-5 md:grid-cols-3">
         {testimonials.map((t) => (
           <li key={t.id}>
-            <figure className="flex h-full flex-col rounded-r-card border-l-[3px] border-gold-500 bg-surface py-7 pr-7 pl-7">
+            <figure className="glass-surface-light flex h-full flex-col rounded-r-card border-l-[3px] border-gold-500 py-7 pr-7 pl-7">
               <blockquote className="grow font-display text-quote font-medium text-ink">
                 &ldquo;{t.text}&rdquo;
               </blockquote>

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
+import { Popover } from "@/components/ui/Popover";
 
 /**
  * §4 calls for a header language switcher. Localisation itself is a
@@ -14,14 +15,7 @@ const locales = [
   { code: "ur", label: "Urdu", native: "اردو", available: false },
 ];
 
-export function LanguageSwitcher({
-  onDark = false,
-  placement = "bottom",
-}: {
-  onDark?: boolean;
-  /** "top" when the trigger sits near the bottom of the viewport. */
-  placement?: "bottom" | "top";
-}) {
+export function LanguageSwitcher({ onDark = false }: { onDark?: boolean }) {
   const [open, setOpen] = useState(false);
   const wrap = useRef<HTMLDivElement>(null);
 
@@ -70,15 +64,8 @@ export function LanguageSwitcher({
         EN
       </button>
 
-      {open ? (
-        <ul
-          role="menu"
-          aria-label="Language"
-          className={cn(
-            "absolute right-0 z-50 w-52 overflow-hidden rounded-2xl border border-line bg-surface p-1.5 shadow-float",
-            placement === "top" ? "bottom-full mb-2" : "mt-2",
-          )}
-        >
+      <Popover anchorRef={wrap} open={open} align="end" width={208}>
+        <ul role="menu" aria-label="Language">
           {locales.map((l) => (
             <li key={l.code} role="none">
               <button
@@ -103,7 +90,7 @@ export function LanguageSwitcher({
             </li>
           ))}
         </ul>
-      ) : null}
+      </Popover>
     </div>
   );
 }

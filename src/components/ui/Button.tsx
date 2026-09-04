@@ -8,17 +8,35 @@ type Size = "md" | "lg";
  * Contrast notes (WCAG 2.1 AA):
  *  primary   — white on teal-600 .......... 6.1:1
  *  gold      — ink on gold-500 ............ 6.5:1
- *  secondary — teal-700 on transparent .... 7.4:1 on canvas
- *  ghost     — white on teal-900 .......... 11.9:1
+ *  secondary — teal-700 on light glass .... 7.4:1 on canvas
+ *  ghost     — white on dark glass ........ >10:1 over the teal bands
+ *
+ * The two brand CTAs stay OPAQUE. A primary call to action that frosts is the
+ * common way glass goes wrong — it costs contrast exactly where it matters and
+ * makes the most important control the least legible one. They get the
+ * specular top edge instead, so they still read as part of the same material.
+ *
+ * The two secondary variants are real glass: heavy blur plus saturate to put
+ * back the colour the blur greys out, an inset highlight for the light catching
+ * the lip, and an inner bottom shadow for thickness.
  */
 const variants: Record<Variant, string> = {
   primary:
-    "bg-teal-600 text-white hover:bg-teal-700 active:bg-teal-800 shadow-[0_10px_24px_-14px_rgba(18,56,58,0.7)]",
-  gold: "bg-gold-500 text-teal-950 hover:bg-gold-400 active:bg-gold-600 shadow-[0_10px_24px_-14px_rgba(104,72,17,0.55)]",
+    "glass-btn bg-teal-600 text-white hover:bg-teal-700 active:bg-teal-800 " +
+    "shadow-[inset_0_1px_0_rgb(255_255_255/0.22),0_10px_24px_-14px_rgb(18_56_58/0.7)]",
+  gold:
+    "glass-btn bg-gold-500 text-teal-950 hover:bg-gold-400 active:bg-gold-600 " +
+    "shadow-[inset_0_1px_0_rgb(255_255_255/0.38),0_10px_24px_-14px_rgb(104_72_17/0.55)]",
   secondary:
-    "border border-teal-600/30 bg-surface text-teal-700 hover:border-teal-600/60 hover:bg-teal-50",
+    "glass-btn glass-rim-light glass-refract-sm bg-surface/50 text-teal-700 " +
+    "shadow-[inset_0_1px_0_rgb(255_255_255/0.9),inset_0_-10px_20px_rgb(16_38_42/0.05),0_10px_28px_-16px_rgb(16_38_42/0.35)] " +
+    "hover:bg-surface/70 hover:shadow-[inset_0_1px_0_rgb(255_255_255/1),inset_0_-10px_20px_rgb(16_38_42/0.05),0_18px_38px_-18px_rgb(16_38_42/0.45)] " +
+    "active:shadow-[inset_0_1px_0_rgb(255_255_255/0.7),inset_0_2px_6px_rgb(16_38_42/0.12)]",
   ghost:
-    "border border-white/25 text-white hover:border-white/50 hover:bg-white/10",
+    "glass-btn glass-rim glass-refract-sm bg-white/[0.09] text-white " +
+    "shadow-[inset_0_1px_0_rgb(255_255_255/0.22),inset_0_-10px_20px_rgb(0_0_0/0.12),0_10px_30px_-14px_rgb(0_0_0/0.5)] " +
+    "hover:bg-white/[0.16] hover:shadow-[inset_0_1px_0_rgb(255_255_255/0.32),inset_0_-10px_20px_rgb(0_0_0/0.12),0_20px_40px_-16px_rgb(0_0_0/0.6)] " +
+    "active:shadow-[inset_0_1px_0_rgb(255_255_255/0.18),inset_0_2px_8px_rgb(0_0_0/0.35)]",
 };
 
 const sizes: Record<Size, string> = {
@@ -28,8 +46,7 @@ const sizes: Record<Size, string> = {
 
 const base =
   "group/btn inline-flex items-center justify-center gap-2 rounded-pill font-semibold " +
-  "transition-[background-color,border-color,box-shadow,transform] duration-200 ease-out-soft " +
-  "hover:-translate-y-px active:translate-y-0 whitespace-nowrap";
+  "whitespace-nowrap";
 
 type CommonProps = {
   variant?: Variant;

@@ -8,6 +8,7 @@ import { cn } from "@/lib/cn";
 import { Button } from "@/components/ui/Button";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { Logo } from "./Logo";
+import { Popover } from "@/components/ui/Popover";
 
 /**
  * Routes whose hero is a deep-teal band. On those the header floats over the
@@ -143,13 +144,18 @@ function NavDropdown({
 }) {
   const [open, setOpen] = useState(false);
   const wrap = useRef<HTMLDivElement>(null);
+  const menu = useRef<HTMLUListElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
     const onPointer = (e: PointerEvent) => {
-      if (!wrap.current?.contains(e.target as Node)) setOpen(false);
+      const t = e.target as Node;
+      // The menu is portalled to body, so it is not inside `wrap` any more.
+      if (!wrap.current?.contains(t) && !menu.current?.contains(t)) {
+        setOpen(false);
+      }
     };
     document.addEventListener("keydown", onKey);
     document.addEventListener("pointerdown", onPointer);
@@ -203,23 +209,25 @@ function NavDropdown({
         </svg>
       </Link>
 
-      {open ? (
-        <div className="absolute top-full left-0 z-50 w-64 pt-2">
-          <ul className="overflow-hidden rounded-2xl border border-line bg-surface p-1.5 shadow-float">
-            {items.map((child) => (
-              <li key={child.href}>
-                <Link
-                  href={child.href}
-                  onClick={() => setOpen(false)}
-                  className="block rounded-xl px-3 py-2.5 text-sm font-medium text-body transition-colors hover:bg-teal-50 hover:text-teal-700"
-                >
-                  {child.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : null}
+      <Popover anchorRef={wrap} open={open} width={256}>
+        <ul
+          ref={menu}
+          onMouseEnter={() => hover(true)}
+          onMouseLeave={() => hover(false)}
+        >
+          {items.map((child) => (
+            <li key={child.href}>
+              <Link
+                href={child.href}
+                onClick={() => setOpen(false)}
+                className="block rounded-xl px-3 py-2.5 text-sm font-medium text-body transition-colors hover:bg-teal-50/80 hover:text-teal-700"
+              >
+                {child.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </Popover>
     </div>
   );
 }
@@ -349,7 +357,7 @@ function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
           >
             Donate
           </Button>
-          <LanguageSwitcher placement="top" />
+          <LanguageSwitcher />
         </div>
         <p className="px-5 pb-6 text-sm text-muted">
           <a

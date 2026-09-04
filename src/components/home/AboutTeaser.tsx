@@ -63,9 +63,12 @@ export function AboutTeaser() {
           <dl className="mt-12 grid grid-cols-2 gap-x-6 gap-y-8 border-t border-line pt-9 sm:grid-cols-4">
             {stats.map((s) => (
               // Reversed visually so the number reads first; the DOM keeps
-              // term-then-definition order for assistive tech.
-              <div key={s.label} className="flex flex-col-reverse gap-2">
-                <dt className="text-sm text-muted">{s.label}</dt>
+              // term-then-definition order for assistive tech. justify-end is
+              // the TOP in a reversed column — without it the column packs
+              // from the bottom and a label that wraps to two lines shoves its
+              // number 20px out of line with the rest.
+              <div key={s.label} className="flex flex-col-reverse justify-end gap-2">
+                <dt className="text-sm text-balance text-muted">{s.label}</dt>
                 <dd className="font-display text-[2rem] leading-[1.05] font-bold tabular-nums text-teal-700 sm:text-[2.25rem]">
                   {s.value}
                 </dd>

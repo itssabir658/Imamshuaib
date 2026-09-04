@@ -50,7 +50,7 @@ export function DonateCTA() {
             </p>
           </div>
 
-          <div className="rounded-card border border-white/12 bg-white/5 p-6 backdrop-blur-sm sm:p-7">
+          <div className="glass-surface glass-rim rounded-card p-6 sm:p-7">
             <fieldset>
               <legend className="text-sm font-medium text-teal-100/90">
                 Choose an amount
