@@ -1,0 +1,13 @@
+node_modules
+.next
+out
+.env*.local
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store
+
+# Licensed webfonts. Gilroy is commercial (Fontfabric); a webfont licence
+# covers serving it from your own site, not redistributing the binaries — and
+# this repository is public, so committing them would do exactly that.
+# Regenerate them from the licensed TTFs: see src/app/fonts/README.md
+/src/app/fonts/*.woff2

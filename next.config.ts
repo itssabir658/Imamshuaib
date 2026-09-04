@@ -1,0 +1,28 @@
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  // Several lockfiles exist above this folder; pin the trace root to the app.
+  outputFileTracingRoot: process.cwd(),
+  images: {
+    formats: ["image/avif", "image/webp"],
+  },
+  poweredByHeader: false,
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          {
+            key: "Strict-Transport-Security",
+            value: "max-age=63072000; includeSubDomains; preload",
+          },
+        ],
+      },
+    ];
+  },
+};
+
+export default nextConfig;

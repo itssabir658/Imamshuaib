@@ -1,0 +1,210 @@
+@import "tailwindcss";
+
+/* ============================================================
+   DESIGN TOKENS — Imam Shuaib
+   Brand colours are sampled from the existing logo mark:
+   teal #246C6F and gold #DDA308. All text pairings below are
+   verified against WCAG 2.1 AA (4.5:1 body, 3:1 large text).
+   ============================================================ */
+@theme {
+  /* -- Brand: teal ------------------------------------------------ */
+  --color-teal-50: #f0f7f7;
+  --color-teal-100: #daebeb;
+  --color-teal-200: #b5d7d8;
+  --color-teal-300: #85babc;
+  --color-teal-400: #4f979a;
+  --color-teal-500: #2e7b7e;
+  --color-teal-600: #246c6f; /* brand */
+  --color-teal-700: #1d575a;
+  --color-teal-800: #174547;
+  --color-teal-900: #12383a;
+  --color-teal-950: #0a2426;
+
+  /* -- Brand: gold ------------------------------------------------ */
+  --color-gold-50: #fdf8ea;
+  --color-gold-100: #faefc9;
+  --color-gold-200: #f4dc8e;
+  --color-gold-300: #edc652;
+  --color-gold-400: #e5b22a;
+  --color-gold-500: #dda308; /* brand */
+  --color-gold-600: #b98406;
+  --color-gold-700: #93670a;
+  --color-gold-800: #7a5510;
+  --color-gold-900: #684811;
+
+  /* -- Neutrals (teal-tinted, warm) ------------------------------- */
+  --color-canvas: #f7faf9;
+  --color-surface: #ffffff;
+  --color-line: #e1eae8;
+  --color-ink: #10262a; /* headings — 15.2:1 on canvas */
+  --color-body: #3e5457; /*  body text — 7.7:1 on canvas */
+  --color-muted: #5a6e70; /*  meta text — 5.1:1 on canvas */
+
+  /* -- Typography ------------------------------------------------- */
+  /* Named for its role, not its family — there is no serif in the system any
+     more. Renaming also deletes Tailwind's `font-serif` utility override, so
+     every call site had to move to `font-display` in the same change. */
+  --font-display: var(--font-gilroy), ui-sans-serif, system-ui, "Segoe UI",
+    Arial, sans-serif;
+  --font-sans: var(--font-montserrat), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", sans-serif;
+  --font-arabic: "Noto Naskh Arabic", "Traditional Arabic", serif;
+
+  /* Fluid display scale: clamp(min, preferred, max). Tracking is tighter than
+     a serif would want — Gilroy's circular bowls leave more optical space
+     between letters than modulated stems do, so the same nominal value reads
+     looser. */
+  --text-display: clamp(2.5rem, 1.6rem + 3.6vw, 4.5rem);
+  --text-display--line-height: 1.05;
+  --text-display--letter-spacing: -0.03em;
+  --text-h1: clamp(2rem, 1.4rem + 2.4vw, 3.25rem);
+  --text-h1--line-height: 1.1;
+  --text-h1--letter-spacing: -0.024em;
+  --text-h2: clamp(1.625rem, 1.25rem + 1.5vw, 2.375rem);
+  --text-h2--line-height: 1.15;
+  --text-h2--letter-spacing: -0.018em;
+  --text-h3: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+  --text-h3--line-height: 1.25;
+  --text-h3--letter-spacing: -0.012em;
+  --text-lead: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+  --text-lead--line-height: 1.65;
+  --text-quote: clamp(1.125rem, 1.04rem + 0.4vw, 1.3125rem);
+  --text-quote--line-height: 1.45;
+  --text-quote--letter-spacing: -0.008em;
+  --text-eyebrow: 0.75rem;
+  --text-eyebrow--line-height: 1;
+  --text-eyebrow--letter-spacing: 0.12em;
+
+  /* -- Radii, shadow, motion -------------------------------------- */
+  --radius-card: 1rem;
+  --radius-pill: 999px;
+
+  --shadow-card: 0 1px 2px rgb(16 38 42 / 0.04), 0 8px 24px -12px
+    rgb(16 38 42 / 0.14);
+  --shadow-card-hover: 0 2px 4px rgb(16 38 42 / 0.05), 0 18px 40px -18px
+    rgb(16 38 42 / 0.22);
+  --shadow-float: 0 24px 60px -28px rgb(16 38 42 / 0.4);
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* -- Layout ------------------------------------------------------ */
+  --container-page: 76rem;
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Header height + breathing room, so anchor targets aren't hidden. */
+    scroll-padding-top: 6rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-body);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    color: var(--color-ink);
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* One visible focus treatment for every interactive element. Gold reads
+     against both the light canvas and the deep-teal sections. */
+  :focus-visible {
+    outline: 3px solid var(--color-gold-500);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background-color: var(--color-teal-200);
+    color: var(--color-teal-950);
+  }
+
+  /* Media defaults so nothing can overflow its column. */
+  img,
+  svg,
+  video {
+    max-width: 100%;
+    height: auto;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ============================================================
+   UTILITIES
+   ============================================================ */
+
+/* Islamic geometric motif (khatim / 8-point star). Drawn as a mask so the
+   colour is driven by `color`, letting one asset serve light and dark bands. */
+@utility pattern-khatim {
+  -webkit-mask-image: url("/patterns/khatim.svg");
+  mask-image: url("/patterns/khatim.svg");
+  -webkit-mask-size: 64px 64px;
+  mask-size: 64px 64px;
+  -webkit-mask-repeat: repeat;
+  mask-repeat: repeat;
+  background-color: currentColor;
+}
+
+/* Mihrab arch silhouette, echoing the arch in the logo mark. */
+@utility mask-arch {
+  -webkit-mask-image: url("/patterns/arch.svg");
+  mask-image: url("/patterns/arch.svg");
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+/* Visually hidden until focused. Keyed to :focus rather than :focus-visible —
+   a link cannot be focused by mouse without activating it, and :focus-visible
+   is not guaranteed to match when focus arrives programmatically. */
+@utility sr-only-focusable {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+
+  &:focus {
+    position: fixed;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip-path: none;
+    white-space: normal;
+  }
+}
