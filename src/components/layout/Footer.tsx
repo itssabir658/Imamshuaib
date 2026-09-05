@@ -41,8 +41,8 @@ export function Footer() {
               One email a month
             </h2>
             <p className="mt-3 text-sm/relaxed text-teal-100/80">
-              A new article and whatever class is coming up. Nothing else, and
-              you can leave whenever you like.
+              Whatever class is coming up, and anything worth knowing about.
+              Nothing else, and you can leave whenever you like.
             </p>
           </div>
           <div className="w-full lg:max-w-md">

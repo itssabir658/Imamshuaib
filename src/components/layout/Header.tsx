@@ -7,7 +7,6 @@ import { createPortal } from "react-dom";
 import { navigation, site } from "@/content/site";
 import { cn } from "@/lib/cn";
 import { Button } from "@/components/ui/Button";
-import { LanguageSwitcher } from "./LanguageSwitcher";
 import { Logo } from "./Logo";
 import { Popover } from "@/components/ui/Popover";
 
@@ -87,9 +86,6 @@ export function Header() {
         </nav>
 
         <div className="ml-auto flex items-center gap-2 lg:ml-3">
-          <div className="hidden sm:block">
-            <LanguageSwitcher onDark={overHero} />
-          </div>
           <Button
             href="/donate"
             variant="gold"
@@ -394,7 +390,6 @@ function MobileMenu({
           >
             Donate
           </Button>
-          <LanguageSwitcher />
         </div>
         <p className="px-5 pb-6 text-sm text-muted">
           <a

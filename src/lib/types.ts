@@ -45,24 +45,6 @@ export type ServiceIconName =
   | "children"
   | "speaking";
 
-export type Article = {
-  id: string;
-  title: string;
-  /** ISO date. */
-  date: string;
-  author: string;
-  /** Paragraphs and headings, in order. */
-  content: ArticleBlock[];
-  excerpt: string;
-  tags: string[];
-  readingMinutes: number;
-};
-
-export type ArticleBlock =
-  | { type: "p"; text: string }
-  | { type: "h2"; text: string }
-  | { type: "quote"; text: string; attribution?: string };
-
 export type Testimonial = {
   id: string;
   name: string;

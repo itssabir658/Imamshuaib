@@ -117,7 +117,7 @@ export const terms: LegalSection[] = [
     heading: "Using this site",
     body: [
       "You are welcome to read, share and quote what is published here. Please attribute it.",
-      "⚠️ TO BE COMPLETED: whether reproduction of articles in full is permitted, and on what terms.",
+      "⚠️ TO BE COMPLETED: whether reproduction of this material in full is permitted, and on what terms.",
     ],
   },
   {

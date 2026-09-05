@@ -48,7 +48,6 @@
     Arial, sans-serif;
   --font-sans: var(--font-montserrat), ui-sans-serif, system-ui, -apple-system,
     "Segoe UI", sans-serif;
-  --font-arabic: "Noto Naskh Arabic", "Traditional Arabic", serif;
 
   /* Fluid display scale: clamp(min, preferred, max). Tracking is tighter than
      a serif would want — Gilroy's circular bowls leave more optical space

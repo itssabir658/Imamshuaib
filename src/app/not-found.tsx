@@ -19,7 +19,7 @@ export default function NotFound() {
         </h1>
         <p className="mt-5 text-lead">
           The link may be out of date, or the address may have a typo in it.
-          The programmes, articles and everything else are all still here.
+          The programmes and everything else are all still here.
         </p>
         <div className="mt-9 flex flex-wrap justify-center gap-3">
           <Button href="/" size="lg">

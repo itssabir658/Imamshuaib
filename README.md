@@ -74,12 +74,6 @@ Sizes are fluid `clamp()` tokens, so nothing needs per-breakpoint overrides:
 `text-display`, `text-h1`, `text-h2`, `text-h3`, `text-quote`, `text-lead`,
 `text-eyebrow`.
 
-`--font-arabic` is **declared but not yet wired up** — no `font-arabic` class
-exists in `src` and Noto Naskh Arabic is never loaded. It is a placeholder for
-the Urdu/Arabic locales, not a working token. Keep it: neither Gilroy nor
-Montserrat covers Arabic script. When the locale routes land it will also need
-its own leading (Naskh wants roughly 1.9 where Latin wants 1.75).
-
 The heading token is `--font-display`, not `--font-serif`. That rename matters:
 Tailwind v4 ships its own default `--font-serif`, so a stray `font-serif` class
 left behind would silently render Georgia rather than erroring.
@@ -197,22 +191,20 @@ src/
 ├─ app/
 │  ├─ layout.tsx        fonts, metadata, JSON-LD, glass filters
 │  ├─ page.tsx          home
-│  ├─ about|services|articles|donate|contact|privacy|terms/
+│  ├─ about|services|donate|contact|privacy|terms/
 │  ├─ sitemap.ts        generated from the content modules
 │  └─ not-found.tsx
 ├─ components/
-│  ├─ layout/  Header, Footer, PageHeader, SkipLink, Logo,
-│  │           LanguageSwitcher, SocialLinks
+│  ├─ layout/  Header, Footer, PageHeader, SkipLink, Logo, SocialLinks
 │  ├─ ui/      Container, Section, SectionHeading, Button, Popover,
 │  │           Prose, ServiceIcon, GlassFilters
 │  ├─ forms/   Field, ContactForm, DonateForm
 │  └─ home/    Hero, TrustedBy, AboutTeaser, ServicesTeaser,
 │              Testimonials, DonateCTA, NewsletterForm
 ├─ content/
-│  ├─ site.ts      navigation, services, testimonials, partners, stats
-│  ├─ pages.ts     about copy, privacy and terms sections
-│  └─ articles.ts  sample articles
-└─ lib/types.ts    Service / Article / Testimonial / LegalSection models
+│  ├─ site.ts   navigation, services, testimonials, partners, stats
+│  └─ pages.ts  about copy, privacy and terms sections
+└─ lib/types.ts Service / Testimonial / LegalSection models
 ```
 
 `src/lib/types.ts` holds the §6 content models. `src/content/site.ts` is the
@@ -222,9 +214,19 @@ not a component change.
 
 ## Removed sections
 
-**Sermons and Events are gone**, at the site owner's request — the nav entries,
-the featured-sermon band on the home page, the latest-khutbah tile in the hero,
-and the `Sermon` and `EventItem` content models.
+All at the site owner's request.
+
+**Sermons and Events** — the nav entries, the featured-sermon band on the home
+page, the latest-khutbah tile in the hero, and the `Sermon` and `EventItem`
+content models.
+
+**Articles** — the listing and article routes, the sample content, the
+`Article` and `ArticleBlock` models, and the `ArticleBody` renderer.
+
+**The language switcher** — and with it `--font-arabic`, which existed only for
+the Arabic and Urdu locales the switcher advertised. If localisation is picked
+up later, note that neither Gilroy nor Montserrat covers Arabic script, and
+Naskh wants roughly 1.9 leading where Latin wants 1.75.
 
 The **Friday Sermon** service is deliberately still there. It is a service the
 imam offers — officiating a khutbah for a masjid or campus — not the sermon
@@ -239,8 +241,6 @@ separately.
 | `/about` | Biography, the mission quote, the stats |
 | `/services` | All eight programs |
 | `/services/[slug]` | One page per program, prerendered from `services` |
-| `/articles` | Listing — one lead item, then a grid |
-| `/articles/[slug]` | Article template with schema.org Article |
 | `/donate` | Impact, the donation form, giving FAQ |
 | `/contact` | Contact form, direct details, what to do in a crisis |
 | `/privacy`, `/terms` | Legal scaffolds |
@@ -251,9 +251,9 @@ Inner pages all open on the same `PageHeader` rather than a bespoke masthead
 each. The home page carries the site's one big composition; giving all eight
 routes their own would leave it feeling like eight sites.
 
-`/services/[slug]` and `/articles/[slug]` use `generateStaticParams`, so the
-sitemap and the routes are both derived from `src/content` — a new service or
-article cannot be added and then quietly left out of either.
+`/services/[slug]` uses `generateStaticParams`, and `sitemap.ts` reads the same
+content module — so a new service cannot be added and then quietly left out of
+either.
 
 ## Before launch
 
@@ -273,12 +273,6 @@ dates have been invented. The list of what a real bio still needs is in
 `about.gaps`, and it is rendered into the page as visually-hidden text so it
 travels with the page rather than living only here.
 
-**The articles are samples.** Three pieces, written to give the template
-something real-shaped to render. They are **not Imam Shuaib's words** and must
-not be published under his name. They are deliberately general — no hadith
-cited with a chain, no fiqh ruling issued — so that nothing incorrect is
-attributed to him if one slips through.
-
 **No form actually submits.** Contact, donate and newsletter all validate, show
 errors and render a success state, but none of them make a network call.
 
@@ -297,12 +291,9 @@ qualified.
 
 ## Still not built
 
-- **Localisation**: the header switcher renders and lists Arabic and Urdu as
-  "coming soon". No `next-intl` or locale routing yet, and `--font-arabic` is
-  declared but never loaded.
 - **Analytics**: no GA or Matomo tag.
-- **Search**: the audit's article search is not implemented; with three
-  articles it would be theatre.
+- **Localisation**: nothing. The language switcher was removed, so there is no
+  locale routing, no `next-intl`, and no Arabic font loaded.
 
 ## Asset notes
 

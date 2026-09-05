@@ -47,7 +47,6 @@ export const navigation: NavItem[] = [
       { label: "All programs", href: "/services" },
     ],
   },
-  { label: "Articles", href: "/articles" },
   { label: "Contact", href: "/contact" },
 ];
 
