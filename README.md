@@ -169,6 +169,11 @@ Consequences worth knowing:
 
 ## Accessibility
 
+Audited across all routes with measurement rather than inspection — contrast
+computed by compositing effective backgrounds, target sizes checked against
+2.5.8's spacing exception, reflow at 320px, the 1.4.12 text-spacing override,
+and focus rings walked element by element.
+
 Built to the §2 audit findings rather than retrofitted:
 
 - Skip-to-content link as the first focusable element; `<main tabindex="-1">`

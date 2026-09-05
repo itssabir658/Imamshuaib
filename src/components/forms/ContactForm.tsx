@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { services } from "@/content/site";
 import { ButtonAction } from "@/components/ui/Button";
@@ -26,6 +26,22 @@ export function ContactForm() {
 
   const [errors, setErrors] = useState<Errors>({});
   const [sent, setSent] = useState(false);
+  const form = useRef<HTMLFormElement>(null);
+  const attempts = useRef(0);
+
+  // Focus has to move AFTER the render that adds aria-invalid — doing it
+  // inside the submit handler queries the DOM before React has updated it and
+  // silently finds nothing, which is what was happening. Without this a
+  // screen reader user submits an empty form and is told nothing at all.
+  // `attempts` is in the dependency list so a second failed submit re-focuses
+  // even when the error set is unchanged.
+  const errorCount = Object.keys(errors).length;
+  useEffect(() => {
+    if (errorCount === 0) return;
+    form.current
+      ?.querySelector<HTMLElement>("[aria-invalid='true']")
+      ?.focus();
+  }, [errorCount, errors, attempts.current]);
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -45,14 +61,9 @@ export function ContactForm() {
     if (message.length < 10)
       next.message = "A sentence or two about what you need, please.";
 
+    attempts.current += 1;
     setErrors(next);
-    if (Object.keys(next).length > 0) {
-      document
-        .getElementById("contact-form")
-        ?.querySelector<HTMLElement>("[aria-invalid='true']")
-        ?.focus();
-      return;
-    }
+    if (Object.keys(next).length > 0) return;
 
     setSent(true);
   }
@@ -70,7 +81,20 @@ export function ContactForm() {
   }
 
   return (
-    <form id="contact-form" onSubmit={onSubmit} noValidate className="flex flex-col gap-6">
+    <form
+      id="contact-form"
+      ref={form}
+      onSubmit={onSubmit}
+      noValidate
+      className="flex flex-col gap-6"
+    >
+      {/* Announced on a failed submit, so the outcome is not conveyed by
+          moving focus alone. */}
+      <p role="status" aria-live="polite" className="sr-only">
+        {errorCount > 0
+          ? `${errorCount} ${errorCount === 1 ? "field needs" : "fields need"} attention.`
+          : ""}
+      </p>
       <Field label="Your name" required error={errors.name}>
         {(p) => <input {...p} name="name" type="text" autoComplete="name" />}
       </Field>

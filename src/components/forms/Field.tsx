@@ -39,6 +39,7 @@ export function Field({
   children: (props: {
     id: string;
     className: string;
+    required: boolean | undefined;
     "aria-invalid": boolean | undefined;
     "aria-describedby": string | undefined;
   }) => React.ReactNode;
@@ -72,6 +73,13 @@ export function Field({
       <div className="mt-2">
         {children({
           id,
+          // Passed to the control, not just drawn as an asterisk. The
+          // asterisk is aria-hidden because it is decorative, so without
+          // this a screen reader user has no way to know a field is
+          // required until the submit fails — WCAG 3.3.2. The form sets
+          // noValidate, so this marks the field for assistive tech without
+          // handing validation back to the browser.
+          required,
           className: cn(control, error && "border-gold-700"),
           "aria-invalid": error ? true : undefined,
           "aria-describedby": describedBy,

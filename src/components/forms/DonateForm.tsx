@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { ButtonAction } from "@/components/ui/Button";
 import { Field, FormResult, isEmail } from "./Field";
@@ -39,6 +39,14 @@ export function DonateForm() {
   const [done, setDone] = useState<{ amount: number; monthly: boolean } | null>(
     null,
   );
+  const form = useRef<HTMLFormElement>(null);
+  const attempts = useRef(0);
+
+  const errorCount = Object.keys(errors).length;
+  useEffect(() => {
+    if (errorCount === 0) return;
+    form.current?.querySelector<HTMLElement>("[aria-invalid='true']")?.focus();
+  }, [errorCount, errors, attempts.current]);
 
   const resolved = amount === CUSTOM ? Number(custom) : amount;
 
@@ -58,6 +66,7 @@ export function DonateForm() {
     else if (!isEmail(email))
       next.email = "That does not look like an email address.";
 
+    attempts.current += 1;
     setErrors(next);
     if (Object.keys(next).length > 0) return;
 
@@ -85,7 +94,12 @@ export function DonateForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate className="flex flex-col gap-7">
+    <form ref={form} onSubmit={onSubmit} noValidate className="flex flex-col gap-7">
+      <p role="status" aria-live="polite" className="sr-only">
+        {errorCount > 0
+          ? `${errorCount} ${errorCount === 1 ? "field needs" : "fields need"} attention.`
+          : ""}
+      </p>
       <fieldset>
         <legend className="text-sm font-medium text-ink">How often?</legend>
         <div className="mt-3 inline-flex rounded-pill border border-field bg-surface p-1">
