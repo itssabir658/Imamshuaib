@@ -8,28 +8,25 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-/**
- * The rest of the sitemap in §4 is scaffolded but not built yet, so links into
- * it land here rather than on a bare 404.
- */
+/** A genuine 404 now that every route in the sitemap exists. */
 export default function NotFound() {
   return (
     <Section tone="canvas" className="py-24 sm:py-32">
       <div className="mx-auto max-w-xl text-center">
-        <Eyebrow className="justify-center">Coming soon</Eyebrow>
+        <Eyebrow className="justify-center">Not found</Eyebrow>
         <h1 className="mt-5 text-h1 font-bold">
-          This page is still being built
+          We could not find that page
         </h1>
         <p className="mt-5 text-lead">
-          We are rebuilding imamshuaib.com section by section. The home page is
-          live; the about, programme, articles and donate pages are on the way.
+          The link may be out of date, or the address may have a typo in it.
+          The programmes, articles and everything else are all still here.
         </p>
         <div className="mt-9 flex flex-wrap justify-center gap-3">
           <Button href="/" size="lg">
             Back to home
           </Button>
-          <Button href="/donate" variant="secondary" size="lg">
-            Support the work
+          <Button href="/services" variant="secondary" size="lg">
+            Browse the programs
           </Button>
         </div>
         <p className="mt-8 text-sm text-muted">

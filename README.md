@@ -1,8 +1,11 @@
 # ImamShuaib.com — rebuild
 
 Next.js 15 (App Router) + React 19 + Tailwind CSS v4, built against the
-*Executive Summary* redesign spec. This pass covers the **design system and the
-home page**; the rest of the sitemap is modelled and linked but not yet built.
+*Executive Summary* redesign spec. **The full sitemap is built** — 17 static
+routes, all prerendered.
+
+Read [Before launch](#before-launch) before showing this to anyone: several
+pages carry placeholder content that must not be published as fact.
 
 ```bash
 npm install
@@ -176,14 +179,25 @@ Built to the §2 audit findings rather than retrofitted:
 
 ```
 src/
-├─ app/            layout (metadata, JSON-LD Person + WebSite), page, not-found
+├─ app/
+│  ├─ layout.tsx        fonts, metadata, JSON-LD, glass filters
+│  ├─ page.tsx          home
+│  ├─ about|services|articles|donate|contact|privacy|terms/
+│  ├─ sitemap.ts        generated from the content modules
+│  └─ not-found.tsx
 ├─ components/
-│  ├─ layout/      Header, Footer, SkipLink, Logo, LanguageSwitcher, SocialLinks
-│  ├─ ui/          Container, Section, SectionHeading, Button, ServiceIcon
-│  └─ home/        Hero, TrustedBy, AboutTeaser, ServicesTeaser,
-│                  FeaturedSermon, Testimonials, DonateCTA, NewsletterForm
-├─ content/site.ts navigation, services, testimonials, partners, stats
-└─ lib/types.ts    Sermon / Article / Event / Service / Testimonial models
+│  ├─ layout/  Header, Footer, PageHeader, SkipLink, Logo,
+│  │           LanguageSwitcher, SocialLinks
+│  ├─ ui/      Container, Section, SectionHeading, Button, Popover,
+│  │           Prose, ServiceIcon, GlassFilters
+│  ├─ forms/   Field, ContactForm, DonateForm
+│  └─ home/    Hero, TrustedBy, AboutTeaser, ServicesTeaser,
+│              Testimonials, DonateCTA, NewsletterForm
+├─ content/
+│  ├─ site.ts      navigation, services, testimonials, partners, stats
+│  ├─ pages.ts     about copy, privacy and terms sections
+│  └─ articles.ts  sample articles
+└─ lib/types.ts    Service / Article / Testimonial / LegalSection models
 ```
 
 `src/lib/types.ts` holds the §6 content models. `src/content/site.ts` is the
@@ -202,19 +216,78 @@ imam offers — officiating a khutbah for a masjid or campus — not the sermon
 archive that was removed. Those are different things and the audit listed them
 separately.
 
-## What is deliberately not here yet
+## Sitemap
 
-- **Pages**: `/about`, `/services` + detail pages, `/articles`, `/donate`,
-  `/contact`, `/privacy`, `/terms`. All are linked from the nav and currently
-  render the styled "still being built" page.
-- **Donation form**: the home page carries one consolidated CTA (the audit
-  flagged the form repeating site-wide). The Stripe form belongs on `/donate`,
-  reading the `?amount=` the CTA passes.
-- **Newsletter**: `NewsletterForm` validates and reports but does not POST —
-  wire it to Mailchimp.
+| Route | What it is |
+| --- | --- |
+| `/` | Home — the directory-board hero |
+| `/about` | Biography, the mission quote, the stats |
+| `/services` | All eight programs |
+| `/services/[slug]` | One page per program, prerendered from `services` |
+| `/articles` | Listing — one lead item, then a grid |
+| `/articles/[slug]` | Article template with schema.org Article |
+| `/donate` | Impact, the donation form, giving FAQ |
+| `/contact` | Contact form, direct details, what to do in a crisis |
+| `/privacy`, `/terms` | Legal scaffolds |
+| `/sitemap.xml`, `/robots.txt` | Generated from the content modules |
+| `not-found` | A real 404 |
+
+Inner pages all open on the same `PageHeader` rather than a bespoke masthead
+each. The home page carries the site's one big composition; giving all eight
+routes their own would leave it feeling like eight sites.
+
+`/services/[slug]` and `/articles/[slug]` use `generateStaticParams`, so the
+sitemap and the routes are both derived from `src/content` — a new service or
+article cannot be added and then quietly left out of either.
+
+## Before launch
+
+These are blockers, not polish.
+
+**Placeholder content presented as fact.** `src/content/site.ts` carries a
+warning at the top listing exactly what is invented: every figure in `stats`,
+every name and quote in `testimonials`, the email, the phone number and the
+social handles. Anything marked `PLACEHOLDER` inside a service — prices,
+durations, cadences, travel radius — is a guess. Publishing invented numbers or
+testimonials under a scholar's name is the kind of thing that costs him his
+credibility.
+
+**The biography has holes.** `src/content/pages.ts` builds the About page only
+from what the old site already claimed. No degrees, institutions, teachers or
+dates have been invented. The list of what a real bio still needs is in
+`about.gaps`, and it is rendered into the page as visually-hidden text so it
+travels with the page rather than living only here.
+
+**The articles are samples.** Three pieces, written to give the template
+something real-shaped to render. They are **not Imam Shuaib's words** and must
+not be published under his name. They are deliberately general — no hadith
+cited with a chain, no fiqh ruling issued — so that nothing incorrect is
+attributed to him if one slips through.
+
+**No form actually submits.** Contact, donate and newsletter all validate, show
+errors and render a success state, but none of them make a network call.
+
+**No payment is taken.** `/donate` collects amount, frequency and donor
+details and stops. There is deliberately no card field: the correct integration
+POSTs to a server route that creates a Stripe Checkout Session and redirects to
+Stripe's hosted page, so no card number ever reaches this site. Putting a card
+field on this form instead would pull the whole site into PCI scope.
+
+**The legal pages are scaffolds.** Privacy and terms describe what the site
+verifiably does. Everything depending on facts only the owner knows — the legal
+entity, jurisdiction, retention periods, processors, refund and cancellation
+terms, and whether donations are Zakat-eligible or tax-deductible — is marked
+in amber on the page itself and must be completed and reviewed by someone
+qualified.
+
+## Still not built
+
 - **Localisation**: the header switcher renders and lists Arabic and Urdu as
-  "coming soon". No `next-intl`/routing yet.
-- **Analytics**: no GA/Matomo tag.
+  "coming soon". No `next-intl` or locale routing yet, and `--font-arabic` is
+  declared but never loaded.
+- **Analytics**: no GA or Matomo tag.
+- **Search**: the audit's article search is not implemented; with three
+  articles it would be theatre.
 
 ## Asset notes
 
