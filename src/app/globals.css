@@ -36,6 +36,10 @@
   --color-canvas: #f7faf9;
   --color-surface: #ffffff;
   --color-line: #e1eae8;
+  /* Form control boundaries only. 3.35:1 on white — `line` is 1.23:1, which is
+     fine for a divider but fails WCAG 1.4.11 for something a user must locate
+     and operate. */
+  --color-field: #7d9092;
   --color-ink: #10262a; /* headings — 15.2:1 on canvas */
   --color-body: #3e5457; /*  body text — 7.7:1 on canvas */
   --color-muted: #5a6e70; /*  meta text — 5.1:1 on canvas */
@@ -127,11 +131,16 @@
   }
 
   /* One visible focus treatment for every interactive element. Gold reads
-     against both the light canvas and the deep-teal sections. */
+     against both the light canvas and the deep-teal sections.
+
+     Do NOT add `focus:outline-none` to a control to "replace" this. Tailwind's
+     variant is 0,2,0 against this rule's 0,1,0, so it strips the indicator
+     rather than substituting one — which is how every form field on the site
+     silently lost its ring. Change the border on focus in addition to the
+     ring, never instead of it. */
   :focus-visible {
     outline: 3px solid var(--color-gold-500);
     outline-offset: 3px;
-    border-radius: 4px;
   }
 
   ::selection {

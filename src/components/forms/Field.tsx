@@ -10,11 +10,20 @@ import { cn } from "@/lib/cn";
  * handling at all — WCAG 3.3.2. Everything here exists to make that failure
  * impossible to repeat: the label is a real `<label for>`, the error is bound
  * through `aria-describedby`, and `aria-invalid` marks the control itself.
+ *
+ * No `focus:outline-none` here, deliberately. Tailwind's variant has a
+ * specificity of 0,2,0 and the global `:focus-visible` ring in globals.css is
+ * 0,1,0 — so adding it silently strips the focus indicator from the control
+ * rather than replacing it. Every form field on the site had lost its ring
+ * that way. The border colour change is an addition to the ring, not a
+ * substitute for one.
+ *
+ * Placeholder is `text-muted` (5.1:1) rather than `muted/70` (3.0:1). It stays
+ * clearly lighter than a real value, which is `text-ink` at 15:1.
  */
 const control =
-  "w-full rounded-xl border bg-surface px-4 py-3 text-[0.9375rem] text-ink " +
-  "transition-colors placeholder:text-muted/70 " +
-  "focus:outline-none focus:border-teal-600";
+  "w-full rounded-xl border border-field bg-surface px-4 py-3 text-[0.9375rem] " +
+  "text-ink transition-colors placeholder:text-muted focus:border-teal-600";
 
 export function Field({
   label,
@@ -63,7 +72,7 @@ export function Field({
       <div className="mt-2">
         {children({
           id,
-          className: cn(control, error ? "border-gold-700" : "border-line"),
+          className: cn(control, error && "border-gold-700"),
           "aria-invalid": error ? true : undefined,
           "aria-describedby": describedBy,
         })}

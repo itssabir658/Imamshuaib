@@ -88,7 +88,7 @@ export function DonateForm() {
     <form onSubmit={onSubmit} noValidate className="flex flex-col gap-7">
       <fieldset>
         <legend className="text-sm font-medium text-ink">How often?</legend>
-        <div className="mt-3 inline-flex rounded-pill border border-line bg-surface p-1">
+        <div className="mt-3 inline-flex rounded-pill border border-field bg-surface p-1">
           {[false, true].map((isMonthly) => (
             <button
               key={String(isMonthly)}
@@ -127,7 +127,7 @@ export function DonateForm() {
                 "rounded-xl border py-3 font-display text-lg font-bold tabular-nums transition-colors duration-200 ease-ios",
                 amount === preset
                   ? "border-teal-600 bg-teal-600 text-white"
-                  : "border-line bg-surface text-ink hover:border-teal-300",
+                  : "border-field bg-surface text-ink hover:border-teal-600",
               )}
             >
               ${preset}
@@ -138,9 +138,13 @@ export function DonateForm() {
         <div className="mt-3">
           <label
             htmlFor="donate-custom"
+            // The input inside is unbordered, so the focus ring goes on the
+            // label that draws the field. Without this the ring would outline
+            // a bare text node in the middle of a box.
             className={cn(
               "flex items-center gap-3 rounded-xl border bg-surface px-4 py-3 transition-colors",
-              amount === CUSTOM ? "border-teal-600" : "border-line",
+              "focus-within:[outline:3px_solid_var(--color-gold-500)] focus-within:[outline-offset:3px]",
+              amount === CUSTOM ? "border-teal-600" : "border-field",
             )}
           >
             <span className="text-sm font-medium text-ink">Other</span>
@@ -159,6 +163,8 @@ export function DonateForm() {
                 setCustom(e.target.value.replace(/[^\d.]/g, ""));
                 setAmount(CUSTOM);
               }}
+              // The one deliberate outline-none on the site: the ring is on
+              // the label above, which is what actually draws this field.
               className="w-full bg-transparent text-[0.9375rem] tabular-nums text-ink focus:outline-none"
             />
           </label>

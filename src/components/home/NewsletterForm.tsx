@@ -42,11 +42,15 @@ export function NewsletterForm({ className }: { className?: string }) {
           aria-describedby={status === "idle" ? undefined : `${id}-status`}
           onChange={() => status !== "idle" && setStatus("idle")}
           className={cn(
-            "h-12 min-w-0 flex-1 rounded-pill border bg-white/5 px-5 text-sm text-white placeholder:text-teal-100/40",
-            "transition-colors focus:bg-white/10 focus:outline-none",
+            // Measured on the teal-950 footer: the old white/20 border was
+            // 1.90:1, under the 3:1 WCAG 1.4.11 needs for a control boundary,
+            // and the teal-100/40 placeholder was 3.26:1. These are 3.6:1 and
+            // 5.6:1. No focus:outline-none — it was stripping the global ring.
+            "h-12 min-w-0 flex-1 rounded-pill border bg-white/10 px-5 text-sm text-white placeholder:text-teal-100/60",
+            "transition-colors focus:bg-white/15",
             status === "invalid"
               ? "border-gold-300"
-              : "border-white/20 hover:border-white/35",
+              : "border-white/40 hover:border-white/60",
           )}
         />
         <button
