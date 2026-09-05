@@ -38,14 +38,30 @@ export function Hero() {
         <Container>
           {/* Identity chip — the portrait as a credential, not a centrepiece. */}
           <div className="flex items-center gap-4">
-            <span className="relative size-14 shrink-0 overflow-hidden rounded-full bg-teal-800 ring-1 ring-gold-500/50 sm:size-16 lg:size-20">
+            {/* Framing note. Measured off the cutout's alpha channel: the
+                head runs from 4.4% to 54.8% down the frame, centred at ~30%,
+                and is only ~30% of the frame wide. Source and container are
+                both square, so object-fit crops nothing — the zoom has to come
+                from a transform.
+
+                To land the source point p on the container centre at scale s,
+                the origin is (0.5 - p*s) / (1 - s). p = 0.28, s = 2.0 gives an
+                origin of 0.06 and a visible band of 3%-53% of the source — so
+                the crown clears the top edge by 1.4% and the crop closes below
+                the chin, which is how an avatar should sit. Going tighter
+                (s = 2.2) clips the top of the kufi. */}
+            <span className="relative size-14 shrink-0 overflow-hidden rounded-full bg-gradient-to-b from-teal-700 to-teal-800 ring-1 ring-gold-500/50 sm:size-16 lg:size-20">
               <Image
                 src="/images/imam-shuaib-portrait-cutout.webp"
                 alt="Imam Shuaib"
                 fill
                 priority
-                sizes="80px"
-                className="origin-top scale-[1.75] object-cover"
+                // The chip is at most 80px, but the scale magnifies it 2x —
+                // so ask for the pixels it actually renders at, or it resolves
+                // soft on a retina screen.
+                sizes="200px"
+                quality={90}
+                className="scale-[2] object-cover [transform-origin:50%_6%]"
               />
             </span>
             <div className="min-w-0">
