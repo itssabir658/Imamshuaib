@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { navigation, site } from "@/content/site";
 import { cn } from "@/lib/cn";
 import { Button } from "@/components/ui/Button";
@@ -21,6 +22,10 @@ export function Header() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const menuTrigger = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -94,6 +99,7 @@ export function Header() {
           </Button>
 
           <button
+            ref={menuTrigger}
             type="button"
             onClick={() => setMenuOpen(true)}
             aria-expanded={menuOpen}
@@ -121,7 +127,12 @@ export function Header() {
         </div>
       </div>
 
-      <MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
+      <MobileMenu
+        open={menuOpen}
+        mounted={mounted}
+        triggerRef={menuTrigger}
+        onClose={() => setMenuOpen(false)}
+      />
     </header>
   );
 }
@@ -235,7 +246,31 @@ function NavDropdown({
 const FOCUSABLE =
   'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
-function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
+/**
+ * Rendered at the document root, not inside the header.
+ *
+ * The header takes a `backdrop-filter` once the page scrolls, and a
+ * backdrop-filter establishes a containing block for fixed-position
+ * descendants. Declared inside the header, this panel's `fixed inset-0`
+ * resolved against the header's own 72px box instead of the viewport, so the
+ * menu opened as a 72px sliver the moment the user had scrolled at all — and
+ * looked fine at the top of the page, which is why it survived review.
+ *
+ * Portalling to `body` puts it outside that containing block. Position is set
+ * inline for the same reason it is on Popover: a class can be outranked, and
+ * this must not silently break again.
+ */
+function MobileMenu({
+  open,
+  mounted,
+  triggerRef,
+  onClose,
+}: {
+  open: boolean;
+  mounted: boolean;
+  triggerRef: React.RefObject<HTMLButtonElement | null>;
+  onClose: () => void;
+}) {
   const panel = useRef<HTMLDivElement>(null);
 
   // aria-modal alone does not stop Tab reaching the page behind, so the panel
@@ -244,7 +279,6 @@ function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
     const node = panel.current;
     if (!open || !node) return;
 
-    const opener = document.activeElement as HTMLElement | null;
     const focusable = () =>
       Array.from(node.querySelectorAll<HTMLElement>(FOCUSABLE)).filter(
         (el) => el.offsetParent !== null,
@@ -270,15 +304,18 @@ function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
     node.addEventListener("keydown", onKeyDown);
     return () => {
       node.removeEventListener("keydown", onKeyDown);
-      opener?.focus();
+      triggerRef.current?.focus();
     };
-  }, [open]);
+  }, [open, triggerRef]);
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <div
       id="mobile-menu"
       hidden={!open}
-      className="fixed inset-0 z-50 lg:hidden"
+      style={{ position: "fixed", inset: 0, zIndex: 90 }}
+      className="lg:hidden"
       role="dialog"
       aria-modal="true"
       aria-label="Site menu"
@@ -368,6 +405,7 @@ function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
           </a>
         </p>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
