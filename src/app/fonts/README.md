@@ -1,21 +1,33 @@
 # Gilroy web fonts
 
-The `.woff2` files this directory needs are **deliberately not committed**.
-Gilroy is commercial software (Fontfabric / Radomir Tinkov). A webfont licence
-permits serving it from your own site; it does not permit redistributing the
-binaries, which is what committing them to a public repository would do.
-
-`src/app/layout.tsx` expects exactly two files here:
+`src/app/layout.tsx` expects exactly two files here, and both are committed:
 
 | File | Weight | Used by |
 | --- | --- | --- |
 | `Gilroy-Medium.woff2` | 500 | Pull-quotes |
 | `Gilroy-Bold.woff2` | 700 | All headings, stat figures, mobile nav |
 
+They are latin-subset WOFF2, ~23 KB each, cut from the licensed desktop TTFs.
+
+> **Licensing — read before making this repository public.**
+>
+> Gilroy is commercial software (Fontfabric / Radomir Tinkov). The site owner
+> holds a licence, and these binaries are committed because this repository is
+> **private**: that is storage, not distribution.
+>
+> A webfont licence covers serving the font from your own site. It does not
+> cover redistributing the files. Making this repository public — or forking it
+> outward, or handing the archive to a third party — would redistribute them,
+> which most foundry EULAs forbid independently of the hosting right.
+>
+> If this repository ever needs to go public, remove these two files from the
+> working tree **and from the history**, restore the `/src/app/fonts/*.woff2`
+> line in `.gitignore`, and use one of the options at the bottom of this file.
+
 ## Regenerating them
 
-From the licensed desktop TTFs (on Windows these install to
-`%LOCALAPPDATA%\Microsoft\Windows\Fonts\`):
+From the licensed desktop TTFs. On Windows these install to
+`%LOCALAPPDATA%\Microsoft\Windows\Fonts\`.
 
 ```bash
 pip install fonttools brotli
@@ -32,24 +44,23 @@ for w in Medium Bold; do
 done
 ```
 
-Each file should land around 23 KB. Two details matter:
+Two details matter:
 
 - **`--layout-features='*'`** — without it, subsetting strips `tnum`, and the
-  stat figures in `AboutTeaser` lose tabular alignment.
+  stat figures in `AboutTeaser` lose their tabular alignment.
 - **The unicode range is the Google Fonts `latin` subset.** Add
   `U+0100-024F,U+1E00-1EFF,U+2C60-2C7F,U+A720-A7FF` for latin-ext if any name
-  on the site needs a diacritic.
+  on the site ever needs a diacritic.
 
-## Deploying
+The weight list in `layout.tsx` is a hard contract. `font-synthesis-weight: none`
+in `globals.css` means a weight with no matching file renders in the nearest one
+that *is* loaded, rather than failing visibly — so adding a heading weight means
+adding both a file here and a `src` entry there, in the same commit.
 
-Because these are not in the repository, a CI or Vercel build cloning it will
-fail at `next build`. Pick one:
+## If this repository goes public
 
-1. Make the repository **private** and commit the fonts (simplest, and it keeps
-   builds reproducible).
-2. Keep it public and inject the fonts at build time — commit them to a private
-   submodule, or base64 them into a CI secret and write them out in a prebuild
-   step.
-3. Swap Gilroy for a free geometric sans with a comparable voice — Poppins,
+1. Inject the fonts at build time — a private submodule, or base64 in a CI
+   secret written out by a prebuild step.
+2. Swap Gilroy for a free geometric sans with a comparable voice — Poppins,
    Outfit or Figtree, all on Google Fonts, all a one-line change in
    `layout.tsx`.

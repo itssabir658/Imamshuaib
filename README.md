@@ -113,10 +113,13 @@ means a weight with no matching file silently renders in the nearest one that is
 loaded, rather than failing visibly. Adding a heading weight means adding a
 `src` entry in the same commit.
 
-> **Licensing.** Gilroy is commercial software. The site owner has confirmed
-> they hold a licence. Note that self-hosting also means the `.woff2` files are
-> committed to this repository — if it ever becomes public, that redistributes
-> the font, which most foundry EULAs forbid separately from the hosting right.
+> **Licensing.** Gilroy is commercial software and the site owner holds a
+> licence. The two `.woff2` cuts are committed, which is safe because this
+> repository is **private** — that is storage, not distribution. Making it
+> public would redistribute them, which most foundry EULAs forbid separately
+> from the right to serve the font. See
+> [`src/app/fonts/README.md`](src/app/fonts/README.md) for what to do in that
+> case.
 
 ### Motif
 
