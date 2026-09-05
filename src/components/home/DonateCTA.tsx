@@ -14,7 +14,6 @@ export function DonateCTA() {
     <Section labelledBy="donate-title" tone="canvas" className="pb-20 sm:pb-24">
       <div className="relative isolate overflow-hidden rounded-[2rem] bg-teal-900 px-7 py-14 sm:px-12 lg:px-16 lg:py-16">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute inset-0 bg-[radial-gradient(100%_120%_at_85%_0%,var(--color-teal-700)_0%,var(--color-teal-900)_58%)]" />
           <div className="pattern-khatim absolute inset-0 text-white/[0.06]" />
         </div>
 

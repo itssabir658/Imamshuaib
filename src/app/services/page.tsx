@@ -25,7 +25,7 @@ export default function ServicesPage() {
     <>
       <PageHeader eyebrow="Programs" title="Where you can start" lead={lead} />
 
-      <Section tone="canvas" aura labelledBy="all-programs">
+      <Section tone="canvas" labelledBy="all-programs">
         <h2 id="all-programs" className="sr-only">
           All programs
         </h2>
@@ -56,7 +56,7 @@ export default function ServicesPage() {
         </ul>
       </Section>
 
-      <Section tone="deep" aura className="py-14 sm:py-16 lg:py-20">
+      <Section tone="deep" className="py-14 sm:py-16 lg:py-20">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h2 className="text-h3 font-bold text-white">

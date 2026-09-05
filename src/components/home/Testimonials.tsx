@@ -4,7 +4,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 
 export function Testimonials() {
   return (
-    <Section labelledBy="testimonials-title" tone="sand" aura>
+    <Section labelledBy="testimonials-title" tone="sand">
       <SectionHeading
         id="testimonials-title"
         eyebrow="In their words"

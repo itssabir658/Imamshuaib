@@ -50,7 +50,7 @@ export function Hero() {
                 the crown clears the top edge by 1.4% and the crop closes below
                 the chin, which is how an avatar should sit. Going tighter
                 (s = 2.2) clips the top of the kufi. */}
-            <span className="relative size-14 shrink-0 overflow-hidden rounded-full bg-gradient-to-b from-teal-700 to-teal-800 ring-1 ring-gold-500/50 sm:size-16 lg:size-20">
+            <span className="relative size-14 shrink-0 overflow-hidden rounded-full bg-teal-800 ring-1 ring-gold-500/50 sm:size-16 lg:size-20">
               <Image
                 src="/images/imam-shuaib-portrait-cutout.webp"
                 alt="Imam Shuaib"

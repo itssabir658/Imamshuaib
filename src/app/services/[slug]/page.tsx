@@ -160,7 +160,7 @@ export default async function ServiceDetailPage({ params }: Params) {
         </div>
       </Section>
 
-      <Section tone="surface" aura labelledBy="other-programs">
+      <Section tone="surface" labelledBy="other-programs">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <h2 id="other-programs" className="text-h2 font-bold">
             Other programs

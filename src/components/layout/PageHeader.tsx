@@ -40,8 +40,6 @@ export function PageHeader({
       )}
     >
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute -top-32 -right-24 h-[28rem] w-[28rem] rounded-full bg-teal-300/25 blur-[80px]" />
-        <div className="absolute -bottom-40 -left-32 h-[26rem] w-[26rem] rounded-full bg-gold-300/20 blur-[80px]" />
         <div className="pattern-khatim absolute inset-0 text-teal-900/[0.04]" />
       </div>
 

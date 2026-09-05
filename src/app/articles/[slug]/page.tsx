@@ -67,7 +67,6 @@ export default async function ArticlePage({ params }: Params) {
       <article>
         <header className="relative isolate overflow-hidden border-b border-line bg-canvas pt-14 pb-12 sm:pt-16 lg:pt-20">
           <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-            <div className="absolute -top-32 -right-24 h-[26rem] w-[26rem] rounded-full bg-teal-300/25 blur-[80px]" />
             <div className="pattern-khatim absolute inset-0 text-teal-900/[0.04]" />
           </div>
 
@@ -105,7 +104,7 @@ export default async function ArticlePage({ params }: Params) {
         </Section>
       </article>
 
-      <Section tone="surface" aura labelledBy="more-articles" className="py-14 lg:py-20">
+      <Section tone="surface" labelledBy="more-articles" className="py-14 lg:py-20">
         <h2 id="more-articles" className="text-h2 font-bold">
           Keep reading
         </h2>

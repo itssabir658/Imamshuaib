@@ -9,7 +9,7 @@ export function ServicesTeaser() {
   const featured = services.filter((s) => s.featured);
 
   return (
-    <Section id="programs" labelledBy="programs-title" tone="surface" aura>
+    <Section id="programs" labelledBy="programs-title" tone="surface">
       <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
         <SectionHeading
           id="programs-title"

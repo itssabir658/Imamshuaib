@@ -96,7 +96,7 @@ export default function DonatePage() {
         </div>
       </Section>
 
-      <Section tone="surface" aura labelledBy="donate-faq" id="faq">
+      <Section tone="surface" labelledBy="donate-faq" id="faq">
         <h2 id="donate-faq" className="text-h2 font-bold">
           Questions about giving
         </h2>

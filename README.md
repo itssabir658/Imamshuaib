@@ -47,6 +47,21 @@ Every text pairing used on the page clears WCAG 2.1 AA:
 `gold-500` is **decoration and fill only** — it is 2.3:1 on white and must never
 be used for text on a light background.
 
+**No colour gradients.** Every surface is a flat fill, by decision — the teal
+and gold washes that used to sit behind the page headers, the donate panel and
+the card grids were removed at the owner's request. Do not reintroduce one
+without asking.
+
+That has a knock-on effect worth understanding before touching the glass:
+frosted surfaces need something behind them to refract. On the deep-teal bands
+the khatim motif still provides it, so `glass-surface` stays translucent. On
+the light canvas there is now nothing, so `glass-surface-light` is near-opaque
+— a thin panel over flat white reads as haze rather than glass. The material
+language lives in the specular lip and the rim instead of in transparency.
+
+The only gradients left in the stylesheet are **masks**, not colour: the
+marquee's edge fade and the mask-difference trick that draws the 1px rim.
+
 ### Type
 
 **Gilroy** for display and headings, **Montserrat** for everything else.

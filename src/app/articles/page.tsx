@@ -32,7 +32,7 @@ export default function ArticlesPage() {
     <>
       <PageHeader eyebrow="Articles" title="Reading and reflection" lead={lead} />
 
-      <Section tone="canvas" aura labelledBy="article-list">
+      <Section tone="canvas" labelledBy="article-list">
         <h2 id="article-list" className="sr-only">
           All articles
         </h2>
