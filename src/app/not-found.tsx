@@ -22,8 +22,7 @@ export default function NotFound() {
         </h1>
         <p className="mt-5 text-lead">
           We are rebuilding imamshuaib.com section by section. The home page is
-          live; sermons, articles, events and the programme pages are on the
-          way.
+          live; the about, programme, articles and donate pages are on the way.
         </p>
         <div className="mt-9 flex flex-wrap justify-center gap-3">
           <Button href="/" size="lg">

@@ -4,16 +4,15 @@ import { ArrowRight, Button, TextLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/SectionHeading";
 import { ServiceIcon } from "@/components/ui/ServiceIcon";
-import { featuredSermon, services, stats } from "@/content/site";
+import { services, stats } from "@/content/site";
 
 /**
  * "The Board" — a utility-first hero.
  *
  * A short flat deep-teal masthead sits on top of a white directory board that
- * lifts over the seam and fills the rest of the fold with real entry points:
- * three programs and the latest khutbah. The test it is built against is that
- * a returning visitor who wants to book counselling reaches it without
- * scrolling.
+ * lifts over the seam and fills the rest of the fold with four real entry
+ * points. The test it is built against is that a returning visitor who wants
+ * to book counselling reaches it without scrolling.
  *
  * Driven off `services` rather than a hardcoded id list, so a renamed id can
  * never silently leave a hole in the row.
@@ -21,17 +20,11 @@ import { featuredSermon, services, stats } from "@/content/site";
  * The masthead is flat teal-950 all the way up under the sticky header, so
  * "/" stays in Header's DARK_HERO_ROUTES.
  */
-const tiles = services.filter((s) => s.featured).slice(0, 3);
+const tiles = services.filter((s) => s.featured).slice(0, 4);
 
 /** Three of the four stats — "continents called home" is colour, not proof. */
 const heroStats = stats.filter((s) => s.label !== "Continents called home");
 
-const sermonDate = new Intl.DateTimeFormat("en-US", {
-  month: "short",
-  day: "numeric",
-  year: "numeric",
-  timeZone: "UTC",
-}).format(new Date(featuredSermon.date));
 
 export function Hero() {
   return (
@@ -90,18 +83,17 @@ export function Hero() {
                   <ArrowRight />
                 </Button>
                 <Button
-                  href="/sermons"
+                  href="/services"
                   variant="ghost"
                   className="w-full px-4 sm:h-13 sm:w-auto sm:px-7 sm:text-base"
                 >
-                  <PlayGlyph />
-                  Watch a sermon
+                  Explore programs
+                  <ArrowRight />
                 </Button>
               </div>
               <p className="mt-4 flex items-start gap-2.5 text-sm text-teal-100/70 lg:justify-end">
                 <StarGlyph />
-                Free weekly khutbah &middot; No cost to join a Qur&rsquo;an
-                circle
+                No cost to join a Qur&rsquo;an circle
               </p>
             </div>
           </div>
@@ -162,51 +154,6 @@ export function Hero() {
               </li>
             ))}
 
-            {/* Fourth tile: the latest khutbah. The photograph sits above the
-                text rather than behind it — a scrim heavy enough for white type
-                lands exactly on his face and erases him. */}
-            <li className="bg-teal-900">
-              <Link
-                href="/sermons"
-                className="group/link flex h-full flex-col transition-colors duration-200 ease-out-soft hover:bg-teal-800"
-              >
-                <span className="relative block aspect-[16/10] w-full overflow-hidden">
-                  {/* The outdoor frame, not the study one: the study
-                      photograph appears large in AboutTeaser one screen below,
-                      and the same picture twice reads as an asset shortage.
-                      At ~288px this 338x469 source is within its resolution. */}
-                  <Image
-                    src="/images/imam-shuaib-outdoors.webp"
-                    alt=""
-                    fill
-                    sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 25vw"
-                    className="object-cover object-[50%_4%] transition-transform duration-500 ease-out-soft group-hover/link:scale-105 motion-reduce:group-hover/link:scale-100"
-                  />
-                  <span
-                    aria-hidden="true"
-                    className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-b from-transparent to-teal-900"
-                  />
-                  <span className="absolute top-3 left-3 inline-flex items-center gap-2 rounded-pill bg-teal-950/85 px-3 py-1.5 font-sans text-eyebrow font-semibold text-white uppercase">
-                    <PlayGlyph />
-                    Latest khutbah
-                  </span>
-                </span>
-
-                <span className="flex flex-1 flex-col p-5 sm:p-6 lg:p-7 lg:pt-4">
-                  <span className="font-display text-[1.0625rem] leading-snug font-bold tracking-[-0.012em] text-white sm:text-lg lg:text-xl">
-                    {featuredSermon.title}
-                  </span>
-                  <span className="mt-1.5 text-sm text-teal-100/80">
-                    {featuredSermon.topic} &middot;{" "}
-                    {featuredSermon.durationMinutes} min &middot; {sermonDate}
-                  </span>
-                  <span className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-gold-300 sm:mt-auto sm:pt-5">
-                    Watch now
-                    <ArrowRight />
-                  </span>
-                </span>
-              </Link>
-            </li>
           </ul>
 
           {/* Board footer: proof on the left, overflow routes on the right. */}
@@ -237,18 +184,6 @@ export function Hero() {
   );
 }
 
-function PlayGlyph() {
-  return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 16 16"
-      fill="currentColor"
-      className="size-3 shrink-0"
-    >
-      <path d="M4.5 2.9v10.2c0 .5.55.8.97.53l8-5.1a.63.63 0 0 0 0-1.06l-8-5.1a.63.63 0 0 0-.97.53Z" />
-    </svg>
-  );
-}
 
 function StarGlyph() {
   return (

@@ -1,5 +1,6 @@
 /**
- * Content models from §6 of the redesign spec. These are the shapes a CMS
+ * Content models from §6 of the redesign spec. The Sermon and Event models
+ * were removed along with those sections of the site. These are the shapes a CMS
  * (WordPress CPTs or a headless equivalent) must return, so the components
  * below can be pointed at a real API later without changing their props.
  */
@@ -29,18 +30,6 @@ export type ServiceIconName =
   | "children"
   | "speaking";
 
-export type Sermon = {
-  id: string;
-  title: string;
-  date: string;
-  videoUrl?: string;
-  audioUrl?: string;
-  transcript?: string;
-  excerpt: string;
-  durationMinutes?: number;
-  topic?: string;
-};
-
 export type Article = {
   id: string;
   title: string;
@@ -49,16 +38,6 @@ export type Article = {
   content: string;
   excerpt: string;
   tags: string[];
-};
-
-export type EventItem = {
-  id: string;
-  title: string;
-  startDate: string;
-  endDate?: string;
-  location: string;
-  description: string;
-  registerUrl?: string;
 };
 
 export type Testimonial = {

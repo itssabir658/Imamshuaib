@@ -64,7 +64,7 @@ export function Footer() {
                 Stay in touch
               </h2>
               <p className="mt-4 text-sm/relaxed text-teal-100/80">
-                One email a month: a new sermon, an upcoming class, nothing
+                One email a month: a new article, an upcoming class, nothing
                 else.
               </p>
               <NewsletterForm className="mt-5" />

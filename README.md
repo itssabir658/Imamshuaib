@@ -135,8 +135,8 @@ and works on light and dark bands alike.
 
 The home page opens on a **directory board**, not a billboard: a short flat
 teal-950 masthead — identity chip, headline, two CTAs — over a white board that
-lifts across the seam and fills the fold with four real entry points, three
-programs and the latest khutbah, read from `src/content/site.ts`.
+lifts across the seam and fills the fold with four real entry points, read from
+`src/content/site.ts`.
 
 The test it is built against: a returning visitor who wants to book counselling
 reaches it without scrolling. An imam's site is a service desk before it is a
@@ -144,9 +144,9 @@ portfolio.
 
 Consequences worth knowing:
 
-- The tiles are derived from `services.filter(s => s.featured).slice(0, 3)`, not
+- The tiles are derived from `services.filter(s => s.featured).slice(0, 4)`, not
   a hardcoded id list, so renaming a service can never silently leave a hole in
-  a four-column row.
+  the four-column row.
 - The masthead is flat teal-950 all the way up under the sticky header, so `"/"`
   stays in `DARK_HERO_ROUTES` and the header keeps its light-on-dark palette.
 - It uses the verb-first CTAs already in the content (`Register`, `Book a
@@ -191,11 +191,22 @@ single seam to swap for a CMS — the components read those shapes and nothing
 else, so pointing them at WordPress CPTs or a headless API is a data change,
 not a component change.
 
+## Removed sections
+
+**Sermons and Events are gone**, at the site owner's request — the nav entries,
+the featured-sermon band on the home page, the latest-khutbah tile in the hero,
+and the `Sermon` and `EventItem` content models.
+
+The **Friday Sermon** service is deliberately still there. It is a service the
+imam offers — officiating a khutbah for a masjid or campus — not the sermon
+archive that was removed. Those are different things and the audit listed them
+separately.
+
 ## What is deliberately not here yet
 
-- **Pages**: `/about`, `/services` + detail pages, `/sermons`, `/articles`,
-  `/events`, `/donate`, `/contact`, `/privacy`, `/terms`. All are linked from
-  the nav and currently render the styled "still being built" page.
+- **Pages**: `/about`, `/services` + detail pages, `/articles`, `/donate`,
+  `/contact`, `/privacy`, `/terms`. All are linked from the nav and currently
+  render the styled "still being built" page.
 - **Donation form**: the home page carries one consolidated CTA (the audit
   flagged the form repeating site-wide). The Stripe form belongs on `/donate`,
   reading the `?amount=` the CTA passes.

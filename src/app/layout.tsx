@@ -57,7 +57,6 @@ export const metadata: Metadata = {
     "Islamic coaching",
     "Qur'an tafsir",
     "relationship counselling",
-    "khutbah",
     "Muslim community",
   ],
   alternates: { canonical: "/" },

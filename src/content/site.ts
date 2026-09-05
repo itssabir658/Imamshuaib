@@ -1,4 +1,4 @@
-import type { NavItem, Service, Sermon, Testimonial } from "@/lib/types";
+import type { NavItem, Service, Testimonial } from "@/lib/types";
 
 export const site = {
   name: "Imam Shuaib",
@@ -32,9 +32,7 @@ export const navigation: NavItem[] = [
       { label: "All programs", href: "/services" },
     ],
   },
-  { label: "Sermons", href: "/sermons" },
   { label: "Articles", href: "/articles" },
-  { label: "Events", href: "/events" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -113,17 +111,6 @@ export const services: Service[] = [
     icon: "speaking",
   },
 ];
-
-export const featuredSermon: Sermon = {
-  id: "mercy-of-ramadan",
-  title: "The Mercy of Ramadan",
-  date: "2026-03-06",
-  excerpt:
-    "Dive deep into the themes of mercy and forgiveness in this khutbah on what the month asks of us — and what it gives back.",
-  videoUrl: "https://www.youtube.com/watch?v=",
-  durationMinutes: 15,
-  topic: "Khutbah",
-};
 
 export const testimonials: Testimonial[] = [
   {
