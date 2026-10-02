@@ -1,78 +1,96 @@
 import { tour } from "@/content/tour";
 import { Container } from "@/components/ui/Container";
-import { RegisterNiche } from "./RegisterNiche";
-import { Label, Rule } from "./Type";
+import { RegisterCard } from "./RegisterCard";
+import { Skyline } from "./Skyline";
 
 /**
- * The masthead.
+ * The hero, and deliberately the bulk of the page.
  *
- * There is no hero background. That is the design, not an omission: the page
- * is an invitation, the ground is paper, and the only drawn thing on it is the
- * niche holding the QR. The previous version put a tiled geometric pattern
- * behind the type and a silhouette skyline under it — both are the house style
- * of every generated landing page, and neither was carrying any meaning.
+ * Reading order is the same as visual order at every width: eyebrow, title,
+ * dates, standfirst, summary, then the card. Nothing is reordered with CSS,
+ * so a keyboard reaches the Register link exactly where the eye finds it.
+ * On desktop the card moves to its own column; that is a grid placement, not
+ * a reorder, and the DOM is untouched.
  *
- * What does the work instead is scale and rule. An 11px letterspaced dateline
- * sits directly above a headline six times its size; the two are separated by
- * a hairline. That jump is the whole effect, and it is the one thing a stock
- * section layout never does.
- *
- * Reading order matches visual order at every width — dateline, headline,
- * dates, standfirst, summary, then the niche. Nothing is reordered with CSS,
- * so the keyboard reaches Register exactly where the eye finds it. On desktop
- * the niche takes its own column; that is grid placement, not a reorder.
+ * The ground is flat charcoal. No wash, no gradient — the depth comes from
+ * the three tonal layers of the skyline and from the geometry behind the
+ * type, which was the brief's "cinematic" read without the colour bleed the
+ * owner asked to be rid of elsewhere on the site.
  */
 export function TourHero() {
   return (
-    <section aria-labelledby="tour-title" className="bg-ivory pt-28 sm:pt-32">
-      <Container>
-        <div className="flex items-baseline justify-between gap-6">
-          <Label>Al-Quds · Jerusalem</Label>
-          {/* Hidden on a phone: at 11px with 0.22em of tracking it wraps to
-              two ragged lines, and the logo above it already says whose page
-              this is. */}
-          <Label className="hidden text-right sm:block">With Imam Shuaib</Label>
-        </div>
-        <Rule fleuron={false} className="mt-5" />
+    <section
+      aria-labelledby="tour-title"
+      className="relative isolate overflow-hidden bg-charcoal pt-28 pb-20 sm:pt-32 sm:pb-24 lg:pt-36 lg:pb-32"
+    >
+      <Ground />
 
-        <div className="grid gap-16 pt-14 pb-20 lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-20 lg:pt-20 lg:pb-28">
-          <div>
-            <h1
-              id="tour-title"
-              className="text-mega font-bold text-balance text-charcoal"
-            >
-              {/* The {" "} is load-bearing. Two block spans with nothing
-                  between them concatenate to "Journey toAl-Aqsa" in the
-                  accessible name; the space collapses visually and fixes it. */}
-              <span className="block">Journey to</span>{" "}
-              <span className="block">Al-Aqsa</span>
-            </h1>
-
-            {/* The dates as a dateline — set into a break in a rule, the way a
-                printed invitation sets them, rather than inside a pill. */}
-            <p className="mt-11 flex items-center gap-5">
-              <span aria-hidden="true" className="h-px w-10 shrink-0 bg-sand-500" />
-              <span className="font-sans text-sm font-semibold tracking-[0.18em] text-charcoal uppercase">
-                {tour.dates}
-              </span>
-              <span aria-hidden="true" className="h-px flex-1 bg-sand-400" />
+      <Container className="relative">
+        <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_22.5rem] lg:gap-16 xl:grid-cols-[minmax(0,1fr)_24rem]">
+          <div className="max-w-2xl">
+            <p className="flex items-center gap-3 font-sans text-eyebrow font-semibold text-gold-400 uppercase">
+              <span aria-hidden="true" className="h-px w-8 bg-gold-400/50" />
+              Al-Quds · with Imam Shuaib
             </p>
 
-            <p className="mt-12 max-w-[34rem] font-display text-[clamp(1.25rem,1.05rem+0.8vw,1.625rem)]/[1.35] font-medium text-charcoal">
+            <h1
+              id="tour-title"
+              className="mt-7 text-display font-bold text-ivory"
+            >
+              {tour.hero.headline}
+            </h1>
+
+            <p className="mt-7">
+              <span className="inline-flex items-center gap-3 rounded-pill border border-sand-500/45 px-5 py-2.5">
+                <CalendarGlyph />
+                <span className="font-sans text-sm font-semibold tracking-[0.1em] text-gold-400 uppercase">
+                  {tour.dates}
+                </span>
+              </span>
+            </p>
+
+            <p className="mt-7 max-w-xl text-lead text-sand-200">
               {tour.hero.standfirst}
             </p>
 
-            <p className="mt-7 max-w-[30rem] font-sans text-[0.9375rem]/relaxed text-charcoal-600">
+            <p className="mt-6 max-w-lg font-sans text-[0.9375rem]/relaxed text-sand-300">
               {tour.hero.summary}
             </p>
           </div>
 
-          <RegisterNiche
-            headingId="register-hero"
-            className="lg:sticky lg:top-12 lg:justify-self-end"
-          />
+          <RegisterCard headingId="register-hero" className="lg:sticky lg:top-10" />
         </div>
       </Container>
     </section>
+  );
+}
+
+/** Geometry behind the type, and the horizon under it. Ornament only. */
+function Ground() {
+  return (
+    <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
+      <div className="pattern-khatim-lg absolute inset-0 text-sand-300/[0.05]" />
+      <Skyline className="absolute inset-x-0 bottom-0 h-56 w-full text-sand-300 sm:h-72 lg:h-80" />
+      {/* A hairline where the masonry meets the section below, so the two
+          bands read as joined rather than stacked. */}
+      <div className="absolute inset-x-0 bottom-0 h-px bg-sand-500/25" />
+    </div>
+  );
+}
+
+function CalendarGlyph() {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.3"
+      strokeLinecap="round"
+      className="size-4 shrink-0 text-sand-400"
+    >
+      <rect x="2.2" y="3.4" width="11.6" height="10.4" rx="1.6" />
+      <path d="M2.2 6.6h11.6M5.4 2.2v2.4M10.6 2.2v2.4" />
+    </svg>
   );
 }

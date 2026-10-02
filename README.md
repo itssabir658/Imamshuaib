@@ -200,57 +200,20 @@ not be offered eight other destinations above the fold. The root layout keeps
 only the fonts, the metadata and the SVG filter defs; the header and footer
 moved down into `(site)`. Nothing about the other routes changed.
 
-### How it is built, and what it used to be
-
-The first version of this page was the template: a dark hero with a tiled
-geometric pattern behind the type and a silhouette skyline under it, then six
-icon cards in a 3×2 grid, then a dotted four-step timeline, then a call to
-action. It was rebuilt because that is the house style of every generated
-landing page and none of it was carrying meaning.
-
-**There is no hero background.** The ground is paper. What does the work
-instead is scale and rule: an 11px letterspaced dateline sits directly above a
-headline six times its size, separated by a hairline. That jump is the whole
-effect, and it is the thing a stock section layout never does. No tiled
-pattern, no silhouette, no gradient, no drop shadows anywhere on the page.
-
-**One structural idea: the arch.** The registration QR does not sit on a
-floating white card — it sits in a niche, the way the thing you are facing
-sits inside a mihrab. `Arch.tsx` draws a real two-centre pointed arch rather
-than a bezier that approximately looks like one: given a span and a rise, the
-radius through both the springing point and the apex is
-`r = (halfSpan² + rise²) / (2·halfSpan)`. Raise the rise to sharpen the point.
-`vector-effect="non-scaling-stroke"` keeps the hairline one pixel at any size,
-which is why it is SVG and not a border-radius. The niche appears twice —
-masthead and close — which is what turns a shape into a motif.
-
-On the charcoal band the recess stays **light**, so it reads as a lit opening
-in a dark wall. That is the better image, and it keeps the QR inside it
-dark-on-light: inverted codes are read by most phones and not by all, and this
-is the one element on the page with no second chance.
-
-**The places are an index, not cards.** Numeral and elevation drawing in the
-margin, name in its own column, description beside it, a hairline between each.
-A catalogue contents page. **The journey is a datum line** — each step carries
-its own top rule and there is no column gap, so on a wide screen the four rules
-meet into one continuous line with a tick dropped at each station.
-
-**Sections are separated by ruled breaks, not by changing the background.** The
-page should read as one continuous document; `Rule` in `tour/Type.tsx` is the
-hairline with a khatim star set into a break in it. Only the closing block
-inverts to charcoal.
-
-**Photography.** The brief asked for cinematic imagery of Jerusalem and there
-is none in this project that could be used without a licence. The page does not
-need it to work — but **licensed photography is still the highest-value thing
-to commission here**, and the composition has room for it.
+**No photography.** The brief asked for cinematic imagery of Jerusalem. There
+is none in this project and none that could be used without a licence, so the
+hero is drawn instead — `Skyline.tsx` builds Al-Quds from an ogee dome on an
+octagonal drum, Ottoman crenellations and a two-centre arcade, in three flat
+tonal layers. Depth comes from tone, not from gradients, which also keeps the
+owner's "no gradients" decision intact. It is about 3 KB and sharp at any
+width. **Licensed photography is still the highest-value thing to commission
+for this page**, and it would drop in behind the same composition.
 
 **A second palette.** Ivory, sandstone and charcoal, with the brand gold
 carried over — that shared gold is what keeps the two palettes recognisably
 one family. Measured like the rest: charcoal 16.4:1 on ivory, sand-300 9.6:1
-on charcoal, gold-400 8.9:1 on charcoal, sand-700 6.7:1 on ivory. `sand-400`
-is for rules only; `sand-500` is 3.2:1 on ivory, which is enough for the 32px
-index numerals and nothing smaller.
+on charcoal, gold-400 8.9:1 on charcoal. `sand-400` and `sand-500` are 3.2:1
+or less on ivory and are for rules and ornament only.
 
 **The same type as everywhere else.** The page carried a serif display face
 (Cormorant Garamond) and a type scale of its own for a while. Both were

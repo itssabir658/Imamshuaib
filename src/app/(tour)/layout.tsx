@@ -21,9 +21,9 @@ import { Container } from "@/components/ui/Container";
  * request that came with it.
  */
 
-/** The browser chrome should match the paper, not the teal site behind it. */
+/** The browser chrome should match the page, not the teal site behind it. */
 export const viewport: Viewport = {
-  themeColor: "#fbf8f2",
+  themeColor: "#1c1a17",
   colorScheme: "light",
 };
 
@@ -36,12 +36,15 @@ export default function TourLayout({
     <div className="relative bg-ivory">
       <SkipLink />
 
-      <header className="absolute inset-x-0 top-0 z-20 pt-6 sm:pt-8">
+      {/* Floats over the charcoal hero as a sibling of it, so it inherits the
+          page's light ground and has to name its own focus ring — see the
+          note beside --focus-ring in globals.css. */}
+      <header className="absolute inset-x-0 top-0 z-20 pt-6 [--focus-ring:var(--color-gold-400)] sm:pt-8">
         <Container className="flex items-center justify-between gap-4">
-          <Logo />
+          <Logo onDark />
           <Link
             href="/"
-            className="font-sans text-[0.6875rem] font-semibold tracking-[0.22em] text-sand-700 uppercase transition-colors duration-300 hover:text-charcoal"
+            className="rounded-pill font-sans text-xs font-semibold tracking-[0.1em] text-sand-300 uppercase transition-colors duration-300 hover:text-ivory"
           >
             imamshuaib.com
           </Link>
