@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { site } from "@/content/site";
 import { tour } from "@/content/tour";
 import { TourHero } from "@/components/tour/TourHero";
-import { Highlights } from "@/components/tour/Highlights";
+import { Places } from "@/components/tour/Places";
 import { Journey } from "@/components/tour/Journey";
 import { FinalCta } from "@/components/tour/FinalCta";
 import { StickyRegister } from "@/components/tour/StickyRegister";
@@ -37,7 +37,7 @@ export default function AlAqsaPage() {
     <>
       <TourHero />
       <StickyRegister />
-      <Highlights />
+      <Places />
       <Journey />
       <FinalCta />
     </>

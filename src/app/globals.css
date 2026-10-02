@@ -83,6 +83,13 @@
   --text-display: clamp(2.5rem, 1.6rem + 3.6vw, 4.5rem);
   --text-display--line-height: 1.05;
   --text-display--letter-spacing: -0.03em;
+  /* One step above display, for a page whose headline IS the page. Gilroy
+     needs the tracking pulled in hard at this size — its circular bowls leave
+     more optical space than a modulated face does, and at 100px the default
+     reads as a gap between every letter. */
+  --text-mega: clamp(3rem, 1.8rem + 5.6vw, 6.5rem);
+  --text-mega--line-height: 0.98;
+  --text-mega--letter-spacing: -0.038em;
   --text-h1: clamp(2rem, 1.4rem + 2.4vw, 3.25rem);
   --text-h1--line-height: 1.1;
   --text-h1--letter-spacing: -0.024em;
@@ -595,32 +602,10 @@
   }
 }
 
-/* The hairline that separates the editorial blocks: a rule that fades out at
-   both ends, with the khatim star sitting on it. Pure ornament, so it is
-   drawn with a pseudo-element and never enters the accessibility tree. */
-@utility tour-divider {
-  position: relative;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--color-sand-400) 22%,
-    var(--color-sand-400) 78%,
-    transparent
-  );
-}
-
-/* Islamic geometry used as a ground tone rather than a decoration: large,
-   very low contrast, and anchored so it reads as masonry behind the type. */
-@utility pattern-khatim-lg {
-  -webkit-mask-image: url("/patterns/khatim.svg");
-  mask-image: url("/patterns/khatim.svg");
-  -webkit-mask-size: 108px 108px;
-  mask-size: 108px 108px;
-  -webkit-mask-repeat: repeat;
-  mask-repeat: repeat;
-  background-color: currentColor;
-}
+/* The rule-and-fleuron divider that used to live here is a component now
+   (tour/Type.tsx), because it needs a real element in the middle of it. The
+   tiled geometry that used to sit behind the masthead type is gone outright:
+   a repeating pattern at 5% is decoration standing in for an idea. */
 
 /* The mobile register bar sits above the home indicator on iOS. */
 @utility pb-safe {
