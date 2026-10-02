@@ -101,22 +101,11 @@
   --text-eyebrow--line-height: 1;
   --text-eyebrow--letter-spacing: 0.12em;
 
-  /* Al-Aqsa landing page only. The brief asked for a serif display face, and
-     a pilgrimage invitation is the one place on this site where that is the
-     right call — Gilroy's geometry reads as product, not as place. Cormorant
-     Garamond is loaded by (tour)/layout.tsx, so it costs nothing on any other
-     route. It is set larger and looser than Gilroy would be: an old-style
-     serif at the same optical size looks smaller and needs the air. */
-  --font-tour: ui-serif, Georgia, "Times New Roman", serif;
-  --text-tour-display: clamp(2.875rem, 1.5rem + 5.4vw, 5.75rem);
-  --text-tour-display--line-height: 1.02;
-  --text-tour-display--letter-spacing: -0.015em;
-  --text-tour-h2: clamp(2rem, 1.4rem + 2.4vw, 3.25rem);
-  --text-tour-h2--line-height: 1.1;
-  --text-tour-h2--letter-spacing: -0.012em;
-  --text-tour-h3: clamp(1.375rem, 1.2rem + 0.7vw, 1.75rem);
-  --text-tour-h3--line-height: 1.2;
-  --text-tour-h3--letter-spacing: -0.008em;
+  /* The Al-Aqsa landing page briefly had a serif display face and a type
+     scale of its own. Both are gone at the owner's request: it is set in
+     Gilroy and Montserrat like every other route, on this one scale. Worth
+     keeping in mind if a second scale is ever proposed again — two scales
+     mean every future heading decision has to be made twice. */
 
   /* -- Radii, shadow, motion -------------------------------------- */
   --radius-card: 1rem;
@@ -570,20 +559,6 @@
   .glass-btn:active {
     transform: none;
   }
-}
-
-/* The tour layout sets --font-cormorant on its wrapper, so --font-tour has to
-   be re-declared THERE and not in @theme: a custom property substitutes its
-   var()s on the element that declares it, and at :root --font-cormorant does
-   not exist. Declared at :root it would compute to the guaranteed-invalid
-   value and every .font-tour heading would silently fall back to the body
-   face — which is exactly what happened the first time.
-
-   Outside this scope, --font-tour still means "a serif", so nothing breaks if
-   the utility is ever used elsewhere. */
-.font-scope-tour {
-  --font-tour: var(--font-cormorant), ui-serif, Georgia, "Times New Roman",
-    serif;
 }
 
 /* ============================================================

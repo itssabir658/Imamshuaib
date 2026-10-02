@@ -35,7 +35,7 @@ export function TourHero() {
 
             <h1
               id="tour-title"
-              className="mt-7 font-tour text-tour-display font-normal text-ivory"
+              className="mt-7 text-display font-bold text-ivory"
             >
               {tour.hero.headline}
             </h1>
@@ -49,7 +49,7 @@ export function TourHero() {
               </span>
             </p>
 
-            <p className="mt-8 max-w-xl font-tour text-[1.375rem]/[1.5] text-sand-200 sm:text-[1.5rem]/[1.45]">
+            <p className="mt-7 max-w-xl text-lead text-sand-200">
               {tour.hero.standfirst}
             </p>
 

@@ -23,7 +23,7 @@ export function FinalCta() {
             />
             <h2
               id="final-cta-title"
-              className="font-tour text-tour-h2 font-normal text-charcoal"
+              className="text-h2 font-bold text-charcoal"
             >
               {tour.finalCta.heading}
             </h2>

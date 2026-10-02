@@ -215,12 +215,13 @@ one family. Measured like the rest: charcoal 16.4:1 on ivory, sand-300 9.6:1
 on charcoal, gold-400 8.9:1 on charcoal. `sand-400` and `sand-500` are 3.2:1
 or less on ivory and are for rules and ornament only.
 
-**A serif, loaded on this route only.** Cormorant Garamond, declared in
-`(tour)/layout.tsx`, so it costs nothing on the other seventeen routes. Note
-the `.font-scope-tour` class in `globals.css`: `--font-tour` has to be
-re-declared on the element that carries `--font-cormorant`, because a custom
-property substitutes its `var()`s where it is declared, and at `:root` the
-font variable does not exist yet.
+**The same type as everywhere else.** The page carried a serif display face
+(Cormorant Garamond) and a type scale of its own for a while. Both were
+dropped at the owner's request: it is Gilroy and Montserrat on the one scale,
+like every other route. Worth remembering if a second scale is ever proposed
+again — two scales mean every future heading decision has to be made twice.
+Note that `font-synthesis-weight: none` is set globally, so headings here use
+500 or 700 only; a 400 would silently render in Gilroy's 500.
 
 ### The QR code
 

@@ -40,7 +40,7 @@ export async function RegisterCard({
 
       <Heading
         id={headingId}
-        className="font-tour text-tour-h3 font-medium text-charcoal"
+        className="text-h3 font-bold text-charcoal"
       >
         {tour.qr.heading}
       </Heading>

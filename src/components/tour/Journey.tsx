@@ -31,7 +31,7 @@ export function Journey() {
           </p>
           <h2
             id="journey-title"
-            className="mt-6 font-tour text-tour-h2 font-normal text-ivory"
+            className="mt-6 text-h2 font-bold text-ivory"
           >
             The Journey
           </h2>
@@ -64,7 +64,7 @@ export function Journey() {
               />
 
               <div className="pl-10 lg:pl-0">
-                <h3 className="font-tour text-tour-h3 font-medium text-ivory">
+                <h3 className="text-h3 font-bold text-ivory">
                   {/* The list is already ordered, so the figure is a visual
                       marker and nothing more. Left in the heading it reads
                       out as "zero-one Explore". */}

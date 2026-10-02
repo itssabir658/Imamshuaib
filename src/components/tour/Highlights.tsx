@@ -25,7 +25,7 @@ export function Highlights() {
           </p>
           <h2
             id="experience-title"
-            className="mt-6 font-tour text-tour-h2 font-normal text-charcoal"
+            className="mt-6 text-h2 font-bold text-charcoal"
           >
             What We&rsquo;ll Experience
           </h2>
@@ -44,7 +44,7 @@ export function Highlights() {
               <p className="mt-6 font-sans text-eyebrow font-semibold tracking-[0.12em] text-sand-700 uppercase">
                 {h.meta}
               </p>
-              <h3 className="mt-2.5 font-tour text-tour-h3 font-medium text-charcoal">
+              <h3 className="mt-2.5 text-h3 font-bold text-charcoal">
                 {h.title}
               </h3>
               <p className="mt-3 font-sans text-[0.9375rem]/relaxed text-charcoal-600">

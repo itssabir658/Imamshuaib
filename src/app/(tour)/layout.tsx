@@ -1,5 +1,4 @@
 import type { Viewport } from "next";
-import { Cormorant_Garamond } from "next/font/google";
 import Link from "next/link";
 import { site } from "@/content/site";
 import { Logo } from "@/components/layout/Logo";
@@ -16,18 +15,11 @@ import { Container } from "@/components/ui/Container";
  * somewhere has to say plainly whose page it is — and a route back to the
  * site, which lives in the footer where it belongs.
  *
- * Cormorant Garamond is loaded here rather than in the root layout, so it is
- * requested on this route only and costs nothing on the other nine. Both
- * weights used on the page are declared: `font-synthesis-weight: none` is set
- * globally, so a weight with no file renders in the nearest one that has
- * loaded instead of failing where you would see it.
+ * The type is Gilroy and Montserrat, the same as everywhere else, on the same
+ * scale. This page carried a serif display face for a while; it was dropped at
+ * the owner's request, which also removed a second type scale and the font
+ * request that came with it.
  */
-const cormorant = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  display: "swap",
-  variable: "--font-cormorant",
-});
 
 /** The browser chrome should match the page, not the teal site behind it. */
 export const viewport: Viewport = {
@@ -41,7 +33,7 @@ export default function TourLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className={`${cormorant.variable} font-scope-tour relative bg-ivory`}>
+    <div className="relative bg-ivory">
       <SkipLink />
 
       {/* Floats over the charcoal hero as a sibling of it, so it inherits the
