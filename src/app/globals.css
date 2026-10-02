@@ -44,6 +44,29 @@
   --color-body: #3e5457; /*  body text — 7.7:1 on canvas */
   --color-muted: #5a6e70; /*  meta text — 5.1:1 on canvas */
 
+  /* -- Al-Aqsa landing page: ivory, sandstone, charcoal ------------
+     A second, warmer ground used by /al-aqsa only. That page is a standalone
+     invitation to a pilgrimage, and the site's cool teal canvas reads
+     institutional against it — sandstone and ivory are the colours of the
+     place itself. Gold is shared with the main brand, which is what keeps the
+     two palettes recognisably one family.
+
+     Measured, same as the brand scale. On ivory: charcoal 16.4:1,
+     charcoal-600 8.9:1, sand-700 6.7:1, gold-800 6.3:1. On charcoal:
+     ivory 16.4:1, sand-300 9.6:1, gold-400 8.9:1. sand-400 and sand-500 are
+     3.2:1 or less on ivory and are for rules and ornament only — never text. */
+  --color-ivory: #fbf8f2;
+  --color-sand-50: #f7f1e7;
+  --color-sand-100: #efe5d6;
+  --color-sand-200: #e3d4be;
+  --color-sand-300: #d3be9f;
+  --color-sand-400: #c0a57e;
+  --color-sand-500: #a8865a;
+  --color-sand-700: #6b5536;
+  --color-charcoal: #1c1a17;
+  --color-charcoal-800: #2a2724;
+  --color-charcoal-600: #4a453f;
+
   /* -- Typography ------------------------------------------------- */
   /* Named for its role, not its family — there is no serif in the system any
      more. Renaming also deletes Tailwind's `font-serif` utility override, so
@@ -77,6 +100,23 @@
   --text-eyebrow: 0.75rem;
   --text-eyebrow--line-height: 1;
   --text-eyebrow--letter-spacing: 0.12em;
+
+  /* Al-Aqsa landing page only. The brief asked for a serif display face, and
+     a pilgrimage invitation is the one place on this site where that is the
+     right call — Gilroy's geometry reads as product, not as place. Cormorant
+     Garamond is loaded by (tour)/layout.tsx, so it costs nothing on any other
+     route. It is set larger and looser than Gilroy would be: an old-style
+     serif at the same optical size looks smaller and needs the air. */
+  --font-tour: ui-serif, Georgia, "Times New Roman", serif;
+  --text-tour-display: clamp(2.875rem, 1.5rem + 5.4vw, 5.75rem);
+  --text-tour-display--line-height: 1.02;
+  --text-tour-display--letter-spacing: -0.015em;
+  --text-tour-h2: clamp(2rem, 1.4rem + 2.4vw, 3.25rem);
+  --text-tour-h2--line-height: 1.1;
+  --text-tour-h2--letter-spacing: -0.012em;
+  --text-tour-h3: clamp(1.375rem, 1.2rem + 0.7vw, 1.75rem);
+  --text-tour-h3--line-height: 1.2;
+  --text-tour-h3--letter-spacing: -0.008em;
 
   /* -- Radii, shadow, motion -------------------------------------- */
   --radius-card: 1rem;
@@ -130,16 +170,69 @@
     text-wrap: pretty;
   }
 
-  /* One visible focus treatment for every interactive element. Gold reads
-     against both the light canvas and the deep-teal sections.
+  /* One visible focus treatment for every interactive element.
+
+     The ring used to be gold-500 everywhere. It was measured against the
+     grounds it is actually drawn on and it failed WCAG 2.2 SC 2.4.11 (Focus
+     Appearance, AA) on every light one: 2.13:1 on ivory, 2.15:1 on the
+     canvas, 2.25:1 on white, against the 3:1 the indicator needs versus the
+     unfocused pixels it covers. It was only ever passing on the dark bands
+     (7.2:1 on teal-950). A previous pass checked that every control HAD a
+     ring and never checked what colour it was against.
+
+     No single hue clears 3:1 on both grounds, so there are two. Light is the
+     default and the dark bands opt in by their own background class, which
+     works because custom properties inherit: anything focusable inside a dark
+     band picks up the gold without being told about it.
+
+       teal-700 on ivory 7.7:1 · canvas 7.8:1 · white 8.2:1 · sand-50 7.3:1
+       gold-400 on charcoal 8.9:1 · teal-950 8.3:1 · teal-900 6.5:1
 
      Do NOT add `focus:outline-none` to a control to "replace" this. Tailwind's
      variant is 0,2,0 against this rule's 0,1,0, so it strips the indicator
      rather than substituting one — which is how every form field on the site
      silently lost its ring. Change the border on focus in addition to the
      ring, never instead of it. */
+  :root {
+    --focus-ring: var(--color-teal-700);
+  }
+
+  /* The selectors exclude controls deliberately. `outline-offset: 3px` draws
+     the ring OUTSIDE the element, on whatever the element is sitting on — so
+     the colour has to come from the ground, never from the control's own
+     fill. The charcoal Register button on the ivory card is the case that
+     proved it: keyed to its own background it asked for the dark ring and
+     then painted it on ivory at 2.4:1. */
+  .bg-teal-800:not(:is(a, button, input, select, textarea, label, summary)),
+  .bg-teal-900:not(:is(a, button, input, select, textarea, label, summary)),
+  .bg-teal-950:not(:is(a, button, input, select, textarea, label, summary)),
+  .bg-charcoal:not(:is(a, button, input, select, textarea, label, summary)),
+  .bg-charcoal-800:not(
+      :is(a, button, input, select, textarea, label, summary)
+    ) {
+    --focus-ring: var(--color-gold-400);
+  }
+
+  /* …and back again for a light panel sitting inside a dark band — the
+     registration card on the Al-Aqsa hero is the case that caught this. The
+     property inherits, so proximity settles it: the nearest ancestor that
+     declares a ground wins, however deeply the two are nested.
+
+     Elements whose own background is the dark band but which are not
+     descendants of one — a transparent sticky header floating over a hero —
+     are siblings, not children, and inherit nothing useful. Those set
+     `--focus-ring` on themselves; see Header.tsx and (tour)/layout.tsx. */
+  .bg-ivory:not(:is(a, button, input, select, textarea, label, summary)),
+  .bg-surface:not(:is(a, button, input, select, textarea, label, summary)),
+  .bg-canvas:not(:is(a, button, input, select, textarea, label, summary)),
+  .bg-white:not(:is(a, button, input, select, textarea, label, summary)),
+  .bg-sand-50:not(:is(a, button, input, select, textarea, label, summary)),
+  .bg-teal-50:not(:is(a, button, input, select, textarea, label, summary)) {
+    --focus-ring: var(--color-teal-700);
+  }
+
   :focus-visible {
-    outline: 3px solid var(--color-gold-500);
+    outline: 3px solid var(--focus-ring);
     outline-offset: 3px;
   }
 
@@ -477,4 +570,84 @@
   .glass-btn:active {
     transform: none;
   }
+}
+
+/* The tour layout sets --font-cormorant on its wrapper, so --font-tour has to
+   be re-declared THERE and not in @theme: a custom property substitutes its
+   var()s on the element that declares it, and at :root --font-cormorant does
+   not exist. Declared at :root it would compute to the guaranteed-invalid
+   value and every .font-tour heading would silently fall back to the body
+   face — which is exactly what happened the first time.
+
+   Outside this scope, --font-tour still means "a serif", so nothing breaks if
+   the utility is ever used elsewhere. */
+.font-scope-tour {
+  --font-tour: var(--font-cormorant), ui-serif, Georgia, "Times New Roman",
+    serif;
+}
+
+/* ============================================================
+   AL-AQSA LANDING PAGE
+   Scoped to /al-aqsa. Kept here rather than in a module because the
+   design tokens above are the only place colour is allowed to live.
+   ============================================================ */
+
+/* A slow rise as a block enters the viewport. Written on the native scroll
+   timeline, so there is no JS, no IntersectionObserver and no hydration cost
+   — and in a browser without `animation-timeline` the rule never applies and
+   the content is simply there, already visible, with no flash of nothing.
+   That fallback is the reason the animation is additive rather than an
+   opacity-0 default: a reveal that needs script to undo itself will sooner or
+   later leave somebody looking at a blank page. */
+@keyframes tour-rise-kf {
+  from {
+    opacity: 0;
+    transform: translateY(1.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .tour-rise {
+      animation: tour-rise-kf linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 55%;
+    }
+  }
+}
+
+/* The hairline that separates the editorial blocks: a rule that fades out at
+   both ends, with the khatim star sitting on it. Pure ornament, so it is
+   drawn with a pseudo-element and never enters the accessibility tree. */
+@utility tour-divider {
+  position: relative;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-sand-400) 22%,
+    var(--color-sand-400) 78%,
+    transparent
+  );
+}
+
+/* Islamic geometry used as a ground tone rather than a decoration: large,
+   very low contrast, and anchored so it reads as masonry behind the type. */
+@utility pattern-khatim-lg {
+  -webkit-mask-image: url("/patterns/khatim.svg");
+  mask-image: url("/patterns/khatim.svg");
+  -webkit-mask-size: 108px 108px;
+  mask-size: 108px 108px;
+  -webkit-mask-repeat: repeat;
+  mask-repeat: repeat;
+  background-color: currentColor;
+}
+
+/* The mobile register bar sits above the home indicator on iOS. */
+@utility pb-safe {
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
 }

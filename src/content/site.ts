@@ -358,3 +358,15 @@ export const stats = [
 export function getService(slug: string) {
   return services.find((s) => s.id === slug);
 }
+
+/**
+ * Enquiry topics for the contact form that are not programmes.
+ *
+ * The form's "What is this about?" list is built from `services`, so a link
+ * carrying `?program=` for anything else silently selects nothing and the
+ * message arrives unlabelled. The Al-Aqsa landing page sends every
+ * registration here, which makes that the one label that must not be lost.
+ */
+export const contactTopics = [
+  { id: "al-aqsa-tour", label: "Journey to Al-Aqsa — tour registration" },
+] as const;

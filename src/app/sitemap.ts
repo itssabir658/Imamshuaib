@@ -12,6 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: url("/"), changeFrequency: "weekly", priority: 1 },
     { url: url("/about"), changeFrequency: "yearly", priority: 0.8 },
     { url: url("/services"), changeFrequency: "monthly", priority: 0.9 },
+    { url: url("/al-aqsa"), changeFrequency: "weekly", priority: 0.9 },
     { url: url("/donate"), changeFrequency: "yearly", priority: 0.7 },
     { url: url("/contact"), changeFrequency: "yearly", priority: 0.7 },
     { url: url("/privacy"), changeFrequency: "yearly", priority: 0.2 },

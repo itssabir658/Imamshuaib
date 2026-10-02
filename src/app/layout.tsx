@@ -2,9 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Montserrat } from "next/font/google";
 import localFont from "next/font/local";
 import { site } from "@/content/site";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
-import { SkipLink } from "@/components/layout/SkipLink";
 import { GlassFilters } from "@/components/ui/GlassFilters";
 import "./globals.css";
 
@@ -129,13 +126,12 @@ export default function RootLayout({
       className={`${gilroy.variable} ${montserrat.variable}`}
     >
       <body>
+        {/* SVG filter defs only, no visual output — safe at the root so both
+            route groups reference the same filters. The site chrome lives in
+            (site)/layout.tsx, because the Al-Aqsa landing page deliberately
+            runs without the main navigation. */}
         <GlassFilters />
-        <SkipLink />
-        <Header />
-        <main id="main" tabIndex={-1}>
-          {children}
-        </main>
-        <Footer />
+        {children}
         <script
           type="application/ld+json"
           // Static, author-controlled JSON — no user input reaches this string.

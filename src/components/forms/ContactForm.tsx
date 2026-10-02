@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { services } from "@/content/site";
+import { contactTopics, services } from "@/content/site";
 import { ButtonAction } from "@/components/ui/Button";
 import { Field, FormResult, isEmail } from "./Field";
 
@@ -114,6 +114,11 @@ export function ContactForm() {
             {services.map((s) => (
               <option key={s.id} value={s.id}>
                 {s.title}
+              </option>
+            ))}
+            {contactTopics.map((t) => (
+              <option key={t.id} value={t.id}>
+                {t.label}
               </option>
             ))}
           </select>

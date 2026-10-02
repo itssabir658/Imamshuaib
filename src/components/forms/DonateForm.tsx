@@ -157,7 +157,7 @@ export function DonateForm() {
             // a bare text node in the middle of a box.
             className={cn(
               "flex items-center gap-3 rounded-xl border bg-surface px-4 py-3 transition-colors",
-              "focus-within:[outline:3px_solid_var(--color-gold-500)] focus-within:[outline-offset:3px]",
+              "focus-within:[outline:3px_solid_var(--focus-ring)] focus-within:[outline-offset:3px]",
               amount === CUSTOM ? "border-teal-600" : "border-field",
             )}
           >

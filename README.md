@@ -1,8 +1,9 @@
 # ImamShuaib.com — rebuild
 
 Next.js 15 (App Router) + React 19 + Tailwind CSS v4, built against the
-*Executive Summary* redesign spec. **The full sitemap is built** — 17 static
-routes, all prerendered.
+*Executive Summary* redesign spec. **The full sitemap is built** — 18 static
+routes, all prerendered, plus the standalone
+[Al-Aqsa tour landing page](#the-al-aqsa-landing-page).
 
 Read [Before launch](#before-launch) before showing this to anyone: several
 pages carry placeholder content that must not be published as fact.
@@ -182,21 +183,101 @@ Built to the §2 audit findings rather than retrofitted:
   `aria-hidden`
 - Newsletter form has a visible `<label>`, `aria-invalid`, an error tied by
   `aria-describedby`, and a polite live region
-- Single gold focus ring on `:focus-visible` for every interactive element
+- A focus ring on `:focus-visible` for every interactive element, in one of
+  two colours — see [the focus ring](#the-focus-ring)
 - Mobile menu: `role="dialog"`, `aria-modal`, Escape to close, scroll lock, and
   a focus trap that returns focus to the opener
 - The header switches to a light-on-dark palette while it floats over the hero
 - `prefers-reduced-motion` disables all transitions and smooth scrolling
 - Every card is one link — one tab stop, one target
 
+## The Al-Aqsa landing page
+
+`/al-aqsa` is a single-page invitation to the tour, and it deliberately does
+not wear the site's chrome. That is the whole reason `src/app/(site)/` and
+`src/app/(tour)/` exist as route groups: a visitor who came to register should
+not be offered eight other destinations above the fold. The root layout keeps
+only the fonts, the metadata and the SVG filter defs; the header and footer
+moved down into `(site)`. Nothing about the other routes changed.
+
+**No photography.** The brief asked for cinematic imagery of Jerusalem. There
+is none in this project and none that could be used without a licence, so the
+hero is drawn instead — `Skyline.tsx` builds Al-Quds from an ogee dome on an
+octagonal drum, Ottoman crenellations and a two-centre arcade, in three flat
+tonal layers. Depth comes from tone, not from gradients, which also keeps the
+owner's "no gradients" decision intact. It is about 3 KB and sharp at any
+width. **Licensed photography is still the highest-value thing to commission
+for this page**, and it would drop in behind the same composition.
+
+**A second palette.** Ivory, sandstone and charcoal, with the brand gold
+carried over — that shared gold is what keeps the two palettes recognisably
+one family. Measured like the rest: charcoal 16.4:1 on ivory, sand-300 9.6:1
+on charcoal, gold-400 8.9:1 on charcoal. `sand-400` and `sand-500` are 3.2:1
+or less on ivory and are for rules and ornament only.
+
+**A serif, loaded on this route only.** Cormorant Garamond, declared in
+`(tour)/layout.tsx`, so it costs nothing on the other seventeen routes. Note
+the `.font-scope-tour` class in `globals.css`: `--font-tour` has to be
+re-declared on the element that carries `--font-cormorant`, because a custom
+property substitutes its `var()`s where it is declared, and at `:root` the
+font variable does not exist yet.
+
+### The QR code
+
+Generated at build time from `tour.registerUrl` by `QrCode.tsx`, as inline
+SVG. Generated rather than checked in as an image so the code and the link it
+encodes cannot drift apart — change the destination in `src/content/tour.ts`
+and the printed square follows on the next build.
+
+Two things the design turns on:
+
+- **A QR code is useless to the device displaying it.** Nobody scans their own
+  phone. So the card always carries a real "Register online" link beside the
+  code, and on mobile a sticky bar follows the page down with the same link.
+  The code is for a second device or a printed handout.
+- **A QR code is useless to a screen reader.** It is `aria-hidden`, and the
+  link beside it is the accessible path to the same place.
+
+The code points at `/contact?program=al-aqsa-tour`, which is a real working
+destination today. `contactTopics` in `src/content/site.ts` exists so that
+label survives: the contact form's topic list is built from `services`, and
+without an entry there the enquiry would have arrived unlabelled.
+
+### The focus ring
+
+The site-wide ring used to be gold-500. Measured against the grounds it is
+actually painted on, it failed WCAG 2.2 SC 2.4.11 (Focus Appearance, AA) on
+every light one — 2.13:1 on ivory, 2.15:1 on the canvas, 2.25:1 on white,
+against the 3:1 an indicator needs versus the unfocused pixels it covers. It
+was only ever passing on the dark bands. An earlier pass checked that every
+control *had* a ring and never checked what colour it was against.
+
+No single hue clears 3:1 on both grounds, so there are two, carried on an
+inheriting `--focus-ring` property: teal-700 by default (7.3–8.2:1 on every
+light ground) and gold-400 inside the dark bands (6.5–8.9:1). Two details that
+are easy to get wrong and are commented in `globals.css`:
+
+- The selectors exclude `a`, `button`, `input` and friends. `outline-offset`
+  is positive, so the ring is painted *outside* the control, on whatever the
+  control is sitting on — the colour has to come from the ground, never from
+  the control's own fill. The charcoal Register button on the ivory card
+  proved it: keyed to its own background it asked for the dark ring and then
+  painted it on ivory at 2.4:1.
+- A header floating over a dark hero is a *sibling* of it, not a child, so it
+  inherits the page's light ground and has to name its own ring. Both headers
+  do.
+
 ## Structure
 
 ```
 src/
 ├─ app/
-│  ├─ layout.tsx        fonts, metadata, JSON-LD, glass filters
-│  ├─ page.tsx          home
-│  ├─ about|services|donate|contact|privacy|terms/
+│  ├─ layout.tsx        fonts, metadata, JSON-LD, glass filters — no chrome
+│  ├─ (site)/           everything that wears the header and footer
+│  │  ├─ layout.tsx     skip link, header, main, footer
+│  │  ├─ page.tsx       home
+│  │  └─ about|services|donate|contact|privacy|terms/
+│  ├─ (tour)/           the Al-Aqsa landing page, with its own minimal chrome
 │  ├─ sitemap.ts        generated from the content modules
 │  └─ not-found.tsx
 ├─ components/
@@ -248,6 +329,7 @@ separately.
 | `/services/[slug]` | One page per program, prerendered from `services` |
 | `/donate` | Impact, the donation form, giving FAQ |
 | `/contact` | Contact form, direct details, what to do in a crisis |
+| `/al-aqsa` | The Al-Aqsa tour — a standalone landing page, outside the site chrome |
 | `/privacy`, `/terms` | Legal scaffolds |
 | `/sitemap.xml`, `/robots.txt` | Generated from the content modules |
 | `not-found` | A real 404 |
@@ -271,6 +353,17 @@ social handles. Anything marked `PLACEHOLDER` inside a service — prices,
 durations, cadences, travel radius — is a guess. Publishing invented numbers or
 testimonials under a scholar's name is the kind of thing that costs him his
 credibility.
+
+**The Al-Aqsa page has no dates and an unconfirmed QR destination.**
+`tour.dates` is still the literal `[TOUR DATES]` from the brief and renders
+as that on the page. `tour.registerUrl` resolves through `site.url`, which is
+still the intended domain rather than a confirmed live one — and a QR code
+gets printed, shared and screenshotted, so it has to be right before anybody
+scans it. Re-check it once the domain is final. `tour.itineraryConfirmed` is
+`false`, which is what puts the "these are the places the journey is planned
+around" note under the grid; flip it only when the itinerary is actually
+fixed. There is also no Open Graph image for the route, so a share card falls
+back to the site-wide portrait.
 
 **The biography has holes.** `src/content/pages.ts` builds the About page only
 from what the old site already claimed. No degrees, institutions, teachers or

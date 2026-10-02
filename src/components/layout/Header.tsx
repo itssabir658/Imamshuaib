@@ -55,6 +55,10 @@ export function Header() {
         scrolled
           ? "bg-surface/90 shadow-[0_1px_0_var(--color-line)] backdrop-blur-md"
           : "bg-transparent",
+        // The header is a sibling of the hero, not a child of it, so it
+        // inherits the light ground even while it floats over a dark one.
+        // Over the dark hero the teal ring would sit at 2.5:1; gold is 8.3:1.
+        overHero && "[--focus-ring:var(--color-gold-400)]",
       )}
     >
       <div className="mx-auto flex h-18 w-full max-w-page items-center gap-3 px-5 sm:px-8">
