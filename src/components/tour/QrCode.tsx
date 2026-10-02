@@ -28,6 +28,18 @@ export async function QrCode({
   value: string;
   className?: string;
 }) {
+  // A QR code has no page to be relative to. "/contact" encodes as the literal
+  // four-letter path and every camera that reads it goes nowhere, and a bare
+  // "imamshuaib.com" is just as dead — but both render a perfectly plausible
+  // square, so nothing looks wrong until someone has already printed it.
+  // Fail the build instead.
+  if (!/^https?:\/\//.test(value)) {
+    throw new Error(
+      `QR codes must encode an absolute https:// URL, got "${value}". ` +
+        `Check tour.registerUrl, and site.url that it resolves through.`,
+    );
+  }
+
   const svg = await QRCode.toString(value, {
     type: "svg",
     errorCorrectionLevel: "Q",
