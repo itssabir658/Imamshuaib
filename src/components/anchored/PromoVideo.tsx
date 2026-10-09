@@ -20,10 +20,12 @@ import { Label } from "./Type";
  * against it; the quote is what the copy document already offers for exactly
  * this job.
  *
- * Captions: a promo carrying its pitch in speech needs them (WCAG 1.2.2), and
- * this page's audience arrives from feeds they scroll with the sound off — so
- * a missing track is called out on the page rather than noted in a file
- * nobody reads.
+ * Captions are OPEN — burned into the picture for the video's whole length,
+ * which is what this page's audience needs anyway, since they arrive from
+ * feeds they scroll with the sound off. WCAG 1.2.2 accepts open captions, so
+ * the `<track>` in PromoPlayer is optional rather than missing; it renders
+ * only if a .vtt is ever supplied, and would add the things burned-in text
+ * cannot — captions you can switch off, resize, or send to a braille display.
  */
 export function PromoVideo() {
   const video = anchored.video;
@@ -41,27 +43,16 @@ export function PromoVideo() {
         <div className="grid items-center gap-14 lg:grid-cols-[29rem_minmax(0,1fr)] lg:gap-24">
           <div className="flex flex-col items-center lg:items-start">
             {video ? (
-              <>
-                <PromoPlayer
-                  src={video.src}
-                  width={video.width}
-                  height={video.height}
-                  duration={video.duration}
-                  poster={video.poster}
-                  captions={video.captions}
-                />
-
-                {video.captions ? null : (
-                  <p className="mt-6 max-w-sm text-center font-sans text-sm text-sand-300 lg:text-left">
-                    <span aria-hidden="true">⚠️ </span>
-                    No captions track yet. If anyone speaks in this video it
-                    fails WCAG 1.2.2 — and most of this page&rsquo;s traffic
-                    arrives from feeds people scroll with the sound off.
-                  </p>
-                )}
-              </>
+              <PromoPlayer
+                src={video.src}
+                width={video.width}
+                height={video.height}
+                duration={video.duration}
+                poster={video.poster}
+                captions={video.captions}
+              />
             ) : (
-              <div className="flex aspect-[464/832] w-full max-w-[29rem] flex-col items-center justify-center gap-5 rounded-[2px] bg-charcoal-800 px-6 text-center ring-1 ring-sand-500/40">
+              <div className="flex aspect-[9/16] w-full max-w-[29rem] flex-col items-center justify-center gap-5 rounded-[2px] bg-charcoal-800 px-6 text-center ring-1 ring-sand-500/40">
                 <PlayGlyph />
                 <Label tone="paper">Promo video</Label>
                 <p className="max-w-xs font-sans text-sm text-sand-300">

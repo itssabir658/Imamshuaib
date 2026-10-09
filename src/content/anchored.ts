@@ -43,33 +43,47 @@ export const anchored = {
   /**
    * The promo. "Goes directly under the hero section", per the brief.
    *
-   * 464×832, 66 seconds, 10.9 MB — a VERTICAL social cut, not a widescreen
-   * film, which is consistent with the brief's note that the traffic comes
-   * from WhatsApp and Instagram. The page sizes the slot from these numbers,
-   * so swapping in a landscape re-cut means changing the aspect in
-   * PromoVideo.tsx too.
+   * 720×1280, 66 seconds, 17.5 MB — a VERTICAL cut, which matches the brief's
+   * note that the traffic comes from WhatsApp and Instagram. The page sizes
+   * the slot from these numbers, so swapping in a landscape re-cut means
+   * changing the aspect in PromoVideo.tsx too.
    *
-   * 464px wide is the native resolution. The player is capped at that width
-   * and never upscaled — beyond it the footage visibly softens.
+   * Transcoded from the 452 MB camera master the owner supplied: 2160×3840
+   * HEVC Main 10 at 60fps, HLG HDR, ~57 Mbps, with its `moov` atom after
+   * `mdat` so nothing could play until the whole file had arrived. Three
+   * things had to happen to it and all three matter:
    *
-   * The file's `moov` atom sits before `mdat`, so it is already faststart:
-   * playback begins without downloading all 11 MB.
+   *   - HLG HDR was tone-mapped to SDR Rec.709 through zscale/tonemap.
+   *     Scaling a 10-bit HLG source straight into 8-bit H.264 without that
+   *     step is the usual way HDR footage ends up looking washed out and grey.
+   *   - `-movflags +faststart` puts `moov` first, so playback starts on the
+   *     first chunk instead of the last.
+   *   - 720 rather than 1080: at 1080 the same encode was 68 MB, because
+   *     handheld grass and foliage are expensive to compress. The player is
+   *     capped at 464 CSS px, where 720 still has headroom on a 2x screen.
    *
-   * `poster` is null on purpose rather than for want of one. A poster would be
-   * a second copy of a frame already inside the file, and `preload="metadata"`
-   * paints the first frame anyway. Set it if a specific frame is wanted.
+   * Re-run it with ffmpeg-static (a devDependency) if a new master arrives.
    */
   video: {
     src: "/video/anchored-promo.mp4",
-    width: 464,
-    height: 832,
+    width: 720,
+    height: 1280,
     /** Seconds. Measured off the file, shown on the play overlay so people
      *  know what they are committing to before they tap. */
     duration: 66,
-    poster: null,
-    /** ⚠️ An English .vtt. Null is allowed so a missing captions file cannot
-     *  block the video going up, but the page then shows a warning — see
-     *  PromoVideo.tsx. If anyone speaks in this video it needs one. */
+    poster: "/images/anchored-promo-poster.webp",
+    /**
+     * Null, and that is correct rather than outstanding.
+     *
+     * The video carries OPEN captions — they are burned into the picture for
+     * its whole length, and the master has no subtitle stream. WCAG 1.2.2
+     * accepts open captions, so the requirement is met without a <track>.
+     *
+     * A .vtt would still add things burned-in text cannot: captions a viewer
+     * can switch off, resize with their own font settings, or have read by a
+     * braille display, plus a transcript search engines can index. Worth
+     * having eventually; not a gap today.
+     */
     captions: null,
   } as {
     src: string;

@@ -371,29 +371,31 @@ would drop the question silently.
 
 ### The promo video
 
-464×832, 66 seconds, 10.9 MB, at `public/video/anchored-promo.mp4`. It is
-**vertical**, which is consistent with a brief whose traffic comes from
-WhatsApp and Instagram — people holding a phone. So the player is phone-shaped
-and capped at the footage's own 464px, because past that it visibly softens.
-Swapping in a landscape re-cut means changing the aspect in `PromoVideo.tsx`
-too.
+720×1280, 66 seconds, 17.5 MB, at `public/video/anchored-promo.mp4`, with a
+62 KB poster beside it. It is **vertical**, consistent with a brief whose
+traffic comes from WhatsApp and Instagram — people holding a phone. Swapping
+in a landscape re-cut means changing the aspect in `PromoVideo.tsx` too.
 
-The file's `moov` atom already sits before `mdat`, so playback starts without
-pulling all 11 MB. There is no poster image on purpose: it would be a second
-copy of a frame already in the file, and `preload="metadata"` paints the first
-frame anyway.
+It is transcoded from the 452 MB camera master the owner supplied: 2160×3840
+HEVC Main 10 at 60fps, HLG HDR, ~57 Mbps, `moov` after `mdat`. Re-run it with
+`ffmpeg-static` (a devDependency) if a new master arrives. Three things in
+that command matter:
 
-⚠️ **It has no captions track and it is a piece to camera.** That fails WCAG
-1.2.2, and this page's audience arrives from feeds they scroll with the sound
-off. The page says so on itself until `anchored.video.captions` is set.
+- **HLG HDR → SDR Rec.709**, through `zscale`/`tonemap`. Scaling a 10-bit HLG
+  source straight into 8-bit H.264 without that step is the usual way HDR
+  footage ends up looking washed out and grey.
+- **`-movflags +faststart`**, so `moov` lands before `mdat` and playback can
+  start on the first chunk rather than the last.
+- **720 rather than 1080.** The same encode at 1080 came out at 68 MB —
+  handheld grass and foliage are expensive to compress. The player is capped
+  at 464 CSS px, where 720 still has headroom on a 2× screen.
 
-⚠️ **A 4K master exists and is not what should be served.** The second
-Dropbox link supplied on 9 October is the same 66-second clip at 2160×3840,
-~55 Mbps, **452 MB**, with its `moov` atom after `mdat` — so it cannot even
-begin playing until the whole file has downloaded. It is a camera master, not
-a web export. What the page needs is roughly 1080×1920, a few Mbps, faststart;
-that is a transcode, and there is no ffmpeg on this machine. Until one exists
-the page keeps the 10.9 MB cut, which works.
+**Captions are open, not missing.** They are burned into the picture for the
+whole 66 seconds, and the master carries no subtitle stream. WCAG 1.2.2
+accepts open captions, so the requirement is met without a `<track>`. A .vtt
+would still add what burned-in text cannot — captions a viewer can switch off,
+resize to their own font settings, or send to a braille display, plus a
+transcript a search engine can index. Worth having; not a gap.
 
 ## The Al-Aqsa landing page
 
