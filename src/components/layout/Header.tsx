@@ -15,7 +15,10 @@ import { Popover } from "@/components/ui/Popover";
  * hero until the page scrolls, so its contents switch to the light-on-dark
  * palette — otherwise the nav sits at ~1.6:1 against the hero.
  */
-const DARK_HERO_ROUTES = new Set(["/"]);
+// Empty now that the home masthead is the warm stone ground rather than a
+// deep-teal band. Add a route here only if its hero is dark all the way up
+// under the sticky header.
+const DARK_HERO_ROUTES = new Set<string>([]);
 
 export function Header() {
   const pathname = usePathname();

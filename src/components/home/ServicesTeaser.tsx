@@ -9,9 +9,10 @@ export function ServicesTeaser() {
   const featured = services.filter((s) => s.featured);
 
   return (
-    <Section id="programs" labelledBy="programs-title" tone="surface">
+    <Section id="programs" labelledBy="programs-title" tone="ivory">
       <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
         <SectionHeading
+          tone="warm"
           id="programs-title"
           eyebrow="Programs"
           title="Where you can start"
@@ -19,7 +20,9 @@ export function ServicesTeaser() {
           className="max-w-2xl"
         />
         <div className="shrink-0 sm:pb-2">
-          <TextLink href="/services">All programs</TextLink>
+          <TextLink href="/services" tone="warm">
+            All programs
+          </TextLink>
         </div>
       </div>
 
@@ -31,7 +34,7 @@ export function ServicesTeaser() {
               href={service.href}
               className="glass-surface-light glass-rim-light group/btn flex h-full flex-col rounded-card p-7 transition-[box-shadow,transform] duration-500 ease-ios hover:-translate-y-1 hover:shadow-card-hover"
             >
-              <span className="inline-flex size-12 items-center justify-center rounded-2xl bg-teal-50 text-teal-600 transition-colors duration-300 group-hover/btn:bg-teal-600 group-hover/btn:text-white">
+              <span className="inline-flex size-12 items-center justify-center rounded-2xl bg-sand-100 text-charcoal transition-colors duration-300 group-hover/btn:bg-charcoal group-hover/btn:text-ivory">
                 <ServiceIcon name={service.icon} />
               </span>
 
@@ -40,7 +43,7 @@ export function ServicesTeaser() {
                 {service.description}
               </p>
 
-              <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-teal-700">
+              <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-gold-800">
                 {service.ctaText ?? "Learn more"}
                 <ArrowRight />
               </span>

@@ -20,7 +20,9 @@ import { Container } from "@/components/ui/Container";
  * to stop it. Pausing on hover does not count — it is mouse-only and nobody
  * can discover it. Hence the button.
  *
- * The marks are white-on-transparent, so this band has to stay dark.
+ * The marks are white-on-transparent, so this band has to stay dark. It is
+ * charcoal rather than teal-950 now that the home page runs on the warm
+ * stone ground — the constraint is darkness, not hue.
  */
 export function TrustedBy() {
   const REPEATS = 4;
@@ -38,12 +40,12 @@ export function TrustedBy() {
   return (
     <section
       aria-labelledby="trusted-by"
-      className="border-t border-white/10 bg-teal-950 py-12 sm:py-14"
+      className="border-t border-white/10 bg-charcoal py-12 sm:py-14"
     >
       <Container>
         <h2
           id="trusted-by"
-          className="text-center font-sans text-eyebrow font-semibold text-teal-100/70 uppercase"
+          className="text-center font-sans text-eyebrow font-semibold text-sand-300 uppercase"
         >
           Trusted by institutions and communities
         </h2>
@@ -83,7 +85,7 @@ export function TrustedBy() {
           // No aria-pressed: the visible label already changes between Pause
           // and Play. Doing both makes a screen reader announce "Play,
           // pressed", which states the opposite of what the button will do.
-          className="inline-flex items-center gap-2 rounded-pill px-4 py-2 text-xs font-medium text-teal-100/70 transition-colors hover:bg-white/10 hover:text-white"
+          className="inline-flex items-center gap-2 rounded-pill px-4 py-2 text-xs font-medium text-sand-300 transition-colors hover:bg-white/10 hover:text-ivory"
         >
           {paused ? <PlayGlyph /> : <PauseGlyph />}
           {paused ? "Play" : "Pause"}

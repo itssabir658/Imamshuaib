@@ -11,28 +11,28 @@ const amounts = [25, 50, 100, 250];
 
 export function DonateCTA() {
   return (
-    <Section labelledBy="donate-title" tone="canvas" className="pb-20 sm:pb-24">
-      <div className="relative isolate overflow-hidden rounded-[2rem] bg-teal-900 px-7 py-14 sm:px-12 lg:px-16 lg:py-16">
+    <Section labelledBy="donate-title" tone="ivory" className="pb-20 sm:pb-24">
+      <div className="relative isolate overflow-hidden rounded-[2rem] bg-charcoal px-7 py-14 sm:px-12 lg:px-16 lg:py-16">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
           <div className="pattern-khatim absolute inset-0 text-white/[0.06]" />
         </div>
 
         <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:gap-16">
           <div>
-            <Eyebrow onDark>Support the work</Eyebrow>
+            <Eyebrow onDark tone="warm">Support the work</Eyebrow>
             <h2
               id="donate-title"
               className="mt-5 max-w-[22rem] text-h2 font-bold text-white"
             >
               Keep the classes free for the people who need them
             </h2>
-            <p className="mt-5 max-w-[35rem] text-lead text-teal-100/85">
+            <p className="mt-5 max-w-[35rem] text-lead text-sand-300">
               Your Zakat- and Sadaqah-eligible gift funds free Qur&rsquo;an
               classes, counselling for families who cannot pay, and educational
               outreach that reaches thousands each month.
             </p>
 
-            <p className="mt-7 flex items-center gap-2.5 text-sm text-teal-100/70">
+            <p className="mt-7 flex items-center gap-2.5 text-sm text-sand-300">
               <svg
                 aria-hidden="true"
                 viewBox="0 0 16 16"
@@ -51,7 +51,7 @@ export function DonateCTA() {
 
           <div className="glass-surface glass-rim rounded-card p-6 sm:p-7">
             <fieldset>
-              <legend className="text-sm font-medium text-teal-100/90">
+              <legend className="text-sm font-medium text-sand-200">
                 Choose an amount
               </legend>
               <ul className="mt-4 grid grid-cols-2 gap-2.5">
@@ -79,8 +79,8 @@ export function DonateCTA() {
               <ArrowRight />
             </Button>
 
-            <p className="mt-5 text-center text-sm text-teal-100/70">
-              <TextLink href="/donate#faq" onDark>
+            <p className="mt-5 text-center text-sm text-sand-300">
+              <TextLink href="/donate#faq" onDark tone="warm">
                 Is my gift Zakat-eligible?
               </TextLink>
             </p>

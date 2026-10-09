@@ -1,217 +1,84 @@
-import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight, Button, TextLink } from "@/components/ui/Button";
+import { ArrowRight, Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-import { Eyebrow } from "@/components/ui/SectionHeading";
-import { ServiceIcon } from "@/components/ui/ServiceIcon";
-import { services, stats } from "@/content/site";
 
 /**
- * "The Board" — a utility-first hero.
+ * The home masthead.
  *
- * A short flat deep-teal masthead sits on top of a white directory board that
- * lifts over the seam and fills the rest of the fold with four real entry
- * points. The test it is built against is that a returning visitor who wants
- * to book counselling reaches it without scrolling.
+ * This replaces "The Board" — a deep-teal strip over a white directory of four
+ * programme tiles that lifted across the seam. It worked, but it was three
+ * compositions stacked in one fold: an identity chip, a headline block, and a
+ * card grid. The brief for this version was simply "simple", so it is one
+ * column of type on paper and nothing else.
  *
- * Driven off `services` rather than a hardcoded id list, so a renamed id can
- * never silently leave a hole in the row.
+ * The four tiles are not lost. `ServicesTeaser` further down the page already
+ * lists the programmes properly, with room to describe them — which is what
+ * the tiles were doing badly in a space that had no room.
  *
- * The masthead is flat teal-950 all the way up under the sticky header, so
- * "/" stays in Header's DARK_HERO_ROUTES.
+ * Ground is ivory, the same warm stone as /al-aqsa. That is why "/" is no
+ * longer in Header's DARK_HERO_ROUTES: the header floats over paper now, so
+ * it keeps its dark-on-light palette and the logo stays its own colour.
+ *
+ * The `-mt-18` pulls the section up under the sticky header, and the top
+ * padding puts it back — so the ivory runs to the very top of the page
+ * instead of starting below an 18-unit band of canvas.
  */
-const tiles = services.filter((s) => s.featured).slice(0, 4);
-
-/** Three of the four stats — "continents called home" is colour, not proof. */
-const heroStats = stats.filter((s) => s.label !== "Continents called home");
-
-
 export function Hero() {
   return (
     <section
       aria-labelledby="hero-title"
-      className="relative isolate -mt-18 flex flex-col bg-canvas pb-14 lg:pb-20"
+      className="relative isolate -mt-18 bg-ivory pt-30 pb-20 sm:pt-32 sm:pb-24 lg:pt-36 lg:pb-28"
     >
-      {/* Masthead — flat deep teal. The sticky header floats over solid
-          teal-950, so it keeps its light-on-dark palette. */}
-      <div className="bg-teal-950 pt-30 pb-16 sm:pt-32 sm:pb-24 lg:pt-36 lg:pb-32">
-        <Container>
-          {/* Identity chip — the portrait as a credential, not a centrepiece. */}
-          <div className="flex items-center gap-4">
-            {/* Framing note. Measured off the cutout's alpha channel: the
-                head runs from 4.4% to 54.8% down the frame, centred at ~30%,
-                and is only ~30% of the frame wide. Source and container are
-                both square, so object-fit crops nothing — the zoom has to come
-                from a transform.
+      <Container>
+        <p className="font-sans text-[0.6875rem] leading-none font-semibold tracking-[0.22em] text-sand-700 uppercase">
+          The Accessible Imam
+        </p>
 
-                To land the source point p on the container centre at scale s,
-                the origin is (0.5 - p*s) / (1 - s). p = 0.28, s = 2.0 gives an
-                origin of 0.06 and a visible band of 3%-53% of the source — so
-                the crown clears the top edge by 1.4% and the crop closes below
-                the chin, which is how an avatar should sit. Going tighter
-                (s = 2.2) clips the top of the kufi. */}
-            <span className="relative size-14 shrink-0 overflow-hidden rounded-full bg-teal-800 ring-1 ring-gold-500/50 sm:size-16 lg:size-20">
-              <Image
-                src="/images/imam-shuaib-portrait-cutout.webp"
-                alt="Imam Shuaib"
-                fill
-                priority
-                // The chip is at most 80px, but the scale magnifies it 2x —
-                // so ask for the pixels it actually renders at, or it resolves
-                // soft on a retina screen.
-                sizes="200px"
-                quality={90}
-                className="scale-[2] object-cover [transform-origin:50%_6%]"
-              />
-            </span>
-            <div className="min-w-0">
-              <Eyebrow onDark>The Accessible Imam</Eyebrow>
-              <p className="mt-2 text-sm text-teal-100/70">
-                Qur&rsquo;an teacher, coach &amp; counsellor
-              </p>
-            </div>
-          </div>
+        <div aria-hidden="true" className="mt-6 h-px w-full bg-sand-400" />
 
-          <h1
-            id="hero-title"
-            className="mt-6 max-w-4xl text-h1 font-bold text-white lg:mt-8"
-          >
-            Empowering Muslims worldwide through{" "}
-            <span className="text-gold-300">faith &amp; knowledge</span>
-          </h1>
+        <h1
+          id="hero-title"
+          className="mt-12 max-w-[18ch] text-display font-bold text-balance text-charcoal lg:mt-16"
+        >
+          Empowering Muslims worldwide through{" "}
+          {/* gold-700 is 4.73:1 on ivory — comfortably past the 3:1 this size
+              needs, and warmer than the gold-800 the small labels use. */}
+          <span className="text-gold-700">faith &amp; knowledge</span>
+        </h1>
 
-          <div className="mt-5 flex flex-col gap-7 lg:mt-8 lg:flex-row lg:items-end lg:justify-between lg:gap-14">
-            <p className="max-w-[32rem] text-lead text-teal-100/85">
-              Qur&rsquo;anic study, coaching, and counselling &mdash; in plain
-              language.
-            </p>
+        <p className="mt-10 max-w-[34rem] font-sans text-lead text-charcoal-600">
+          Qur&rsquo;anic study, coaching, and counselling &mdash; in plain
+          language.
+        </p>
 
-            <div className="lg:shrink-0">
-              {/* grid-cols-2 at base guarantees one row of buttons; wrapping to
-                  two rows would push the third tile past the 812px fold. */}
-              <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:items-center">
-                <Button
-                  href="/contact"
-                  variant="gold"
-                  className="w-full px-4 sm:h-13 sm:w-auto sm:px-7 sm:text-base"
-                >
-                  Book a session
-                  <ArrowRight />
-                </Button>
-                <Button
-                  href="/services"
-                  variant="ghost"
-                  className="w-full px-4 sm:h-13 sm:w-auto sm:px-7 sm:text-base"
-                >
-                  Explore programs
-                  <ArrowRight />
-                </Button>
-              </div>
-              <p className="mt-4 flex items-start gap-2.5 text-sm text-teal-100/70 lg:justify-end">
-                <StarGlyph />
-                No cost to join a Qur&rsquo;an circle
-              </p>
-            </div>
-          </div>
-        </Container>
-      </div>
-
-      {/* The board — the fold's main event. Lifted over the seam of the teal
-          band. The section is flex-col so this negative margin cannot collapse
-          through the parent and drag the canvas ground up with it. */}
-      <Container className="relative z-10 -mt-10 sm:-mt-14 lg:-mt-20">
-        <div className="overflow-hidden rounded-card bg-surface shadow-float ring-1 ring-line">
-          <h2 id="hero-board" className="sr-only">
-            Start here
-          </h2>
-
-          {/* gap-px over a line-coloured ground gives correct hairline dividers
-              at 1, 2 and 4 columns with no per-breakpoint borders. */}
-          <ul
-            aria-labelledby="hero-board"
-            className="grid grid-cols-1 gap-px bg-line md:grid-cols-2 lg:grid-cols-4"
-          >
-            {tiles.map((service) => (
-              <li key={service.id} className="bg-surface">
-                <Link
-                  href={service.href}
-                  className="group/link flex h-full items-center gap-4 p-4 transition-colors duration-200 ease-out-soft hover:bg-teal-50 sm:flex-col sm:items-start sm:gap-0 sm:p-6 lg:p-7"
-                >
-                  <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-teal-50 text-teal-700 transition-colors duration-200 ease-out-soft group-hover/link:bg-teal-600 group-hover/link:text-white sm:size-12">
-                    <ServiceIcon name={service.icon} className="size-5 sm:size-6" />
-                  </span>
-
-                  <span className="flex min-w-0 flex-1 flex-col sm:mt-5 sm:w-full">
-                    <span className="font-display text-[1.0625rem] leading-snug font-bold tracking-[-0.012em] text-ink sm:text-lg lg:text-xl">
-                      {service.title}
-                    </span>
-                    <span className="mt-2 hidden text-sm leading-relaxed text-muted sm:block">
-                      {service.description}
-                    </span>
-                    <span className="mt-1 inline-flex items-center gap-1.5 text-sm font-semibold text-teal-700 sm:mt-auto sm:pt-5">
-                      {service.ctaText ?? "Learn more"}
-                      <ArrowRight />
-                    </span>
-                  </span>
-
-                  <svg
-                    aria-hidden="true"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.6"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="size-4 shrink-0 text-teal-600 sm:hidden"
-                  >
-                    <path d="m6 3.5 4.5 4.5L6 12.5" />
-                  </svg>
-                </Link>
-              </li>
-            ))}
-
-          </ul>
-
-          {/* Board footer: proof on the left, overflow routes on the right. */}
-          <div className="flex flex-col gap-3 border-t border-line bg-teal-50 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-7">
-            <ul className="flex flex-wrap items-baseline gap-x-5 gap-y-1.5 text-sm">
-              {heroStats.map((stat) => (
-                <li key={stat.label} className="flex items-baseline gap-1.5">
-                  <span className="font-display font-bold tabular-nums text-teal-700">
-                    {stat.value}
-                  </span>
-                  <span className="text-muted">{stat.label.toLowerCase()}</span>
-                </li>
-              ))}
-            </ul>
-
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
-              <TextLink href="/services" className="text-sm">
-                All {services.length} programs
-              </TextLink>
-              <TextLink href="/donate" className="text-sm">
-                Donate
-              </TextLink>
-            </div>
-          </div>
+        <div className="mt-11 flex flex-col gap-4 sm:flex-row sm:items-center">
+          <Button href="/contact" variant="ink" size="lg" className="sm:px-8">
+            Book a session
+            <ArrowRight />
+          </Button>
+          <Button href="/services" variant="line" size="lg" className="sm:px-8">
+            Explore programs
+            <ArrowRight />
+          </Button>
         </div>
+
+        <p className="mt-7 flex items-start gap-2.5 font-sans text-sm text-sand-700">
+          <StarGlyph />
+          No cost to join a Qur&rsquo;an circle
+        </p>
       </Container>
     </section>
   );
 }
-
 
 function StarGlyph() {
   return (
     <svg
       aria-hidden="true"
       viewBox="0 0 16 16"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.4"
-      className="mt-0.5 size-4 shrink-0 text-gold-300"
+      fill="currentColor"
+      className="mt-0.5 size-4 shrink-0 text-gold-700"
     >
-      <path d="M8 1.8 9.9 5.7l4.3.6-3.1 3 .7 4.3L8 11.6l-3.8 2 .7-4.3-3.1-3 4.3-.6L8 1.8Z" />
+      <path d="M8 1.6l1.9 3.9 4.3.6-3.1 3 .7 4.3L8 11.4 4.2 13.4l.7-4.3-3.1-3 4.3-.6L8 1.6Z" />
     </svg>
   );
 }

@@ -144,29 +144,45 @@ Two masked SVGs in `public/patterns/` carry the Islamic geometry:
 Both are CSS **masks**, so a single asset takes its colour from `currentColor`
 and works on light and dark bands alike.
 
-## The hero
+## The home page
 
-The home page opens on a **directory board**, not a billboard: a short flat
-teal-950 masthead — identity chip, headline, two CTAs — over a white board that
-lifts across the seam and fills the fold with four real entry points, read from
-`src/content/site.ts`.
+It runs on the **warm stone** ground — ivory, sandstone, charcoal and gold, the
+same palette as /al-aqsa — rather than the teal the inner pages use. That was
+an explicit request, and it is why `Section`, `SectionHeading`, `Eyebrow`,
+`TextLink` and `Button` all gained warm tones and variants rather than having
+their existing ones redefined: /about, /services, /donate, /contact and the
+service pages are untouched and still teal.
 
-The test it is built against: a returning visitor who wants to book counselling
-reaches it without scrolling. An imam's site is a service desk before it is a
-portfolio.
+⚠️ **The site is therefore two palettes at the moment.** The home page is
+stone, everything below it is teal, and the shared footer is teal-950. That is
+a deliberate halfway state, not an oversight — say the word and the same tones
+carry through the rest of the site.
+
+### The hero
+
+It used to be a **directory board**: a flat teal-950 masthead — identity chip,
+headline, two CTAs — over a white board that lifted across the seam and filled
+the fold with four programme tiles. It was built so a returning visitor could
+book counselling without scrolling, and it did that. But it was three
+compositions in one fold, and the brief for the rebuild was one word: simple.
+
+So it is now a single column of type on paper: label, hairline, headline,
+lead, two buttons, one note. Nothing else.
 
 Consequences worth knowing:
 
-- The tiles are derived from `services.filter(s => s.featured).slice(0, 4)`, not
-  a hardcoded id list, so renaming a service can never silently leave a hole in
-  the four-column row.
-- The masthead is flat teal-950 all the way up under the sticky header, so `"/"`
-  stays in `DARK_HERO_ROUTES` and the header keeps its light-on-dark palette.
-- It uses the verb-first CTAs already in the content (`Register`, `Book a
-  session`) rather than a generic "Explore programs".
-- **It routes into pages that do not exist yet.** A decorative hero linking
-  nowhere is untidy; a directory hero linking nowhere is broken. `/contact`,
-  `/services/*` and `/donate` are now the highest-priority routes to build.
+- **The four tiles are not lost.** `ServicesTeaser` further down already lists
+  the programmes with room to describe them, which is what the tiles were
+  doing badly in a space with no room for it.
+- `DARK_HERO_ROUTES` **is now empty.** The masthead is paper, so the sticky
+  header keeps its dark-on-light palette over it and the logo stays its own
+  colour. Add a route there only if its hero is dark all the way up under the
+  header.
+- `-mt-18` pulls the section under the sticky header and the top padding puts
+  it back, so the ivory runs to the very top of the page rather than starting
+  below a band of canvas.
+- The accent on "faith & knowledge" is gold-700 at 4.73:1 on ivory — past the
+  3:1 that size needs, and warmer than the gold-800 the small labels use.
 
 ## Accessibility
 
@@ -185,6 +201,12 @@ Built to the §2 audit findings rather than retrofitted:
   `aria-describedby`, and a polite live region
 - A focus ring on `:focus-visible` for every interactive element, in one of
   two colours — see [the focus ring](#the-focus-ring)
+- Contrast is measured with a harness that parses `oklab()` as well as
+  `rgb()`. Tailwind v4 emits oklab for any colour carrying an alpha, and a
+  naive `[d.]+` regex strips the minus signs off its negative a/b channels —
+  which silently turns a correct page into ~45 phantom failures. If a contrast
+  sweep ever reports a near-black effective background on a paper section,
+  that is the bug, not the page.
 - Mobile menu: `role="dialog"`, `aria-modal`, Escape to close, scroll lock, and
   a focus trap that returns focus to the opener
 - The header switches to a light-on-dark palette while it floats over the hero

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { cn } from "@/lib/cn";
 
-type Variant = "primary" | "secondary" | "ghost" | "gold";
+type Variant = "primary" | "secondary" | "ghost" | "gold" | "ink" | "line";
 type Size = "md" | "lg";
 
 /**
@@ -19,6 +19,13 @@ type Size = "md" | "lg";
  * The two secondary variants are real glass: heavy blur plus saturate to put
  * back the colour the blur greys out, an inset highlight for the light catching
  * the lip, and an inner bottom shadow for thickness.
+ *
+ * `ink` and `line` belong to the warm-stone ground the home page uses — the
+ * same palette as /al-aqsa. They are flat and square-ish rather than glass:
+ * frosted material on paper reads as haze, and the point of that ground is
+ * that it looks printed. Measured: ivory on charcoal 16.4:1, charcoal on
+ * ivory 16.4:1, and `line`'s border is sand-500 at 3.2:1, which clears the
+ * 3:1 WCAG 1.4.11 asks of a control boundary.
  */
 const variants: Record<Variant, string> = {
   primary:
@@ -32,6 +39,15 @@ const variants: Record<Variant, string> = {
     "shadow-[inset_0_1px_0_rgb(255_255_255/0.9),inset_0_-10px_20px_rgb(16_38_42/0.05),0_10px_28px_-16px_rgb(16_38_42/0.35)] " +
     "hover:bg-surface/70 hover:shadow-[inset_0_1px_0_rgb(255_255_255/1),inset_0_-10px_20px_rgb(16_38_42/0.05),0_18px_38px_-18px_rgb(16_38_42/0.45)] " +
     "active:shadow-[inset_0_1px_0_rgb(255_255_255/0.7),inset_0_2px_6px_rgb(16_38_42/0.12)]",
+  ink:
+    "bg-charcoal text-ivory hover:bg-charcoal-800 " +
+    "transition-[background-color,transform,box-shadow] duration-300 ease-ios " +
+    "motion-safe:hover:-translate-y-px motion-safe:active:translate-y-0 motion-safe:active:scale-[0.985] " +
+    "hover:shadow-[0_12px_28px_-16px_rgb(28_26_23/0.7)]",
+  line:
+    "border border-sand-500 bg-transparent text-charcoal hover:border-charcoal hover:bg-sand-50 " +
+    "transition-[background-color,border-color,transform] duration-300 ease-ios " +
+    "motion-safe:hover:-translate-y-px motion-safe:active:translate-y-0 motion-safe:active:scale-[0.985]",
   ghost:
     "glass-btn glass-rim glass-refract-sm bg-white/[0.09] text-white " +
     "shadow-[inset_0_1px_0_rgb(255_255_255/0.22),inset_0_-10px_20px_rgb(0_0_0/0.12),0_10px_30px_-14px_rgb(0_0_0/0.5)] " +
@@ -123,18 +139,28 @@ export function TextLink({
   children,
   className,
   onDark = false,
+  tone = "brand",
 }: {
   href: string;
   children: React.ReactNode;
   className?: string;
   onDark?: boolean;
+  /** "warm" is the stone ground shared with /al-aqsa and the home page.
+   *  gold-800 is 6.3:1 on ivory, gold-300 10.6:1 on charcoal. */
+  tone?: "brand" | "warm";
 }) {
   return (
     <Link
       href={href}
       className={cn(
         "group/link inline-flex items-center gap-1.5 font-semibold underline-offset-4 hover:underline",
-        onDark ? "text-gold-300" : "text-teal-700",
+        tone === "warm"
+          ? onDark
+            ? "text-gold-300"
+            : "text-gold-800"
+          : onDark
+            ? "text-gold-300"
+            : "text-teal-700",
         className,
       )}
     >

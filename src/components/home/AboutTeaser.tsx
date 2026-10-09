@@ -6,7 +6,7 @@ import { TextLink } from "@/components/ui/Button";
 
 export function AboutTeaser() {
   return (
-    <Section id="about" labelledBy="about-title" tone="canvas">
+    <Section id="about" labelledBy="about-title" tone="ivory">
       <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-16">
         <div className="relative mx-auto w-full max-w-md lg:mx-0">
           {/* Offset gold rule behind the photo — the same arch language as the hero. */}
@@ -14,7 +14,7 @@ export function AboutTeaser() {
             aria-hidden="true"
             className="absolute -top-4 -left-4 h-full w-full rounded-[2rem] border border-gold-500/45"
           />
-          <div className="relative overflow-hidden rounded-[2rem] bg-teal-100 shadow-card">
+          <div className="relative overflow-hidden rounded-[2rem] bg-sand-100 shadow-card">
             <Image
               src="/images/imam-shuaib-reading-quran.webp"
               alt="Imam Shuaib seated with an open Qur'an in his study, bookshelves behind him"
@@ -37,7 +37,7 @@ export function AboutTeaser() {
         </div>
 
         <div>
-          <Eyebrow>Get to know Imam Shuaib</Eyebrow>
+          <Eyebrow tone="warm">Get to know Imam Shuaib</Eyebrow>
           <h2 id="about-title" className="mt-5 text-h2 font-bold">
             A global life, brought back to one classroom
           </h2>
@@ -57,7 +57,9 @@ export function AboutTeaser() {
           </div>
 
           <div className="mt-8">
-            <TextLink href="/about">Read my full story</TextLink>
+            <TextLink href="/about" tone="warm">
+              Read my full story
+            </TextLink>
           </div>
 
           <dl className="mt-12 grid grid-cols-2 gap-x-6 gap-y-8 border-t border-line pt-9 sm:grid-cols-4">
@@ -69,7 +71,7 @@ export function AboutTeaser() {
               // number 20px out of line with the rest.
               <div key={s.label} className="flex flex-col-reverse justify-end gap-2">
                 <dt className="text-sm text-balance text-muted">{s.label}</dt>
-                <dd className="font-display text-[2rem] leading-[1.05] font-bold tabular-nums text-teal-700 sm:text-[2.25rem]">
+                <dd className="font-display text-[2rem] leading-[1.05] font-bold tabular-nums text-charcoal sm:text-[2.25rem]">
                   {s.value}
                 </dd>
               </div>
