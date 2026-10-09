@@ -11,12 +11,12 @@ import { Logo } from "./Logo";
 import { Popover } from "@/components/ui/Popover";
 
 /**
- * Routes whose hero is a deep-teal band. On those the header floats over the
+ * Routes whose hero is a dark band. On those the header floats over the
  * hero until the page scrolls, so its contents switch to the light-on-dark
  * palette — otherwise the nav sits at ~1.6:1 against the hero.
  */
 // Empty now that the home masthead is the warm stone ground rather than a
-// deep-teal band. Add a route here only if its hero is dark all the way up
+// dark band. Add a route here only if its hero is dark all the way up
 // under the sticky header.
 const DARK_HERO_ROUTES = new Set<string>([]);
 
@@ -60,7 +60,7 @@ export function Header() {
           : "bg-transparent",
         // The header is a sibling of the hero, not a child of it, so it
         // inherits the light ground even while it floats over a dark one.
-        // Over the dark hero the teal ring would sit at 2.5:1; gold is 8.3:1.
+        // Over a dark hero the charcoal ring would vanish; gold is 8.9:1.
         overHero && "[--focus-ring:var(--color-gold-400)]",
       )}
     >
@@ -111,7 +111,7 @@ export function Header() {
               "inline-flex size-11 items-center justify-center rounded-pill transition-colors lg:hidden",
               overHero
                 ? "text-white hover:bg-white/10"
-                : "text-ink hover:bg-teal-50",
+                : "text-ink hover:bg-sand-100",
             )}
           >
             <span className="sr-only">Open menu</span>
@@ -142,8 +142,8 @@ export function Header() {
 
 const navLink =
   "rounded-pill px-3 py-2 text-sm font-medium transition-colors";
-const navLinkOnLight = "text-body hover:bg-teal-50 hover:text-teal-700";
-const navLinkOnDark = "text-teal-100 hover:bg-white/10 hover:text-white";
+const navLinkOnLight = "text-body hover:bg-sand-100 hover:text-gold-800";
+const navLinkOnDark = "text-sand-300 hover:bg-white/10 hover:text-white";
 
 function NavDropdown({
   label,
@@ -234,7 +234,7 @@ function NavDropdown({
               <Link
                 href={child.href}
                 onClick={() => setOpen(false)}
-                className="block rounded-xl px-3 py-2.5 text-sm font-medium text-body transition-colors hover:bg-teal-50/80 hover:text-teal-700"
+                className="block rounded-xl px-3 py-2.5 text-sm font-medium text-body transition-colors hover:bg-sand-100/80 hover:text-gold-800"
               >
                 {child.label}
               </Link>
@@ -328,7 +328,7 @@ function MobileMenu({
       <div
         aria-hidden="true"
         onClick={onClose}
-        className="absolute inset-0 bg-teal-950/50 backdrop-blur-sm"
+        className="absolute inset-0 bg-charcoal/55 backdrop-blur-sm"
       />
       <div
         ref={panel}
@@ -339,7 +339,7 @@ function MobileMenu({
           <button
             type="button"
             onClick={onClose}
-            className="inline-flex size-11 items-center justify-center rounded-pill text-ink transition-colors hover:bg-teal-50"
+            className="inline-flex size-11 items-center justify-center rounded-pill text-ink transition-colors hover:bg-sand-100"
           >
             <span className="sr-only">Close menu</span>
             <svg
@@ -363,7 +363,7 @@ function MobileMenu({
                 <Link
                   href={item.href}
                   onClick={onClose}
-                  className="block rounded-xl px-4 py-3.5 font-display text-[1.375rem] leading-[1.2] font-bold tracking-[-0.015em] text-ink transition-colors hover:bg-teal-50"
+                  className="block rounded-xl px-4 py-3.5 font-display text-[1.375rem] leading-[1.2] font-bold tracking-[-0.015em] text-ink transition-colors hover:bg-sand-100"
                 >
                   {item.label}
                 </Link>
@@ -374,7 +374,7 @@ function MobileMenu({
                         <Link
                           href={child.href}
                           onClick={onClose}
-                          className="block rounded-lg px-3 py-2 text-[0.8125rem] font-medium tracking-[0.005em] text-muted transition-colors hover:bg-teal-50 hover:text-teal-700"
+                          className="block rounded-lg px-3 py-2 text-[0.8125rem] font-medium tracking-[0.005em] text-muted transition-colors hover:bg-sand-100 hover:text-gold-800"
                         >
                           {child.label}
                         </Link>
@@ -401,7 +401,7 @@ function MobileMenu({
         <p className="px-5 pb-6 text-sm text-muted">
           <a
             href={"mailto:" + site.email}
-            className="underline underline-offset-4 hover:text-teal-700"
+            className="underline underline-offset-4 hover:text-gold-800"
           >
             {site.email}
           </a>

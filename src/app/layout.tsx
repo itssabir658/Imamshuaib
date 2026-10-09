@@ -82,7 +82,9 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a2426",
+  // The warm stone ground the whole site now runs on, so the browser chrome
+  // on a phone matches the page rather than the teal it used to be.
+  themeColor: "#fbf8f2",
   colorScheme: "light",
 };
 

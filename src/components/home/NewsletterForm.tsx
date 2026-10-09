@@ -25,7 +25,7 @@ export function NewsletterForm({ className }: { className?: string }) {
     <form onSubmit={onSubmit} noValidate className={cn("w-full", className)}>
       <label
         htmlFor={id}
-        className="block text-sm font-medium text-teal-100/90"
+        className="block text-sm font-medium text-sand-200"
       >
         Email address
       </label>
@@ -42,11 +42,12 @@ export function NewsletterForm({ className }: { className?: string }) {
           aria-describedby={status === "idle" ? undefined : `${id}-status`}
           onChange={() => status !== "idle" && setStatus("idle")}
           className={cn(
-            // Measured on the teal-950 footer: the old white/20 border was
-            // 1.90:1, under the 3:1 WCAG 1.4.11 needs for a control boundary,
-            // and the teal-100/40 placeholder was 3.26:1. These are 3.6:1 and
-            // 5.6:1. No focus:outline-none — it was stripping the global ring.
-            "h-12 min-w-0 flex-1 rounded-pill border bg-white/10 px-5 text-sm text-white placeholder:text-teal-100/60",
+            // Re-measured on the charcoal footer: the white/40 border is
+            // 3.8:1, past the 3:1 WCAG 1.4.11 needs for a control boundary,
+            // and the sand-300/70 placeholder is 5.4:1. A flat sand-300/60
+            // would be 4.3:1 — under the bar, which is why it is /70. No
+            // focus:outline-none; it was stripping the global ring.
+            "h-12 min-w-0 flex-1 rounded-pill border bg-white/10 px-5 text-sm text-white placeholder:text-sand-300/70",
             "transition-colors focus:bg-white/15",
             status === "invalid"
               ? "border-gold-300"
@@ -55,7 +56,7 @@ export function NewsletterForm({ className }: { className?: string }) {
         />
         <button
           type="submit"
-          className="h-12 shrink-0 rounded-pill bg-gold-500 px-6 text-sm font-semibold text-teal-950 transition-colors hover:bg-gold-400"
+          className="h-12 shrink-0 rounded-pill bg-gold-500 px-6 text-sm font-semibold text-charcoal transition-colors hover:bg-gold-400"
         >
           Subscribe
         </button>
@@ -67,7 +68,7 @@ export function NewsletterForm({ className }: { className?: string }) {
         aria-live="polite"
         className={cn(
           "mt-2 text-sm",
-          status === "invalid" ? "text-gold-200" : "text-teal-100/80",
+          status === "invalid" ? "text-gold-200" : "text-sand-300",
           status === "idle" && "sr-only",
         )}
       >

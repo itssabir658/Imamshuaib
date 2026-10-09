@@ -51,7 +51,7 @@ export function Hero() {
         </p>
 
         <div className="mt-11 flex flex-col gap-4 sm:flex-row sm:items-center">
-          <Button href="/contact" variant="ink" size="lg" className="sm:px-8">
+          <Button href="/contact" variant="primary" size="lg" className="sm:px-8">
             Book a session
             <ArrowRight />
           </Button>

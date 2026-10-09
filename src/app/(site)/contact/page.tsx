@@ -41,13 +41,13 @@ export default function ContactPage() {
               <address className="mt-5 flex flex-col gap-3 text-[0.9375rem] not-italic">
                 <a
                   href={"mailto:" + site.email}
-                  className="w-fit font-medium text-teal-700 underline-offset-4 hover:underline"
+                  className="w-fit font-medium text-gold-800 underline-offset-4 hover:underline"
                 >
                   {site.email}
                 </a>
                 <a
                   href={"tel:" + site.phone.replace(/[^+\d]/g, "")}
-                  className="w-fit font-medium text-teal-700 underline-offset-4 hover:underline"
+                  className="w-fit font-medium text-gold-800 underline-offset-4 hover:underline"
                 >
                   {site.phone}
                 </a>

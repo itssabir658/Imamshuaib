@@ -32,17 +32,25 @@
   --color-gold-800: #7a5510;
   --color-gold-900: #684811;
 
-  /* -- Neutrals (teal-tinted, warm) ------------------------------- */
-  --color-canvas: #f7faf9;
+  /* -- Neutrals (warm stone) ---------------------------------------
+     These were teal-tinted until the whole site moved onto the warm stone
+     ground that /al-aqsa and the home page established. They are the single
+     biggest lever in that change: every bg-canvas, text-ink, text-body,
+     text-muted and border-line on the site follows from here.
+
+     Measured on canvas / surface / sand-100:
+       ink    16.4 / 17.4 / 13.9
+       body    9.0 /  9.5 /  7.6
+       muted   5.8 /  6.1 /  4.9
+       field   3.6 /  3.8 /  3.1   (1.4.11 wants 3:1, and this is a boundary
+                                    a user has to find and operate) */
+  --color-canvas: #fbf8f2;
   --color-surface: #ffffff;
-  --color-line: #e1eae8;
-  /* Form control boundaries only. 3.35:1 on white — `line` is 1.23:1, which is
-     fine for a divider but fails WCAG 1.4.11 for something a user must locate
-     and operate. */
-  --color-field: #7d9092;
-  --color-ink: #10262a; /* headings — 15.2:1 on canvas */
-  --color-body: #3e5457; /*  body text — 7.7:1 on canvas */
-  --color-muted: #5a6e70; /*  meta text — 5.1:1 on canvas */
+  --color-line: #eae0d1;
+  --color-field: #8a8178;
+  --color-ink: #1c1a17;
+  --color-body: #4a453f;
+  --color-muted: #6a6058;
 
   /* -- Al-Aqsa landing page: ivory, sandstone, charcoal ------------
      A second, warmer ground used by /al-aqsa only. That page is a standalone
@@ -198,7 +206,7 @@
      silently lost its ring. Change the border on focus in addition to the
      ring, never instead of it. */
   :root {
-    --focus-ring: var(--color-teal-700);
+    --focus-ring: var(--color-charcoal);
   }
 
   /* The selectors exclude controls and media deliberately. `outline-offset:
@@ -265,11 +273,15 @@
         a, button, input, select, textarea, label, summary, video, audio,
         img, canvas, iframe
       )),
+  .bg-sand-100:not(:is(
+        a, button, input, select, textarea, label, summary, video, audio,
+        img, canvas, iframe
+      )),
   .bg-teal-50:not(:is(
         a, button, input, select, textarea, label, summary, video, audio,
         img, canvas, iframe
       )) {
-    --focus-ring: var(--color-teal-700);
+    --focus-ring: var(--color-charcoal);
   }
 
   :focus-visible {
@@ -278,8 +290,8 @@
   }
 
   ::selection {
-    background-color: var(--color-teal-200);
-    color: var(--color-teal-950);
+    background-color: var(--color-sand-200);
+    color: var(--color-charcoal);
   }
 
   /* Media defaults so nothing can overflow its column. */
@@ -380,7 +392,7 @@
 
 /* Large panels on the deep-teal bands. */
 @utility glass-surface {
-  background: color-mix(in srgb, var(--color-teal-900) 42%, transparent);
+  background: color-mix(in srgb, var(--color-charcoal) 46%, transparent);
   -webkit-backdrop-filter: blur(34px) saturate(190%);
   backdrop-filter: blur(34px) saturate(190%);
   box-shadow:
@@ -419,7 +431,7 @@
    blank. The parent already frosted the background; this is a tint and a
    sheen so it reads as glass on glass. */
 @utility glass-inset {
-  background: color-mix(in srgb, var(--color-teal-800) 55%, transparent);
+  background: color-mix(in srgb, var(--color-charcoal-800) 58%, transparent);
   box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.1);
 }
 
@@ -429,7 +441,7 @@
     box-shadow 0.2s ease;
 
   &:hover {
-    background: color-mix(in srgb, var(--color-teal-800) 68%, transparent);
+    background: color-mix(in srgb, var(--color-charcoal-800) 72%, transparent);
     box-shadow:
       inset 0 1px 0 rgb(255 255 255 / 0.18),
       inset 0 0 0 1px rgb(255 255 255 / 0.06);

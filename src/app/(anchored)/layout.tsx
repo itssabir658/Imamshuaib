@@ -23,7 +23,7 @@ import { Container } from "@/components/ui/Container";
  * registration anywhere on this page. It carries Imam Shuaib's mark only.
  */
 
-/** Browser chrome matches the paper, not the teal site behind it. */
+/** Browser chrome matches the paper this page is printed on. */
 export const viewport: Viewport = {
   themeColor: "#fbf8f2",
   colorScheme: "light",

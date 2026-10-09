@@ -112,8 +112,8 @@ export function DonateForm() {
               className={cn(
                 "rounded-pill px-5 py-2 text-sm font-semibold transition-colors duration-200 ease-ios",
                 monthly === isMonthly
-                  ? "bg-teal-600 text-white"
-                  : "text-body hover:text-teal-700",
+                  ? "bg-charcoal text-white"
+                  : "text-body hover:text-gold-800",
               )}
             >
               {isMonthly ? "Monthly" : "One time"}
@@ -140,8 +140,8 @@ export function DonateForm() {
               className={cn(
                 "rounded-xl border py-3 font-display text-lg font-bold tabular-nums transition-colors duration-200 ease-ios",
                 amount === preset
-                  ? "border-teal-600 bg-teal-600 text-white"
-                  : "border-field bg-surface text-ink hover:border-teal-600",
+                  ? "border-charcoal bg-charcoal text-white"
+                  : "border-field bg-surface text-ink hover:border-charcoal",
               )}
             >
               ${preset}
@@ -158,7 +158,7 @@ export function DonateForm() {
             className={cn(
               "flex items-center gap-3 rounded-xl border bg-surface px-4 py-3 transition-colors",
               "focus-within:[outline:3px_solid_var(--focus-ring)] focus-within:[outline-offset:3px]",
-              amount === CUSTOM ? "border-teal-600" : "border-field",
+              amount === CUSTOM ? "border-charcoal" : "border-field",
             )}
           >
             <span className="text-sm font-medium text-ink">Other</span>
@@ -224,7 +224,7 @@ export function DonateForm() {
             fill="none"
             stroke="currentColor"
             strokeWidth="1.4"
-            className="mt-0.5 size-4 shrink-0 text-teal-600"
+            className="mt-0.5 size-4 shrink-0 text-charcoal"
           >
             <rect x="3" y="7" width="10" height="7" rx="1.6" />
             <path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2" />

@@ -11,7 +11,7 @@ const amounts = [25, 50, 100, 250];
 
 export function DonateCTA() {
   return (
-    <Section labelledBy="donate-title" tone="ivory" className="pb-20 sm:pb-24">
+    <Section labelledBy="donate-title" tone="canvas" className="pb-20 sm:pb-24">
       <div className="relative isolate overflow-hidden rounded-[2rem] bg-charcoal px-7 py-14 sm:px-12 lg:px-16 lg:py-16">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
           <div className="pattern-khatim absolute inset-0 text-white/[0.06]" />
@@ -19,7 +19,7 @@ export function DonateCTA() {
 
         <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:gap-16">
           <div>
-            <Eyebrow onDark tone="warm">Support the work</Eyebrow>
+            <Eyebrow onDark>Support the work</Eyebrow>
             <h2
               id="donate-title"
               className="mt-5 max-w-[22rem] text-h2 font-bold text-white"
@@ -80,7 +80,7 @@ export function DonateCTA() {
             </Button>
 
             <p className="mt-5 text-center text-sm text-sand-300">
-              <TextLink href="/donate#faq" onDark tone="warm">
+              <TextLink href="/donate#faq" onDark>
                 Is my gift Zakat-eligible?
               </TextLink>
             </p>

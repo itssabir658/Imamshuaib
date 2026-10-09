@@ -1,15 +1,17 @@
 import Link from "next/link";
 import { cn } from "@/lib/cn";
 
-type Variant = "primary" | "secondary" | "ghost" | "gold" | "ink" | "line";
+type Variant = "primary" | "secondary" | "ghost" | "gold" | "line";
 type Size = "md" | "lg";
 
 /**
- * Contrast notes (WCAG 2.1 AA):
- *  primary   — white on teal-600 .......... 6.1:1
- *  gold      — ink on gold-500 ............ 6.5:1
- *  secondary — teal-700 on light glass .... 7.4:1 on canvas
- *  ghost     — white on dark glass ........ >10:1 over the teal bands
+ * Contrast notes (WCAG 2.1 AA), measured on the warm stone ground:
+ *  primary   — ivory on charcoal .......... 16.4:1
+ *  gold      — charcoal on gold-500 ....... 7.7:1
+ *  secondary — gold-800 on light glass .... 6.3:1 on canvas
+ *  ghost     — ivory on dark glass ........ >14:1 over the charcoal bands
+ *  line      — charcoal on canvas, with a sand-500 border at 3.2:1, which
+ *              clears the 3:1 WCAG 1.4.11 asks of a control boundary
  *
  * The two brand CTAs stay OPAQUE. A primary call to action that frosts is the
  * common way glass goes wrong — it costs contrast exactly where it matters and
@@ -29,27 +31,22 @@ type Size = "md" | "lg";
  */
 const variants: Record<Variant, string> = {
   primary:
-    "glass-btn bg-teal-600 text-white hover:bg-teal-700 active:bg-teal-800 " +
-    "shadow-[inset_0_1px_0_rgb(255_255_255/0.22),0_10px_24px_-14px_rgb(18_56_58/0.7)]",
+    "glass-btn bg-charcoal text-ivory hover:bg-charcoal-800 active:bg-charcoal " +
+    "shadow-[inset_0_1px_0_rgb(255_255_255/0.14),0_10px_24px_-14px_rgb(28_26_23/0.7)]",
   gold:
-    "glass-btn bg-gold-500 text-teal-950 hover:bg-gold-400 active:bg-gold-600 " +
+    "glass-btn bg-gold-500 text-charcoal hover:bg-gold-400 active:bg-gold-600 " +
     "shadow-[inset_0_1px_0_rgb(255_255_255/0.38),0_10px_24px_-14px_rgb(104_72_17/0.55)]",
   secondary:
-    "glass-btn glass-rim-light glass-refract-sm bg-surface/50 text-teal-700 " +
+    "glass-btn glass-rim-light glass-refract-sm bg-surface/50 text-gold-800 " +
     "shadow-[inset_0_1px_0_rgb(255_255_255/0.9),inset_0_-10px_20px_rgb(16_38_42/0.05),0_10px_28px_-16px_rgb(16_38_42/0.35)] " +
     "hover:bg-surface/70 hover:shadow-[inset_0_1px_0_rgb(255_255_255/1),inset_0_-10px_20px_rgb(16_38_42/0.05),0_18px_38px_-18px_rgb(16_38_42/0.45)] " +
     "active:shadow-[inset_0_1px_0_rgb(255_255_255/0.7),inset_0_2px_6px_rgb(16_38_42/0.12)]",
-  ink:
-    "bg-charcoal text-ivory hover:bg-charcoal-800 " +
-    "transition-[background-color,transform,box-shadow] duration-300 ease-ios " +
-    "motion-safe:hover:-translate-y-px motion-safe:active:translate-y-0 motion-safe:active:scale-[0.985] " +
-    "hover:shadow-[0_12px_28px_-16px_rgb(28_26_23/0.7)]",
   line:
     "border border-sand-500 bg-transparent text-charcoal hover:border-charcoal hover:bg-sand-50 " +
     "transition-[background-color,border-color,transform] duration-300 ease-ios " +
     "motion-safe:hover:-translate-y-px motion-safe:active:translate-y-0 motion-safe:active:scale-[0.985]",
   ghost:
-    "glass-btn glass-rim glass-refract-sm bg-white/[0.09] text-white " +
+    "glass-btn glass-rim glass-refract-sm bg-white/[0.09] text-ivory " +
     "shadow-[inset_0_1px_0_rgb(255_255_255/0.22),inset_0_-10px_20px_rgb(0_0_0/0.12),0_10px_30px_-14px_rgb(0_0_0/0.5)] " +
     "hover:bg-white/[0.16] hover:shadow-[inset_0_1px_0_rgb(255_255_255/0.32),inset_0_-10px_20px_rgb(0_0_0/0.12),0_20px_40px_-16px_rgb(0_0_0/0.6)] " +
     "active:shadow-[inset_0_1px_0_rgb(255_255_255/0.18),inset_0_2px_8px_rgb(0_0_0/0.35)]",
@@ -139,28 +136,19 @@ export function TextLink({
   children,
   className,
   onDark = false,
-  tone = "brand",
 }: {
   href: string;
   children: React.ReactNode;
   className?: string;
   onDark?: boolean;
-  /** "warm" is the stone ground shared with /al-aqsa and the home page.
-   *  gold-800 is 6.3:1 on ivory, gold-300 10.6:1 on charcoal. */
-  tone?: "brand" | "warm";
 }) {
   return (
     <Link
       href={href}
       className={cn(
         "group/link inline-flex items-center gap-1.5 font-semibold underline-offset-4 hover:underline",
-        tone === "warm"
-          ? onDark
-            ? "text-gold-300"
-            : "text-gold-800"
-          : onDark
-            ? "text-gold-300"
-            : "text-teal-700",
+        // gold-800 is 6.3:1 on the canvas, gold-300 10.6:1 on charcoal.
+        onDark ? "text-gold-300" : "text-gold-800",
         className,
       )}
     >

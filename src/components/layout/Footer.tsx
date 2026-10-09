@@ -18,7 +18,7 @@ const programs = services.filter((s) => s.featured);
 
 export function Footer() {
   return (
-    <footer className="relative overflow-hidden bg-teal-950 text-teal-100">
+    <footer className="relative overflow-hidden bg-charcoal text-sand-300">
       {/* The motif runs the full height rather than stopping at a band — the
           old 14rem cut left a visible hard edge across the middle. */}
       <div
@@ -40,7 +40,7 @@ export function Footer() {
             >
               One email a month
             </h2>
-            <p className="mt-3 text-sm/relaxed text-teal-100/80">
+            <p className="mt-3 text-sm/relaxed text-sand-300">
               Whatever class is coming up, and anything worth knowing about.
               Nothing else, and you can leave whenever you like.
             </p>
@@ -53,7 +53,7 @@ export function Footer() {
         <div className="grid gap-12 border-t border-white/10 py-14 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr] lg:gap-10">
           <div className="max-w-sm">
             <Logo href="/" onDark />
-            <p className="mt-5 text-sm/relaxed text-teal-100/80">
+            <p className="mt-5 text-sm/relaxed text-sand-300">
               {site.description}
             </p>
             <SocialLinks className="mt-6 -ml-3" />
@@ -102,18 +102,18 @@ export function Footer() {
             <address className="mt-5 flex flex-col gap-3 text-sm not-italic">
               <a
                 href={"mailto:" + site.email}
-                className="w-fit text-teal-100/85 underline-offset-4 transition-colors hover:text-white hover:underline"
+                className="w-fit text-sand-300 underline-offset-4 transition-colors hover:text-white hover:underline"
               >
                 {site.email}
               </a>
               <a
                 href={"tel:" + site.phone.replace(/[^+\d]/g, "")}
-                className="w-fit text-teal-100/85 underline-offset-4 transition-colors hover:text-white hover:underline"
+                className="w-fit text-sand-300 underline-offset-4 transition-colors hover:text-white hover:underline"
               >
                 {site.phone}
               </a>
             </address>
-            <p className="mt-5 text-sm/relaxed text-teal-100/70">
+            <p className="mt-5 text-sm/relaxed text-sand-300/80">
               For a bereavement, please call rather than email.
             </p>
           </div>
@@ -121,7 +121,7 @@ export function Footer() {
 
         <div className="border-t border-white/10 py-8">
           <div className="flex flex-col gap-x-8 gap-y-4 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-xs text-teal-100/60">
+            <p className="text-xs text-sand-300/70">
               &copy; {new Date().getFullYear()} {site.legalName}. All rights
               reserved.
             </p>
@@ -131,7 +131,7 @@ export function Footer() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="text-xs text-teal-100/70 underline-offset-4 transition-colors hover:text-white hover:underline"
+                    className="text-xs text-sand-300/80 underline-offset-4 transition-colors hover:text-white hover:underline"
                   >
                     {item.label}
                   </Link>
@@ -140,7 +140,7 @@ export function Footer() {
             </ul>
           </div>
 
-          <p className="mt-5 flex items-center gap-2 text-xs text-teal-100/60">
+          <p className="mt-5 flex items-center gap-2 text-xs text-sand-300/70">
             <svg
               aria-hidden="true"
               viewBox="0 0 16 16"
@@ -176,7 +176,7 @@ function FooterLink({
       className={
         highlight
           ? "text-sm font-semibold text-gold-300 underline-offset-4 transition-colors hover:text-gold-200 hover:underline"
-          : "text-sm text-teal-100/85 underline-offset-4 transition-colors hover:text-white hover:underline"
+          : "text-sm text-sand-300 underline-offset-4 transition-colors hover:text-white hover:underline"
       }
     >
       {children}

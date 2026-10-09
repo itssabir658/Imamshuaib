@@ -9,10 +9,9 @@ export function ServicesTeaser() {
   const featured = services.filter((s) => s.featured);
 
   return (
-    <Section id="programs" labelledBy="programs-title" tone="ivory">
+    <Section id="programs" labelledBy="programs-title" tone="canvas">
       <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
         <SectionHeading
-          tone="warm"
           id="programs-title"
           eyebrow="Programs"
           title="Where you can start"
@@ -20,7 +19,7 @@ export function ServicesTeaser() {
           className="max-w-2xl"
         />
         <div className="shrink-0 sm:pb-2">
-          <TextLink href="/services" tone="warm">
+          <TextLink href="/services">
             All programs
           </TextLink>
         </div>

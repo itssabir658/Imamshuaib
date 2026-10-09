@@ -6,7 +6,7 @@ import { TextLink } from "@/components/ui/Button";
 
 export function AboutTeaser() {
   return (
-    <Section id="about" labelledBy="about-title" tone="ivory">
+    <Section id="about" labelledBy="about-title" tone="canvas">
       <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-16">
         <div className="relative mx-auto w-full max-w-md lg:mx-0">
           {/* Offset gold rule behind the photo — the same arch language as the hero. */}
@@ -37,7 +37,7 @@ export function AboutTeaser() {
         </div>
 
         <div>
-          <Eyebrow tone="warm">Get to know Imam Shuaib</Eyebrow>
+          <Eyebrow>Get to know Imam Shuaib</Eyebrow>
           <h2 id="about-title" className="mt-5 text-h2 font-bold">
             A global life, brought back to one classroom
           </h2>
@@ -57,7 +57,7 @@ export function AboutTeaser() {
           </div>
 
           <div className="mt-8">
-            <TextLink href="/about" tone="warm">
+            <TextLink href="/about">
               Read my full story
             </TextLink>
           </div>

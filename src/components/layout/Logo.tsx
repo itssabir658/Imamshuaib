@@ -7,8 +7,9 @@ export function Logo({
   onDark = false,
 }: {
   href?: string;
-  /** Flips the mark to solid white — the teal wordmark is unreadable on the
-   *  deep-teal hero. */
+  /** Flips the mark to solid white. The wordmark is teal and gold, which is
+   *  unreadable on a dark band — and the mark is the only teal left on the
+   *  site now that everything else runs on warm stone. */
   onDark?: boolean;
 }) {
   return (

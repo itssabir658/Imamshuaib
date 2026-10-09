@@ -37,7 +37,7 @@ export default function ServicesPage() {
                 href={service.href}
                 className="glass-surface-light glass-rim-light group/btn flex h-full flex-col rounded-card p-7 transition-[box-shadow,transform] duration-500 ease-ios hover:-translate-y-1 hover:shadow-card-hover"
               >
-                <span className="inline-flex size-12 items-center justify-center rounded-2xl bg-teal-50 text-teal-600 transition-colors duration-300 group-hover/btn:bg-teal-600 group-hover/btn:text-white">
+                <span className="inline-flex size-12 items-center justify-center rounded-2xl bg-sand-100 text-charcoal transition-colors duration-300 group-hover/btn:bg-charcoal group-hover/btn:text-white">
                   <ServiceIcon name={service.icon} />
                 </span>
 
@@ -46,7 +46,7 @@ export default function ServicesPage() {
                   {service.description}
                 </p>
 
-                <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-teal-700">
+                <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-gold-800">
                   {service.ctaText ?? "Learn more"}
                   <ArrowRight />
                 </span>
@@ -62,7 +62,7 @@ export default function ServicesPage() {
             <h2 className="text-h3 font-bold text-white">
               Not sure which one you need?
             </h2>
-            <p className="mt-2 max-w-[36rem] text-teal-100/85">
+            <p className="mt-2 max-w-[36rem] text-sand-300">
               Describe the situation in a sentence or two and Imam Shuaib will
               tell you honestly whether he is the right person for it.
             </p>

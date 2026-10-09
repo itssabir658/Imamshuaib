@@ -21,32 +21,45 @@ Everything lives in [`src/app/globals.css`](src/app/globals.css) as Tailwind v4
 
 ### Colour
 
-Brand values were sampled from the existing logo mark rather than invented:
-**teal `#246C6F`** and **gold `#DDA308`**. The spec proposed `#065F46`
-green / `#D19C3D` gold but also allowed "teal with accent gold"; matching the
-logo keeps the mark and the site in one system.
+The site runs on **warm stone**: ivory paper, sandstone, charcoal ink, and
+the logo's gold as the only accent. That palette started on /al-aqsa, moved to
+the home page, and now carries the whole site.
+
+**Teal is gone from the interface.** It was sampled from the logo mark and ran
+the site until the owner asked for the stone ground throughout. The teal scale
+is still defined in `globals.css` — it documents the brand and the logo is
+still teal and gold — but nothing renders it any more. The mark is the only
+teal left on the page.
 
 | Token | Value | Use |
 | --- | --- | --- |
-| `teal-600` | `#246C6F` | Brand. Primary buttons, links, icons |
-| `teal-900` / `teal-950` | `#12383A` / `#0A2426` | Hero, sermon band, footer |
-| `gold-500` | `#DDA308` | Donate CTA, eyebrows, focus ring |
-| `canvas` | `#F7FAF9` | Page background |
-| `ink` / `body` / `muted` | `#10262A` / `#3E5457` / `#5A6E70` | Text ramp |
+| `canvas` | `#FBF8F2` | Page ground. Ivory |
+| `surface` | `#FFFFFF` | Cards and panels |
+| `sand-100` / `sand-200` | `#EFE5D6` / `#E3D4BE` | Tints, chips, alternate bands |
+| `sand-300` | `#D3BE9F` | Body text on the dark bands |
+| `charcoal` | `#1C1A17` | Dark bands, primary buttons, focus ring |
+| `gold-500` / `gold-800` | `#DDA308` / `#7A5510` | Donate fill; links and eyebrows on paper |
+| `ink` / `body` / `muted` | `#1C1A17` / `#4A453F` / `#6A6058` | Text ramp |
+| `field` | `#8A8178` | Form control boundaries only |
 
-Every text pairing used on the page clears WCAG 2.1 AA:
+Every pairing in use was measured, not estimated:
 
 | Pairing | Ratio |
 | --- | --- |
-| `body` on `canvas` | 7.7:1 |
-| `muted` on `canvas` | 5.1:1 |
-| white on `teal-600` (primary button) | 6.1:1 |
-| `teal-950` on `gold-500` (donate button) | 6.5:1 |
-| white on `teal-950` (hero, footer) | 11.9:1 |
-| `gold-300` on `teal-900` (eyebrows on dark) | > 4.5:1 |
+| `ink` on `canvas` | 16.4:1 |
+| `body` on `canvas` | 9.0:1 |
+| `muted` on `canvas` | 5.8:1 |
+| `field` on `canvas` / `surface` | 3.6:1 / 3.8:1 |
+| `ivory` on `charcoal` (primary button, footer) | 16.4:1 |
+| `charcoal` on `gold-500` (donate button) | 7.7:1 |
+| `gold-800` on `canvas` (links, eyebrows) | 6.3:1 |
+| `sand-300` on `charcoal` (dark-band body) | 9.6:1 |
+| `sand-300/70` on `charcoal` (quiet footer text) | 5.4:1 |
 
-`gold-500` is **decoration and fill only** — it is 2.3:1 on white and must never
-be used for text on a light background.
+`gold-500` is **decoration and fill only** — 2.1:1 on ivory, so it must never
+be used for text on paper. `gold-800` is the one for that. And note
+`sand-300/60` is 4.3:1 on charcoal, just under the bar: the quiet footer text
+is `/70`, deliberately.
 
 **No colour gradients.** Every surface is a flat fill, by decision — the teal
 and gold washes that used to sit behind the page headers, the donate panel and
@@ -54,9 +67,9 @@ the card grids were removed at the owner's request. Do not reintroduce one
 without asking.
 
 That has a knock-on effect worth understanding before touching the glass:
-frosted surfaces need something behind them to refract. On the deep-teal bands
-the khatim motif still provides it, so `glass-surface` stays translucent. On
-the light canvas there is now nothing, so `glass-surface-light` is near-opaque
+frosted surfaces need something behind them to refract. On the dark charcoal
+bands the khatim motif still provides it, so `glass-surface` stays translucent.
+On the light canvas there is now nothing, so `glass-surface-light` is near-opaque
 — a thin panel over flat white reads as haze rather than glass. The material
 language lives in the specular lip and the rim instead of in transparency.
 
@@ -146,17 +159,13 @@ and works on light and dark bands alike.
 
 ## The home page
 
-It runs on the **warm stone** ground — ivory, sandstone, charcoal and gold, the
-same palette as /al-aqsa — rather than the teal the inner pages use. That was
-an explicit request, and it is why `Section`, `SectionHeading`, `Eyebrow`,
-`TextLink` and `Button` all gained warm tones and variants rather than having
-their existing ones redefined: /about, /services, /donate, /contact and the
-service pages are untouched and still teal.
-
-⚠️ **The site is therefore two palettes at the moment.** The home page is
-stone, everything below it is teal, and the shared footer is teal-950. That is
-a deliberate halfway state, not an oversight — say the word and the same tones
-carry through the rest of the site.
+The whole site is on this ground now, not just the home page: /about,
+/services, the service pages, /donate, /contact, the legal pages, the 404, the
+header and the footer all moved with it. `Section`, `SectionHeading`,
+`Eyebrow`, `TextLink` and `Button` carry the stone palette as their defaults,
+so the temporary `tone="warm"` props and `ink`/`stone`/`ivory` tones that
+existed during the halfway state are gone — there is one palette and nothing
+left to choose between.
 
 ### The hero
 

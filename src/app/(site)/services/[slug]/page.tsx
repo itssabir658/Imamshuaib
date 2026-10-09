@@ -97,7 +97,7 @@ export default async function ServiceDetailPage({ params }: Params) {
             {service.benefits ? (
               <div className="glass-surface-light glass-rim-light rounded-card p-7">
                 <div className="flex items-center gap-3">
-                  <span className="inline-flex size-11 items-center justify-center rounded-2xl bg-teal-50 text-teal-600">
+                  <span className="inline-flex size-11 items-center justify-center rounded-2xl bg-sand-100 text-charcoal">
                     <ServiceIcon name={service.icon} />
                   </span>
                   <h2 className="text-h3 font-bold text-ink">
@@ -115,7 +115,7 @@ export default async function ServiceDetailPage({ params }: Params) {
                         strokeWidth="1.8"
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        className="mt-0.5 size-5 shrink-0 text-teal-600"
+                        className="mt-0.5 size-5 shrink-0 text-charcoal"
                       >
                         <path d="m4 10.5 4 4 8-9" />
                       </svg>
@@ -145,9 +145,9 @@ export default async function ServiceDetailPage({ params }: Params) {
               </div>
             ) : null}
 
-            <div className="rounded-card bg-teal-900 p-7">
+            <div className="rounded-card bg-charcoal p-7">
               <h2 className="text-h3 font-bold text-white">Ready to start?</h2>
-              <p className="mt-3 text-[0.9375rem]/relaxed text-teal-100/85">
+              <p className="mt-3 text-[0.9375rem]/relaxed text-sand-300">
                 Tell Imam Shuaib what you need in a couple of sentences. If this
                 is not the right programme for it, he will say so.
               </p>
@@ -177,7 +177,7 @@ export default async function ServiceDetailPage({ params }: Params) {
                 href={other.href}
                 className="glass-surface-light glass-rim-light group/btn flex h-full flex-col rounded-card p-6 transition-[box-shadow,transform] duration-500 ease-ios hover:-translate-y-1 hover:shadow-card-hover"
               >
-                <span className="inline-flex size-10 items-center justify-center rounded-xl bg-teal-50 text-teal-600">
+                <span className="inline-flex size-10 items-center justify-center rounded-xl bg-sand-100 text-charcoal">
                   <ServiceIcon name={other.icon} className="size-5" />
                 </span>
                 <h3 className="mt-5 font-display text-lg font-bold text-ink">
@@ -186,7 +186,7 @@ export default async function ServiceDetailPage({ params }: Params) {
                 <p className="mt-2 grow text-sm/relaxed text-body">
                   {other.description}
                 </p>
-                <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-teal-700">
+                <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-gold-800">
                   Learn more
                   <ArrowRight />
                 </span>

@@ -40,7 +40,7 @@ export function PageHeader({
       )}
     >
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-        <div className="pattern-khatim absolute inset-0 text-teal-900/[0.04]" />
+        <div className="pattern-khatim absolute inset-0 text-charcoal/[0.04]" />
       </div>
 
       <Container>

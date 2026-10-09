@@ -70,7 +70,7 @@ export default function DonatePage() {
             <dl className="mt-6 flex flex-col divide-y divide-line">
               {impact.map((row) => (
                 <div key={row.amount} className="flex gap-6 py-5 first:pt-0">
-                  <dt className="w-20 shrink-0 font-display text-h3 font-bold tabular-nums text-teal-700">
+                  <dt className="w-20 shrink-0 font-display text-h3 font-bold tabular-nums text-charcoal">
                     {row.amount}
                   </dt>
                   <dd className="text-[0.9375rem]/relaxed text-body">

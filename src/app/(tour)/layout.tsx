@@ -21,7 +21,7 @@ import { Container } from "@/components/ui/Container";
  * request that came with it.
  */
 
-/** The browser chrome should match the page, not the teal site behind it. */
+/** The browser chrome should match the paper this page is printed on. */
 export const viewport: Viewport = {
   themeColor: "#1c1a17",
   colorScheme: "light",

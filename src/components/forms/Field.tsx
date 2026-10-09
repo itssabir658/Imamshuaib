@@ -23,7 +23,7 @@ import { cn } from "@/lib/cn";
  */
 const control =
   "w-full rounded-xl border border-field bg-surface px-4 py-3 text-[0.9375rem] " +
-  "text-ink transition-colors placeholder:text-muted focus:border-teal-600";
+  "text-ink transition-colors placeholder:text-muted focus:border-charcoal";
 
 export function Field({
   label,
@@ -106,9 +106,9 @@ export function FormResult({
   return (
     <div
       role="status"
-      className="rounded-card border border-teal-200 bg-teal-50 p-7"
+      className="rounded-card border border-sand-300 bg-sand-100 p-7"
     >
-      <p className="flex items-center gap-2.5 font-display text-h3 font-bold text-teal-800">
+      <p className="flex items-center gap-2.5 font-display text-h3 font-bold text-charcoal">
         <svg
           aria-hidden="true"
           viewBox="0 0 20 20"

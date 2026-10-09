@@ -37,8 +37,8 @@ export function SocialLinks({
             className={cn(
               "inline-flex size-11 items-center justify-center rounded-pill transition-colors",
               tone === "dark"
-                ? "text-teal-100/80 hover:bg-white/10 hover:text-white"
-                : "text-muted hover:bg-teal-50 hover:text-teal-700",
+                ? "text-sand-300 hover:bg-white/10 hover:text-white"
+                : "text-muted hover:bg-sand-100 hover:text-gold-800",
             )}
           >
             <span className="sr-only">

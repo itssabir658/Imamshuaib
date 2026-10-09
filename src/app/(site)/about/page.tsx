@@ -32,7 +32,7 @@ export default function AboutPage() {
                 aria-hidden="true"
                 className="absolute -top-4 -left-4 h-full w-full rounded-[2rem] border border-gold-500/45"
               />
-              <div className="relative overflow-hidden rounded-[2rem] bg-teal-100 shadow-card">
+              <div className="relative overflow-hidden rounded-[2rem] bg-sand-200 shadow-card">
                 <Image
                   src="/images/imam-shuaib-reading-quran.webp"
                   alt="Imam Shuaib seated with an open Qur'an in his study, bookshelves behind him"
@@ -77,7 +77,7 @@ export default function AboutPage() {
               {stats.map((s) => (
                 <div key={s.label} className="flex flex-col-reverse justify-end gap-2">
                   <dt className="text-sm text-balance text-muted">{s.label}</dt>
-                  <dd className="font-display text-[2rem] leading-[1.05] font-bold tabular-nums text-teal-700 sm:text-[2.25rem]">
+                  <dd className="font-display text-[2rem] leading-[1.05] font-bold tabular-nums text-charcoal sm:text-[2.25rem]">
                     {s.value}
                   </dd>
                 </div>
