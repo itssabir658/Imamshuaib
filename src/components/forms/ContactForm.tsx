@@ -6,7 +6,9 @@ import { ANCHORED_TOPIC, contactTopics, services } from "@/content/site";
 import { ButtonAction } from "@/components/ui/Button";
 import { Field, FormResult, isEmail } from "./Field";
 
-type Errors = Partial<Record<"name" | "email" | "message" | "outcome", string>>;
+type Errors = Partial<
+  Record<"name" | "email" | "phone" | "message" | "outcome", string>
+>;
 
 /**
  * The contact form.
@@ -24,12 +26,13 @@ export function ContactForm() {
   const params = useSearchParams();
   const preselected = params.get("program") ?? "";
 
-  // The topic is controlled rather than left to defaultValue, because one
-  // extra question appears and becomes required when the Anchored retreat is
-  // selected. Everyone else — someone asking about a nikah — should not have
-  // to answer it, which is why it is conditional rather than always on.
+  // The topic is controlled rather than left to defaultValue, because the
+  // form changes shape when the Anchored retreat is selected: one extra
+  // question appears, and the phone number stops being optional. Everyone
+  // else — someone asking about a nikah — should not have to hand over a
+  // phone number or answer a retreat question, so both are conditional.
   const [program, setProgram] = useState(preselected);
-  const askOutcome = program === ANCHORED_TOPIC;
+  const isRetreat = program === ANCHORED_TOPIC;
 
   const [errors, setErrors] = useState<Errors>({});
   const [sent, setSent] = useState(false);
@@ -58,6 +61,7 @@ export function ContactForm() {
 
     const name = String(data.get("name") ?? "").trim();
     const email = String(data.get("email") ?? "").trim();
+    const phone = String(data.get("phone") ?? "").trim();
     const message = String(data.get("message") ?? "").trim();
     const outcome = String(data.get("outcome") ?? "").trim();
 
@@ -68,8 +72,20 @@ export function ContactForm() {
       next.email = "That does not look like an email address.";
     if (message.length < 10)
       next.message = "A sentence or two about what you need, please.";
-    if (askOutcome && !outcome)
-      next.outcome = "Please answer this one — it shapes the weekend.";
+
+    if (isRetreat) {
+      // Deliberately loose. Phone formats differ by country and a strict
+      // pattern rejects real numbers far more often than it catches bad ones;
+      // seven digits is enough to catch an empty box or "n/a" without
+      // arguing with anyone's international format.
+      const digits = phone.replace(/D/g, "");
+      if (!phone) next.phone = "A number we can text, please.";
+      else if (digits.length < 7)
+        next.phone = "That looks too short to be a phone number.";
+
+      if (!outcome)
+        next.outcome = "Please answer this one — it shapes the weekend.";
+    }
 
     attempts.current += 1;
     setErrors(next);
@@ -113,10 +129,6 @@ export function ContactForm() {
         {(p) => <input {...p} name="email" type="email" autoComplete="email" />}
       </Field>
 
-      <Field label="Phone" hint="Only if you would rather be called.">
-        {(p) => <input {...p} name="phone" type="tel" autoComplete="tel" />}
-      </Field>
-
       <Field label="What is this about?">
         {(p) => (
           <select
@@ -140,7 +152,20 @@ export function ContactForm() {
         )}
       </Field>
 
-      {askOutcome ? (
+      {/* Phone sits BELOW the topic select on purpose. It changes from
+          optional to required when the retreat is chosen, and a field that
+          rewrites itself above the control you just used is a change most
+          people never see. */}
+      <Field
+        label={isRetreat ? "Phone (text/WhatsApp)" : "Phone"}
+        required={isRetreat}
+        error={errors.phone}
+        hint={isRetreat ? undefined : "Only if you would rather be called."}
+      >
+        {(p) => <input {...p} name="phone" type="tel" autoComplete="tel" />}
+      </Field>
+
+      {isRetreat ? (
         <Field
           label="What is the one thing you are hoping to walk away clearer on?"
           required
