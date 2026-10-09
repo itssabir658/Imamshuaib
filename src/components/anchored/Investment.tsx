@@ -33,14 +33,16 @@ export function Investment() {
       </h2>
 
       <Container>
+        <Label className="mb-14">Two prices</Label>
+
         <div className="grid sm:grid-cols-2">
           {anchored.investment.tiers.map((tier) => (
             <div
               key={tier.name}
-              className="anchored-rise border-t border-sand-400 pt-8 pb-8 last:pb-0 sm:pr-10 sm:pb-0"
+              className="anchored-rise border-t-2 border-charcoal pt-8 pb-10 last:pb-0 sm:pr-12 sm:pb-0"
             >
               <Label>{tier.name}</Label>
-              <p className="mt-5 font-display text-[clamp(2.5rem,2rem+2.4vw,3.75rem)] leading-none font-bold tabular-nums text-charcoal">
+              <p className="mt-6 font-display text-[clamp(3.5rem,2.4rem+4.4vw,6rem)] leading-[0.88] font-bold tracking-[-0.04em] tabular-nums text-charcoal">
                 {tier.price}
               </p>
               <p className="mt-4 font-sans text-sm text-charcoal-600">
@@ -72,15 +74,15 @@ export function Investment() {
             <SeatCount className="mt-7" />
           </div>
 
-          <div className="anchored-rise rounded-[2px] bg-sand-50 p-7 ring-1 ring-sand-400 sm:p-8">
-            <Label>{anchored.investment.payment}</Label>
+          <div className="anchored-rise bg-charcoal p-8 sm:p-10">
+            <Label tone="paper">{anchored.investment.payment}</Label>
 
             <ul className="mt-7 space-y-7">
               <li>
-                <h3 className="font-display text-base font-bold text-charcoal">
+                <h3 className="font-display text-base font-bold text-ivory">
                   Card
                 </h3>
-                <p className="mt-2 font-sans text-sm/relaxed text-charcoal-600">
+                <p className="mt-2 font-sans text-sm/relaxed text-sand-300">
                   {anchored.cardHref ? (
                     <>
                       Handled by Stripe. Card details are entered on Stripe&rsquo;s
@@ -91,7 +93,7 @@ export function Investment() {
                       <span aria-hidden="true">⚠️ </span>
                       Stripe checkout is not connected yet. Add the Stripe
                       Payment Link or Checkout route to{" "}
-                      <code className="font-mono text-[0.8125rem] text-charcoal">
+                      <code className="font-mono text-[0.8125rem] text-ivory">
                         anchored.cardHref
                       </code>{" "}
                       and both buttons on this page point at it.
@@ -101,16 +103,16 @@ export function Investment() {
               </li>
 
               <li>
-                <h3 className="font-display text-base font-bold text-charcoal">
+                <h3 className="font-display text-base font-bold text-ivory">
                   Interac e-Transfer
                 </h3>
-                <p className="mt-2 font-sans text-sm/relaxed text-charcoal-600">
+                <p className="mt-2 font-sans text-sm/relaxed text-sand-300">
                   {anchored.etransferTo ? (
                     <>
                       Send ${"250"} to{" "}
                       <a
                         href={`mailto:${anchored.etransferTo}`}
-                        className="link-draw font-semibold break-all text-gold-800"
+                        className="link-draw font-semibold break-all text-gold-300"
                       >
                         {anchored.etransferTo}
                       </a>
@@ -121,13 +123,13 @@ export function Investment() {
                       <span aria-hidden="true">⚠️ </span>
                       The e-transfer address has not been supplied, so the page
                       does not print one. Add it to{" "}
-                      <code className="font-mono text-[0.8125rem] text-charcoal">
+                      <code className="font-mono text-[0.8125rem] text-ivory">
                         anchored.etransferTo
                       </code>
                       . Until then,{" "}
                       <a
                         href="/contact?program=anchored-retreat"
-                        className="link-draw font-semibold text-gold-800"
+                        className="link-draw font-semibold text-gold-300"
                       >
                         ask for it here
                       </a>

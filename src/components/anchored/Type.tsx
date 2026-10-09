@@ -28,7 +28,10 @@ export function Label({
   className,
 }: {
   children: React.ReactNode;
-  tone?: "ink" | "paper" | "gold";
+  /** "clay" is not a style preference — sand-300 measures 4.48:1 on the clay
+    *  ground, two hundredths under the bar, so that ground gets sand-200 at
+    *  5.6:1 instead. Measured, not eyeballed. */
+  tone?: "ink" | "paper" | "clay" | "gold";
   className?: string;
 }) {
   return (
@@ -37,6 +40,7 @@ export function Label({
         "font-sans text-[0.6875rem] leading-none font-semibold tracking-[0.22em] uppercase",
         tone === "ink" && "text-sand-700",
         tone === "paper" && "text-sand-300",
+        tone === "clay" && "text-sand-200",
         tone === "gold" && "text-gold-800",
         className,
       )}

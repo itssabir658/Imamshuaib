@@ -63,6 +63,14 @@
   --color-sand-400: #c0a57e;
   --color-sand-500: #a8865a;
   --color-sand-700: #6b5536;
+  /* Clay — the Anchored page's third ground, for the blocks that interrupt
+     rather than continue. Measured: ivory on it is 7.6:1 and gold-300 is
+     4.9:1, both comfortable. gold-400 is 4.1:1, so large text only.
+
+     It is 2.15:1 against charcoal, which is the thing to remember: a clay
+     block must never sit directly against a charcoal one or the two read as
+     a single muddy mass. Always put paper between them. */
+  --color-clay: #7c3f28;
   --color-charcoal: #1c1a17;
   --color-charcoal-800: #2a2724;
   --color-charcoal-600: #4a453f;

@@ -1,48 +1,57 @@
 import { anchored } from "@/content/anchored";
 import { Container } from "@/components/ui/Container";
-import { Rule } from "./Type";
+import { Label } from "./Type";
 
 /**
- * The four teaching sessions, set as a ruled index rather than a grid of
- * cards: numeral in the margin, title in its own column, body beside it, a
- * hairline between each. A catalogue contents page.
+ * The four teaching sessions.
  *
- * The numerals are `aria-hidden` — the ordered list already carries the
- * sequence — and sand-500 rather than anything lighter, which is 3.18:1 on
- * ivory and clears the 3:1 large-text bar at 32px bold. A numeral a reader
- * has to squint at is not ornament, it is a mistake.
+ * The numerals are the graphic. At 2rem they were punctuation; at this size
+ * they are the only large element on a band of otherwise quiet text, set in
+ * sand so they read as texture rather than as something to be read, with the
+ * title sitting hard against them. A page with no photography has to get its
+ * weight from somewhere, and oversized figures are the oldest answer in
+ * editorial design to exactly that problem.
  *
- * sr-only heading: see the note in Promises.tsx. The document's "SECTION 3:
- * THE WORK" is a label for the designer, not page copy.
+ * They are `aria-hidden` — the ordered list already carries the sequence —
+ * and sand-300 is 2.1:1 on sand-50, which is fine for something nobody has
+ * to read and would not be if the number carried any information. The
+ * accessible order comes from the `<ol>`.
+ *
+ * sr-only heading: see the note in Promises.tsx.
  */
 export function TheWork() {
   return (
-    <section aria-labelledby="work-title" className="bg-ivory pb-20 sm:pb-24 lg:pb-28">
+    <section
+      aria-labelledby="work-title"
+      className="bg-sand-50 py-20 sm:py-24 lg:py-28"
+    >
       <h2 id="work-title" className="sr-only">
         The work
       </h2>
 
       <Container>
-        <Rule className="mb-4" />
+        <Label className="mb-14">Four sessions</Label>
 
-        <ol>
+        <ol className="flex flex-col">
           {anchored.work.map((w, i) => (
             <li
               key={w.title}
-              className="anchored-rise group -mx-4 grid gap-x-10 gap-y-4 border-t border-sand-400 px-4 py-9 transition-colors duration-500 ease-ios first:border-t-0 hover:bg-sand-50 sm:py-10 lg:grid-cols-[4.5rem_minmax(0,19rem)_minmax(0,1fr)]"
+              className="anchored-rise group relative grid gap-x-12 gap-y-5 border-t border-sand-400 py-10 sm:py-12 lg:grid-cols-[minmax(0,26rem)_minmax(0,1fr)]"
             >
-              <span
-                aria-hidden="true"
-                className="font-display text-[2rem] leading-none font-bold tabular-nums text-sand-500 transition-[color,transform] duration-500 ease-ios group-hover:text-gold-800 motion-safe:group-hover:translate-x-1"
-              >
-                {String(i + 1).padStart(2, "0")}
-              </span>
+              <div className="relative">
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute -top-6 -left-2 font-display text-[clamp(4.5rem,3rem+5vw,8rem)] leading-none font-bold tabular-nums text-sand-300 transition-colors duration-700 ease-ios select-none group-hover:text-sand-400 sm:-top-8"
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </span>
 
-              <h3 className="text-h3 font-bold text-balance text-charcoal">
-                {w.title}
-              </h3>
+                <h3 className="relative max-w-[16ch] font-display text-[clamp(1.375rem,1.2rem+0.8vw,1.75rem)]/[1.15] font-bold tracking-[-0.018em] text-balance text-charcoal">
+                  {w.title}
+                </h3>
+              </div>
 
-              <p className="max-w-[32rem] font-sans text-[0.9375rem]/relaxed text-charcoal-600">
+              <p className="max-w-[34rem] font-sans text-[0.9375rem]/relaxed text-charcoal-600 lg:pt-1">
                 {w.body}
               </p>
             </li>

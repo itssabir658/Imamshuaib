@@ -88,8 +88,6 @@ export default function AnchoredPage() {
       <StickyReserve />
 
       <Opening />
-      <Quote index={0} />
-
       <Promises />
       <TheWork />
       <Property />

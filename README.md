@@ -236,6 +236,44 @@ current: a stale count on a ten-seat retreat is worse than no count.
 should ever be added; the card route hands off to Stripe's own hosted page,
 which is what keeps the site out of PCI scope.
 
+### Art direction
+
+The first build of this page was a calm ruled document: one ground, one
+rhythm, every section the same shape. It read as anonymous, and no amount of
+motion fixes that. The rebuild gives each block its own composition.
+
+**Four grounds, not one.** Ivory, sand, charcoal, and a clay `#7c3f28` added
+for the blocks that interrupt rather than continue. Measured: ivory on clay
+7.6:1, sand-200 5.6:1, gold-300 4.9:1. One number worth remembering — **clay
+is 2.15:1 against charcoal**, so the two must never touch or they read as a
+single muddy mass. There is paper either side of every clay block, and that
+constraint drives the whole ground sequence.
+
+**The masthead is a split, not a stack.** Paper on the left carrying the name
+at the page's largest size; a full-bleed charcoal panel on the right carrying
+everything transactional. The panel bleeds with a pseudo-element hung off the
+column's own left edge rather than a percentage-width box positioned against
+the section — a percentage box drifts relative to the centred container and
+at around 1024px lands five pixels from the text.
+
+**The hardest cut is a colour change.** "You are not failing. You are
+unsupported." is the line the opening turns on. It is now full-bleed clay
+with nothing else on the block, doing what a paragraph break cannot.
+
+**Oversized numerals carry The Work.** At 2rem they were punctuation; at
+8rem, in sand behind the titles, they are the only weight on the band.
+Editorial design's oldest answer to a page with no photography. The title
+over the numeral measures 9.6:1, and 7.4:1 on hover.
+
+**The promo video is paired with the first pull quote** on one charcoal
+spread rather than centred alone in a wide band. A vertical video on a
+desktop page is an orphan unless something is set against it, and the copy
+document already offers quotes for exactly this job.
+
+**Promises step rather than sit in three columns.** They build — from
+something you notice on the Sunday to something you still have in March — so
+each row indents further than the last. The indent is the argument.
+
 ### Interaction
 
 All of the motion is **scroll-driven CSS** — no IntersectionObserver, no
