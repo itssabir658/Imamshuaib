@@ -369,4 +369,5 @@ export function getService(slug: string) {
  */
 export const contactTopics = [
   { id: "al-aqsa-tour", label: "Journey to Al-Aqsa — tour registration" },
+  { id: "anchored-retreat", label: "Anchored — men's retreat, November 2026" },
 ] as const;

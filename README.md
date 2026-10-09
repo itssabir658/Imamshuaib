@@ -191,6 +191,69 @@ Built to the §2 audit findings rather than retrofitted:
 - `prefers-reduced-motion` disables all transitions and smooth scrolling
 - Every card is one link — one tab stop, one target
 
+## Anchored — the men's retreat page
+
+`/anchored`, built from the client's copy document of 8 October 2026. Its own
+route group for the same reason /al-aqsa has one: a single page with one thing
+to do on it, reached from a WhatsApp or Instagram link rather than from the
+site, so the main navigation would only compete with it.
+
+**The copy is verbatim and not mine to edit.** `src/content/anchored.ts` is a
+transcription — the brief says "Copy and paste it as written". If a line reads
+oddly on the page, change the document first.
+
+**Four instructions from that document are load-bearing**, and each is
+something a later edit could quietly undo. They are written into the content
+file as comments as well as here:
+
+1. **No prayer clock times, anywhere.** The schedule names prayers
+   deliberately without them. The only time string on the page is "12:00 PM
+   departure", which is in the copy itself. If `Weekend.tsx` ever grows a
+   `time` field, this has been broken.
+2. **No Guidance for Generations.** Personal brand only — no G4G name, logo or
+   charity registration.
+3. **The CAPS section labels are not page copy.** "SECTION 3: THE WORK" and
+   friends are structural notes to the designer. So most sections carry no
+   visible heading at all; they get an `sr-only` one instead, which keeps a
+   navigable outline without putting words on the page that nobody wrote. The
+   copy turns out to be self-structuring — "Clarity.", "Friday", "Early Bird".
+4. **Square brackets are button labels.**
+
+**Nothing is computed from today's date.** It is tempting to compare against
+25 October and badge one price tier "current". The page is statically
+generated, so that comparison freezes at build time and the page would go on
+announcing the early-bird price until someone redeployed. Both tiers are shown
+with their own deadlines and the reader does the arithmetic correctly every
+time.
+
+**Seats remaining** is `anchored.seatsRemaining` — the "simple field Imam
+Shuaib can update" the brief asks for. Setting it to `null` removes the count
+from the page, which is the right move the moment nobody is keeping it
+current: a stale count on a ten-seat retreat is worse than no count.
+
+**The deposit step shows card and e-transfer together**, as the brief requires
+— not a toggle, not a second page. No card field appears on this page and none
+should ever be added; the card route hands off to Stripe's own hosted page,
+which is what keeps the site out of PCI scope.
+
+### The promo video
+
+464×832, 66 seconds, 10.9 MB, at `public/video/anchored-promo.mp4`. It is
+**vertical**, which is consistent with a brief whose traffic comes from
+WhatsApp and Instagram — people holding a phone. So the player is phone-shaped
+and capped at the footage's own 464px, because past that it visibly softens.
+Swapping in a landscape re-cut means changing the aspect in `PromoVideo.tsx`
+too.
+
+The file's `moov` atom already sits before `mdat`, so playback starts without
+pulling all 11 MB. There is no poster image on purpose: it would be a second
+copy of a frame already in the file, and `preload="metadata"` paints the first
+frame anyway.
+
+⚠️ **It has no captions track and it is a piece to camera.** That fails WCAG
+1.2.2, and this page's audience arrives from feeds they scroll with the sound
+off. The page says so on itself until `anchored.video.captions` is set.
+
 ## The Al-Aqsa landing page
 
 `/al-aqsa` is a single-page invitation to the tour, and it deliberately does
@@ -331,6 +394,7 @@ separately.
 | `/donate` | Impact, the donation form, giving FAQ |
 | `/contact` | Contact form, direct details, what to do in a crisis |
 | `/al-aqsa` | The Al-Aqsa tour — a standalone landing page, outside the site chrome |
+| `/anchored` | Anchored — the men's retreat, 6–8 Nov 2026. Also standalone |
 | `/privacy`, `/terms` | Legal scaffolds |
 | `/sitemap.xml`, `/robots.txt` | Generated from the content modules |
 | `not-found` | A real 404 |
@@ -365,6 +429,15 @@ scans it. Re-check it once the domain is final. `tour.itineraryConfirmed` is
 around" note under the grid; flip it only when the itinerary is actually
 fixed. There is also no Open Graph image for the route, so a share card falls
 back to the site-wide portrait.
+
+**Anchored is missing three things.** `anchored.cardHref` (the Stripe
+Payment Link or Checkout route — the Reserve buttons fall back to the contact
+form until it is set), `anchored.etransferTo` (the page refuses to print an
+e-transfer address it was not given), and a captions track for the promo
+video. The currency is also unstated: the copy says "$495" and "$595", and
+Waterdown plus Interac makes CAD near-certain, but near-certain is not good
+enough to publish as structured data — which is why the page's schema.org
+Event deliberately carries no `offers`.
 
 **The biography has holes.** `src/content/pages.ts` builds the About page only
 from what the old site already claimed. No degrees, institutions, teachers or

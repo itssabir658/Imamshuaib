@@ -83,6 +83,13 @@
   --text-display: clamp(2.5rem, 1.6rem + 3.6vw, 4.5rem);
   --text-display--line-height: 1.05;
   --text-display--letter-spacing: -0.03em;
+  /* One step above display, for a landing page whose headline IS the page.
+     Gilroy needs the tracking pulled in hard at this size — its circular
+     bowls leave more optical space than a modulated face does, and at 100px
+     the default reads as a gap between every letter. */
+  --text-mega: clamp(3rem, 1.8rem + 5.6vw, 6.5rem);
+  --text-mega--line-height: 0.98;
+  --text-mega--letter-spacing: -0.038em;
   --text-h1: clamp(2rem, 1.4rem + 2.4vw, 3.25rem);
   --text-h1--line-height: 1.1;
   --text-h1--letter-spacing: -0.024em;
@@ -186,18 +193,37 @@
     --focus-ring: var(--color-teal-700);
   }
 
-  /* The selectors exclude controls deliberately. `outline-offset: 3px` draws
-     the ring OUTSIDE the element, on whatever the element is sitting on — so
-     the colour has to come from the ground, never from the control's own
-     fill. The charcoal Register button on the ivory card is the case that
-     proved it: keyed to its own background it asked for the dark ring and
-     then painted it on ivory at 2.4:1. */
-  .bg-teal-800:not(:is(a, button, input, select, textarea, label, summary)),
-  .bg-teal-900:not(:is(a, button, input, select, textarea, label, summary)),
-  .bg-teal-950:not(:is(a, button, input, select, textarea, label, summary)),
-  .bg-charcoal:not(:is(a, button, input, select, textarea, label, summary)),
+  /* The selectors exclude controls and media deliberately. `outline-offset:
+     3px` draws the ring OUTSIDE the element, on whatever the element is
+     sitting on — so the colour has to come from the ground, never from the
+     element's own fill.
+
+     Two cases proved it. The charcoal Register button on the ivory card:
+     keyed to its own background it asked for the dark ring and then painted
+     it on ivory at 2.4:1. And the Anchored promo <video>, which carries
+     bg-charcoal so there is no white flash before the first frame paints —
+     same trap, and video is focusable because it has controls. */
+  .bg-teal-800:not(:is(
+        a, button, input, select, textarea, label, summary, video, audio,
+        img, canvas, iframe
+      )),
+  .bg-teal-900:not(:is(
+        a, button, input, select, textarea, label, summary, video, audio,
+        img, canvas, iframe
+      )),
+  .bg-teal-950:not(:is(
+        a, button, input, select, textarea, label, summary, video, audio,
+        img, canvas, iframe
+      )),
+  .bg-charcoal:not(:is(
+        a, button, input, select, textarea, label, summary, video, audio,
+        img, canvas, iframe
+      )),
   .bg-charcoal-800:not(
-      :is(a, button, input, select, textarea, label, summary)
+      :is(
+        a, button, input, select, textarea, label, summary, video, audio,
+        img, canvas, iframe
+      )
     ) {
     --focus-ring: var(--color-gold-400);
   }
@@ -211,12 +237,30 @@
      descendants of one — a transparent sticky header floating over a hero —
      are siblings, not children, and inherit nothing useful. Those set
      `--focus-ring` on themselves; see Header.tsx and (tour)/layout.tsx. */
-  .bg-ivory:not(:is(a, button, input, select, textarea, label, summary)),
-  .bg-surface:not(:is(a, button, input, select, textarea, label, summary)),
-  .bg-canvas:not(:is(a, button, input, select, textarea, label, summary)),
-  .bg-white:not(:is(a, button, input, select, textarea, label, summary)),
-  .bg-sand-50:not(:is(a, button, input, select, textarea, label, summary)),
-  .bg-teal-50:not(:is(a, button, input, select, textarea, label, summary)) {
+  .bg-ivory:not(:is(
+        a, button, input, select, textarea, label, summary, video, audio,
+        img, canvas, iframe
+      )),
+  .bg-surface:not(:is(
+        a, button, input, select, textarea, label, summary, video, audio,
+        img, canvas, iframe
+      )),
+  .bg-canvas:not(:is(
+        a, button, input, select, textarea, label, summary, video, audio,
+        img, canvas, iframe
+      )),
+  .bg-white:not(:is(
+        a, button, input, select, textarea, label, summary, video, audio,
+        img, canvas, iframe
+      )),
+  .bg-sand-50:not(:is(
+        a, button, input, select, textarea, label, summary, video, audio,
+        img, canvas, iframe
+      )),
+  .bg-teal-50:not(:is(
+        a, button, input, select, textarea, label, summary, video, audio,
+        img, canvas, iframe
+      )) {
     --focus-ring: var(--color-teal-700);
   }
 
