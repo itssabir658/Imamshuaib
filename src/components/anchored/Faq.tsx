@@ -29,8 +29,11 @@ export function Faq() {
             would be ruled under one column and open under the other. */}
         <dl className="grid gap-x-16 border-b border-sand-400 lg:grid-cols-2">
           {anchored.faq.map((item) => (
-            <div key={item.q} className="border-t border-sand-400 py-8">
-              <dt className="font-display text-h3 font-bold text-balance text-charcoal">
+            <div
+              key={item.q}
+              className="anchored-rise group -mx-4 border-t border-sand-400 px-4 py-8 transition-colors duration-500 ease-ios hover:bg-ivory"
+            >
+              <dt className="font-display text-h3 font-bold text-balance text-charcoal transition-colors duration-500 ease-ios group-hover:text-gold-800">
                 {item.q}
               </dt>
               <dd className="mt-3 max-w-[28rem] font-sans text-[0.9375rem]/relaxed text-charcoal-600">

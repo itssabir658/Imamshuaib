@@ -670,3 +670,144 @@
 @utility pb-safe {
   padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
 }
+
+/* ============================================================
+   ANCHORED — MOTION AND INTERACTION
+
+   All of it is scroll-driven CSS rather than JavaScript: no
+   IntersectionObserver, no hydration cost, nothing to run on the main
+   thread while someone flicks down a 9,000px page on a phone.
+
+   Every rule is additive and guarded twice — by @supports, and by
+   prefers-reduced-motion: no-preference. Where the timeline is unsupported
+   (Firefox today) the declarations never apply and the content is simply
+   there, already visible. That is the whole reason these are written as
+   "animate towards the state it already has" rather than as an opacity:0
+   default: a reveal that needs script or a new browser feature to undo
+   itself will sooner or later leave somebody looking at a blank page.
+   ============================================================ */
+
+/* --- Reading progress -----------------------------------------------------
+   A hairline across the top, tied to document scroll. Hidden outright where
+   scroll timelines are unsupported, because a progress bar frozen at zero is
+   worse than no progress bar at all. */
+@keyframes anchored-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.anchored-progress {
+  display: none;
+}
+
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .anchored-progress {
+      display: block;
+      transform-origin: 0 50%;
+      animation-name: anchored-progress;
+      animation-fill-mode: both;
+      animation-timing-function: linear;
+      animation-timeline: scroll(root block);
+    }
+  }
+}
+
+/* --- Reveal ---------------------------------------------------------------
+   A short rise as a block enters. The range ends at 42% of entry, so a block
+   has finished settling well before it reaches the middle of the screen —
+   text that is still moving when you start reading it is a tax, not an
+   effect. */
+@keyframes anchored-rise {
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --- Rules draw from the centre out --------------------------------------
+   The page's whole vocabulary is the hairline, so the hairline is what moves.
+   The left half grows from its right edge and the right half from its left,
+   which puts the khatim at the origin and the motion outward from it. */
+@keyframes anchored-draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes anchored-mark {
+  from {
+    opacity: 0;
+    transform: rotate(-60deg) scale(0.3);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .anchored-rise {
+      animation-name: anchored-rise;
+      animation-fill-mode: both;
+      animation-timing-function: var(--ease-out-soft);
+      animation-timeline: view();
+      animation-range: entry 0% entry 42%;
+    }
+
+    .anchored-draw-l,
+    .anchored-draw-r,
+    .anchored-draw-mark {
+      animation-fill-mode: both;
+      animation-timing-function: var(--ease-ios);
+      animation-timeline: view();
+      animation-range: entry 0% entry 55%;
+    }
+
+    .anchored-draw-l {
+      animation-name: anchored-draw;
+      transform-origin: 100% 50%;
+    }
+
+    .anchored-draw-r {
+      animation-name: anchored-draw;
+      transform-origin: 0 50%;
+    }
+
+    .anchored-draw-mark {
+      animation-name: anchored-mark;
+    }
+  }
+}
+
+/* --- Links ---------------------------------------------------------------
+   The underline is drawn rather than switched on. `background-size` animates
+   on the compositor; `text-decoration` does not animate at all. */
+@utility link-draw {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 1px;
+  transition: background-size 0.45s var(--ease-ios);
+
+  &:hover,
+  &:focus-visible {
+    background-size: 100% 1px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    background-size: 100% 1px;
+  }
+}

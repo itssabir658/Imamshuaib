@@ -66,9 +66,15 @@ export function Khatim({ className }: { className?: string }) {
 /**
  * The hairline that divides the page, with the khatim set in a break in it.
  *
- * This is the seam between sections instead of a change of background colour.
- * The page should read as one continuous document rather than a stack of
+ * This is the seam between sections instead of a change of background colour:
+ * the page should read as one continuous document rather than a stack of
  * bands, and a ruled break is how print has always done that.
+ *
+ * It also draws itself as it comes into view, outward from the fleuron. The
+ * hairline is the page's entire visual vocabulary, so it is the thing that
+ * should move — a generic fade on the whole block would be motion borrowed
+ * from somewhere else. See the scroll-timeline rules in globals.css; where
+ * they are unsupported the rule is simply already drawn.
  */
 export function Rule({
   tone = "ink",
@@ -84,11 +90,13 @@ export function Rule({
 
   return (
     <div aria-hidden="true" className={cn("flex items-center", className)}>
-      <span className={cn("h-px flex-1", line)} />
+      <span className={cn("anchored-draw-l h-px flex-1", line)} />
       {fleuron ? (
         <>
-          <Khatim className={cn("mx-5 shrink-0", mark)} />
-          <span className={cn("h-px flex-1", line)} />
+          <Khatim
+            className={cn("anchored-draw-mark mx-5 shrink-0", mark)}
+          />
+          <span className={cn("anchored-draw-r h-px flex-1", line)} />
         </>
       ) : null}
     </div>
@@ -96,13 +104,22 @@ export function Rule({
 }
 
 /**
- * "X of 10 seats remaining."
+ * Seats remaining, drawn as well as counted.
  *
- * The brief asked for "a simple 'X seats remaining' field Imam Shuaib can
- * update" — `anchored.seatsRemaining` is that field. Setting it to null
- * removes the count from the page entirely, which is the right move the
- * moment nobody is keeping it current: a stale seat count on a ten-seat
- * retreat is worse than no seat count.
+ * Ten marks, one per seat, filled while the seat is free and hollow once it
+ * is gone. The retreat's own pitch is "Ten men. Two nights. One table." — ten
+ * is small enough to show rather than state, and a row you can take in at a
+ * glance does more for scarcity than a number does. It is also the one piece
+ * of information on this page that changes, so it is worth a picture.
+ *
+ * The marks are aria-hidden; the sentence beside them carries the fact. A
+ * screen reader hearing "diamond diamond diamond…" ten times would be getting
+ * less information, not more.
+ *
+ * `anchored.seatsRemaining` is the field the brief asks Imam Shuaib to keep
+ * current. Null removes the whole thing — the right move the moment nobody is
+ * updating it, because a stale count on a ten-seat retreat is worse than no
+ * count.
  */
 export function SeatCount({
   tone = "ink",
@@ -114,27 +131,40 @@ export function SeatCount({
   const left = anchored.seatsRemaining;
   if (left === null) return null;
 
-  const sold = left === 0;
+  const total = anchored.seatsTotal;
+  const ink = tone === "ink";
 
   return (
-    <p
-      className={cn(
-        "font-sans text-[0.6875rem] leading-none font-semibold tracking-[0.22em] uppercase",
-        tone === "ink" ? "text-gold-800" : "text-gold-300",
-        className,
-      )}
-    >
-      <span
-        aria-hidden="true"
+    <div className={cn("flex flex-wrap items-center gap-x-4 gap-y-3", className)}>
+      <span aria-hidden="true" className="flex items-center gap-[0.3125rem]">
+        {Array.from({ length: total }, (_, i) => (
+          <span
+            key={i}
+            className={cn(
+              "size-1.5 rotate-45 transition-colors duration-500 ease-ios",
+              i < left
+                ? ink
+                  ? "bg-gold-600"
+                  : "bg-gold-400"
+                : ink
+                  ? "border border-sand-500/70"
+                  : "border border-sand-500/50",
+            )}
+          />
+        ))}
+      </span>
+
+      <p
         className={cn(
-          "mr-2.5 inline-block size-1.5 rounded-full align-middle",
-          tone === "ink" ? "bg-gold-700" : "bg-gold-400",
+          "font-sans text-[0.6875rem] leading-none font-semibold tracking-[0.22em] uppercase",
+          ink ? "text-gold-800" : "text-gold-300",
         )}
-      />
-      {sold
-        ? "All seats taken — ask about the waiting list"
-        : `${left} of ${anchored.seatsTotal} seats remaining`}
-    </p>
+      >
+        {left === 0
+          ? "All seats taken — ask about the waiting list"
+          : `${left} of ${total} seats remaining`}
+      </p>
+    </div>
   );
 }
 
@@ -144,6 +174,13 @@ export function SeatCount({
  * The rest of the site uses pills. This page is a printed invitation to ten
  * men, not a product surface, and the squared edge is most of what carries
  * that difference.
+ *
+ * It lifts a pixel under the cursor and sinks under a press. That pair is
+ * what makes a control feel like a physical thing rather than a coloured
+ * rectangle, and the press state is the half most pages forget — it is the
+ * only feedback a touch device gets at all, since it never hovers. Both are
+ * `motion-safe`, so a reduced-motion setting leaves the colour change and
+ * drops the movement.
  */
 export function Reserve({
   children,
@@ -155,19 +192,22 @@ export function Reserve({
   className?: string;
 }) {
   return (
-    <a
-      href={RESERVE_HREF}
-      className={cn(
-        "inline-flex h-13 items-center justify-center rounded-[2px] px-9",
-        "font-sans text-[0.6875rem] font-semibold tracking-[0.18em] uppercase",
-        "transition-colors duration-300 ease-ios",
-        tone === "ink"
-          ? "bg-charcoal text-ivory hover:bg-charcoal-800"
-          : "bg-ivory text-charcoal hover:bg-sand-100",
-        className,
-      )}
-    >
+    <a href={RESERVE_HREF} className={cn(reserveClasses(tone), className)}>
       {children}
     </a>
+  );
+}
+
+/** Shared so the deposit step's button is the same object, not a copy. */
+export function reserveClasses(tone: "ink" | "paper" = "ink") {
+  return cn(
+    "inline-flex h-13 items-center justify-center rounded-[2px] px-9",
+    "font-sans text-[0.6875rem] font-semibold tracking-[0.18em] uppercase",
+    "transition-[background-color,transform,box-shadow] duration-300 ease-ios",
+    "motion-safe:hover:-translate-y-px motion-safe:active:translate-y-0",
+    "motion-safe:active:scale-[0.985] active:duration-75",
+    tone === "ink"
+      ? "bg-charcoal text-ivory hover:bg-charcoal-800 hover:shadow-[0_12px_28px_-16px_rgb(28_26_23/0.7)]"
+      : "bg-ivory text-charcoal hover:bg-sand-100 hover:shadow-[0_12px_28px_-16px_rgb(0_0_0/0.8)]",
   );
 }

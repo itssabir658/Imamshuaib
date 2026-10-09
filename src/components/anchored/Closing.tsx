@@ -15,7 +15,7 @@ export function Closing() {
       className="bg-charcoal py-20 sm:py-24 lg:py-28"
     >
       <Container>
-        <div className="mx-auto flex max-w-2xl flex-col items-center text-center">
+        <div className="anchored-rise mx-auto flex max-w-2xl flex-col items-center text-center">
           <Khatim aria-hidden="true" className="size-4 text-gold-400" />
 
           <h2

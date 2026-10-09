@@ -29,11 +29,11 @@ export function TheWork() {
           {anchored.work.map((w, i) => (
             <li
               key={w.title}
-              className="grid gap-x-10 gap-y-4 border-t border-sand-400 py-9 first:border-t-0 sm:py-10 lg:grid-cols-[4.5rem_minmax(0,19rem)_minmax(0,1fr)]"
+              className="anchored-rise group -mx-4 grid gap-x-10 gap-y-4 border-t border-sand-400 px-4 py-9 transition-colors duration-500 ease-ios first:border-t-0 hover:bg-sand-50 sm:py-10 lg:grid-cols-[4.5rem_minmax(0,19rem)_minmax(0,1fr)]"
             >
               <span
                 aria-hidden="true"
-                className="font-display text-[2rem] leading-none font-bold tabular-nums text-sand-500"
+                className="font-display text-[2rem] leading-none font-bold tabular-nums text-sand-500 transition-[color,transform] duration-500 ease-ios group-hover:text-gold-800 motion-safe:group-hover:translate-x-1"
               >
                 {String(i + 1).padStart(2, "0")}
               </span>

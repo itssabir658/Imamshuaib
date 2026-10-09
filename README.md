@@ -236,6 +236,44 @@ current: a stale count on a ten-seat retreat is worse than no count.
 should ever be added; the card route hands off to Stripe's own hosted page,
 which is what keeps the site out of PCI scope.
 
+### Interaction
+
+All of the motion is **scroll-driven CSS** — no IntersectionObserver, no
+hydration cost, nothing running on the main thread while someone flicks down
+9,000px on a phone. Every rule is guarded twice, by `@supports` and by
+`prefers-reduced-motion: no-preference`, and written as "animate towards the
+state it already has". Where scroll timelines are unsupported (Firefox today)
+the declarations never apply and the content is simply there. A reveal that
+needs script or a new browser feature to undo itself eventually leaves
+somebody looking at a blank page.
+
+- **A reading-progress hairline.** The page has no navigation and the only
+  orientation otherwise is a scrollbar that fades on a phone. It removes
+  itself entirely where scroll timelines are unsupported, because a progress
+  bar frozen at zero is worse than none.
+- **The rules draw themselves**, outward from the khatim: left half grows from
+  its right edge, right half from its left. The hairline is the page's whole
+  visual vocabulary, so the hairline is what moves — a generic fade on each
+  block would be motion borrowed from another page.
+- **Blocks rise as they enter**, finishing at 42% of entry so nothing is still
+  moving by the time it is readable.
+- **Seats are drawn, not just counted.** Ten marks, filled while free, hollow
+  once gone. The pitch is "Ten men. Two nights. One table." — ten is small
+  enough to show rather than state, and it is the one thing on the page that
+  changes. The marks are `aria-hidden`; the sentence beside them carries the
+  fact, because "diamond" ten times is less information, not more.
+- **Day headings stick on a phone.** Stacked, the schedule is twenty-one lines
+  and it stops being obvious which day you are in halfway down Saturday. On
+  desktop the three columns answer that themselves, so the behaviour is
+  dropped rather than left on.
+- **Rows respond.** The index numerals shift and warm, the property and
+  audience lines grow a rule out of the margin, schedule items thicken their
+  dash. Buttons lift under a cursor and sink under a press — the press half is
+  the one most pages forget, and it is the only feedback a touch device ever
+  gets, since it never hovers.
+- **Underlines are drawn** via `background-size`, which animates on the
+  compositor; `text-decoration` does not animate at all.
+
 ### The promo video
 
 464×832, 66 seconds, 10.9 MB, at `public/video/anchored-promo.mp4`. It is

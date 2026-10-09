@@ -63,6 +63,9 @@ export const anchored = {
     src: "/video/anchored-promo.mp4",
     width: 464,
     height: 832,
+    /** Seconds. Measured off the file, shown on the play overlay so people
+     *  know what they are committing to before they tap. */
+    duration: 66,
     poster: null,
     /** ⚠️ An English .vtt. Null is allowed so a missing captions file cannot
      *  block the video going up, but the page then shows a warning — see
@@ -72,6 +75,7 @@ export const anchored = {
     src: string;
     width: number;
     height: number;
+    duration: number;
     poster: string | null;
     captions: string | null;
   } | null,

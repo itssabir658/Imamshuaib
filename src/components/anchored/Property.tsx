@@ -27,9 +27,17 @@ export function Property() {
           {anchored.property.map((line) => (
             <li
               key={line}
-              className="border-t border-sand-400 py-6 font-display text-[clamp(1.125rem,1rem+0.7vw,1.5rem)]/[1.35] font-medium text-balance text-charcoal last:border-b"
+              className="anchored-rise group flex items-baseline gap-0 border-t border-sand-400 py-6 last:border-b"
             >
-              {line}
+              {/* A hairline that grows out of the margin under the cursor.
+                  The page is built out of rules, so the rule is what reacts. */}
+              <span
+                aria-hidden="true"
+                className="mt-[0.7em] h-px w-0 shrink-0 bg-gold-700 transition-[width] duration-500 ease-ios group-hover:w-6"
+              />
+              <span className="font-display text-[clamp(1.125rem,1rem+0.7vw,1.5rem)]/[1.35] font-medium text-balance text-charcoal transition-[padding] duration-500 ease-ios group-hover:pl-4">
+                {line}
+              </span>
             </li>
           ))}
         </ul>

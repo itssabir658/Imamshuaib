@@ -26,7 +26,7 @@ export function Promises() {
           {anchored.promises.map((p) => (
             <li
               key={p.lead}
-              className="border-t border-sand-400 pt-8 pb-9 last:pb-0 lg:pt-10 lg:pr-12 lg:pb-0"
+              className="anchored-rise border-t border-sand-400 pt-8 pb-9 last:pb-0 lg:pt-10 lg:pr-12 lg:pb-0"
             >
               <h3 className="font-display text-h3 font-bold text-charcoal">
                 {p.lead}

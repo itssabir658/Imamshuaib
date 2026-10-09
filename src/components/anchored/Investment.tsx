@@ -1,6 +1,6 @@
 import { anchored } from "@/content/anchored";
 import { Container } from "@/components/ui/Container";
-import { Label, RESERVE_HREF, Rule, SeatCount } from "./Type";
+import { Label, RESERVE_HREF, Rule, SeatCount, reserveClasses } from "./Type";
 
 /**
  * Price, and the deposit step.
@@ -37,7 +37,7 @@ export function Investment() {
           {anchored.investment.tiers.map((tier) => (
             <div
               key={tier.name}
-              className="border-t border-sand-400 pt-8 pb-8 last:pb-0 sm:pr-10 sm:pb-0"
+              className="anchored-rise border-t border-sand-400 pt-8 pb-8 last:pb-0 sm:pr-10 sm:pb-0"
             >
               <Label>{tier.name}</Label>
               <p className="mt-5 font-display text-[clamp(2.5rem,2rem+2.4vw,3.75rem)] leading-none font-bold tabular-nums text-charcoal">
@@ -65,17 +65,14 @@ export function Investment() {
               {anchored.investment.terms}
             </p>
 
-            <a
-              href={RESERVE_HREF}
-              className="mt-9 inline-flex h-13 items-center justify-center rounded-[2px] bg-charcoal px-9 font-sans text-[0.6875rem] font-semibold tracking-[0.18em] text-ivory uppercase transition-colors duration-300 ease-ios hover:bg-charcoal-800"
-            >
+<a href={RESERVE_HREF} className={`${reserveClasses()} mt-9`}>
               {anchored.investment.cta}
             </a>
 
             <SeatCount className="mt-7" />
           </div>
 
-          <div className="rounded-[2px] bg-sand-50 p-7 ring-1 ring-sand-400 sm:p-8">
+          <div className="anchored-rise rounded-[2px] bg-sand-50 p-7 ring-1 ring-sand-400 sm:p-8">
             <Label>{anchored.investment.payment}</Label>
 
             <ul className="mt-7 space-y-7">
@@ -113,7 +110,7 @@ export function Investment() {
                       Send ${"250"} to{" "}
                       <a
                         href={`mailto:${anchored.etransferTo}`}
-                        className="font-semibold break-all text-gold-800 underline underline-offset-4"
+                        className="link-draw font-semibold break-all text-gold-800"
                       >
                         {anchored.etransferTo}
                       </a>
@@ -130,7 +127,7 @@ export function Investment() {
                       . Until then,{" "}
                       <a
                         href="/contact?program=anchored-retreat"
-                        className="font-semibold text-gold-800 underline underline-offset-4"
+                        className="link-draw font-semibold text-gold-800"
                       >
                         ask for it here
                       </a>

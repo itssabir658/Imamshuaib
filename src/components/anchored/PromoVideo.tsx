@@ -1,5 +1,6 @@
 import { anchored } from "@/content/anchored";
 import { Container } from "@/components/ui/Container";
+import { PromoPlayer } from "./PromoPlayer";
 import { Label, Rule } from "./Type";
 
 /**
@@ -35,26 +36,14 @@ export function PromoVideo() {
         <div className="flex flex-col items-center py-14 sm:py-16">
           {video ? (
             <>
-              <video
-                controls
-                playsInline
-                preload="metadata"
-                poster={video.poster ?? undefined}
+              <PromoPlayer
+                src={video.src}
                 width={video.width}
                 height={video.height}
-                className="w-full max-w-[29rem] rounded-[2px] bg-charcoal ring-1 ring-sand-400"
-              >
-                <source src={video.src} type="video/mp4" />
-                {video.captions ? (
-                  <track
-                    kind="captions"
-                    src={video.captions}
-                    srcLang="en"
-                    label="English"
-                    default
-                  />
-                ) : null}
-              </video>
+                duration={video.duration}
+                poster={video.poster}
+                captions={video.captions}
+              />
 
               {video.captions ? null : (
                 <p className="mt-6 max-w-sm text-center font-sans text-sm text-sand-700">

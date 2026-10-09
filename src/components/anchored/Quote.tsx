@@ -24,7 +24,7 @@ export function Quote({ index }: { index: number }) {
   return (
     <section className="bg-charcoal py-20 sm:py-24">
       <Container>
-        <figure className="mx-auto max-w-3xl text-center">
+        <figure className="anchored-rise mx-auto max-w-3xl text-center">
           <Khatim aria-hidden="true" className="mx-auto size-4 text-gold-400" />
 
           <blockquote className="mt-8">

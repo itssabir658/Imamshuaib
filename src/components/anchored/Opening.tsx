@@ -18,7 +18,7 @@ export function Opening() {
       <Container>
         <Rule />
 
-        <div className="mt-16 grid gap-10 sm:mt-20 lg:grid-cols-[minmax(0,24rem)_minmax(0,1fr)] lg:gap-20">
+        <div className="anchored-rise mt-16 grid gap-10 sm:mt-20 lg:grid-cols-[minmax(0,24rem)_minmax(0,1fr)] lg:gap-20">
           <h2
             id="opening-title"
             className="text-h1 font-bold text-balance text-charcoal"

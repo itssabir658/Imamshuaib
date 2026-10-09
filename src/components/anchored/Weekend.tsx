@@ -33,21 +33,28 @@ export function Weekend() {
           {anchored.schedule.map((day) => (
             <div
               key={day.day}
-              className="border-t border-sand-400 pt-8 pb-10 last:pb-0 lg:pt-10 lg:pr-12 lg:pb-0"
+              className="anchored-rise border-t border-sand-400 pt-8 pb-10 last:pb-0 lg:pt-10 lg:pr-12 lg:pb-0"
             >
-              <h3 className="font-display text-h3 font-bold text-charcoal">
-                {day.day}
-              </h3>
+              {/* Stuck to the top on a phone, static in its column from lg.
+                  Stacked, the three days are twenty-one lines deep and it
+                  stops being obvious which day you are reading halfway down
+                  Saturday. On desktop the columns answer that by themselves,
+                  so the sticky behaviour is dropped rather than left on. */}
+              <div className="sticky top-0 z-10 -mx-5 bg-ivory px-5 py-3 sm:-mx-8 sm:px-8 lg:static lg:mx-0 lg:bg-transparent lg:px-0 lg:py-0">
+                <h3 className="font-display text-h3 font-bold text-charcoal">
+                  {day.day}
+                </h3>
+              </div>
 
               <ol className="mt-6 space-y-3.5">
                 {day.items.map((item) => (
                   <li
                     key={item}
-                    className="flex gap-3.5 font-sans text-[0.9375rem]/snug text-charcoal-600"
+                    className="group flex gap-3.5 font-sans text-[0.9375rem]/snug text-charcoal-600 transition-colors duration-500 ease-ios hover:text-charcoal"
                   >
                     <span
                       aria-hidden="true"
-                      className="mt-2 h-px w-3 shrink-0 bg-sand-500"
+                      className="mt-2 h-px w-3 shrink-0 bg-sand-500 transition-[width,background-color] duration-500 ease-ios group-hover:w-5 group-hover:bg-gold-700"
                     />
                     <span className="max-w-[22rem]">{item}</span>
                   </li>

@@ -38,6 +38,16 @@ export default function AnchoredLayout({
     <div className="relative bg-ivory">
       <SkipLink />
 
+      {/* Reading progress. This page is around 9,000px on a phone and has no
+          navigation, so the only orientation on offer is the scrollbar — and
+          on a phone that is a hint that fades. Scroll-driven CSS, no JS; it
+          removes itself entirely where scroll timelines are unsupported,
+          because a progress bar stuck at zero is worse than none. */}
+      <div
+        aria-hidden="true"
+        className="anchored-progress pointer-events-none fixed inset-x-0 top-0 z-60 h-0.5 origin-left bg-gold-500"
+      />
+
       <header className="absolute inset-x-0 top-0 z-20 pt-6 sm:pt-8">
         <Container className="flex items-center justify-between gap-4">
           <Logo />
