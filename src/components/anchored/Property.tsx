@@ -1,5 +1,6 @@
 import { anchored } from "@/content/anchored";
 import { Container } from "@/components/ui/Container";
+import { withHonorific } from "./Honorific";
 import { Label } from "./Type";
 
 /**
@@ -45,7 +46,7 @@ export function Property() {
                   className="mt-[0.7em] h-px w-0 shrink-0 bg-gold-300 transition-[width] duration-500 ease-ios group-hover:w-7"
                 />
                 <span className="font-display text-[clamp(1.25rem,1.05rem+1.1vw,2rem)]/[1.22] font-medium text-balance text-ivory transition-[padding] duration-500 ease-ios group-hover:pl-5">
-                  {line}
+                  {withHonorific(line)}
                 </span>
               </li>
             ))}

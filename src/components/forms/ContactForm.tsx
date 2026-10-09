@@ -2,11 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { contactTopics, services } from "@/content/site";
+import { ANCHORED_TOPIC, contactTopics, services } from "@/content/site";
 import { ButtonAction } from "@/components/ui/Button";
 import { Field, FormResult, isEmail } from "./Field";
 
-type Errors = Partial<Record<"name" | "email" | "message", string>>;
+type Errors = Partial<Record<"name" | "email" | "message" | "outcome", string>>;
 
 /**
  * The contact form.
@@ -23,6 +23,13 @@ type Errors = Partial<Record<"name" | "email" | "message", string>>;
 export function ContactForm() {
   const params = useSearchParams();
   const preselected = params.get("program") ?? "";
+
+  // The topic is controlled rather than left to defaultValue, because one
+  // extra question appears and becomes required when the Anchored retreat is
+  // selected. Everyone else — someone asking about a nikah — should not have
+  // to answer it, which is why it is conditional rather than always on.
+  const [program, setProgram] = useState(preselected);
+  const askOutcome = program === ANCHORED_TOPIC;
 
   const [errors, setErrors] = useState<Errors>({});
   const [sent, setSent] = useState(false);
@@ -52,6 +59,7 @@ export function ContactForm() {
     const name = String(data.get("name") ?? "").trim();
     const email = String(data.get("email") ?? "").trim();
     const message = String(data.get("message") ?? "").trim();
+    const outcome = String(data.get("outcome") ?? "").trim();
 
     const next: Errors = {};
     if (!name) next.name = "Please tell us your name.";
@@ -60,6 +68,8 @@ export function ContactForm() {
       next.email = "That does not look like an email address.";
     if (message.length < 10)
       next.message = "A sentence or two about what you need, please.";
+    if (askOutcome && !outcome)
+      next.outcome = "Please answer this one — it shapes the weekend.";
 
     attempts.current += 1;
     setErrors(next);
@@ -109,7 +119,12 @@ export function ContactForm() {
 
       <Field label="What is this about?">
         {(p) => (
-          <select {...p} name="program" defaultValue={preselected}>
+          <select
+            {...p}
+            name="program"
+            value={program}
+            onChange={(e) => setProgram(e.target.value)}
+          >
             <option value="">Something else</option>
             {services.map((s) => (
               <option key={s.id} value={s.id}>
@@ -124,6 +139,23 @@ export function ContactForm() {
           </select>
         )}
       </Field>
+
+      {askOutcome ? (
+        <Field
+          label="What is the one thing you are hoping to walk away clearer on?"
+          required
+          error={errors.outcome}
+        >
+          {(p) => (
+            <textarea
+              {...p}
+              name="outcome"
+              rows={4}
+              className={`${p.className} resize-y`}
+            />
+          )}
+        </Field>
+      ) : null}
 
       <Field label="Message" required error={errors.message}>
         {(p) => <textarea {...p} name="message" rows={6} className={`${p.className} resize-y`} />}

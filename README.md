@@ -343,6 +343,32 @@ somebody looking at a blank page.
 - **Underlines are drawn** via `background-size`, which animates on the
   compositor; `text-decoration` does not animate at all.
 
+### Honorifics
+
+Every "(peace be upon him)" is the ﷺ ligature (U+FDFA) now, in three places:
+the Al-Fatiha card, the archery line and the al-Tirmidhi attribution.
+
+It is not left as a bare character in the copy. `withHonorific()` in
+`anchored/Honorific.tsx` wraps it in `<span lang="ar">`, because the script
+changes mid-sentence and that is what WCAG 3.1.2 asks for — a screen reader
+with an Arabic voice then announces the phrase rather than handing the glyph
+to an English dictionary. Neither Gilroy nor Montserrat contains it, so it
+falls through to Segoe UI, Geeza Pro or Noto depending on platform; those
+render it noticeably smaller than the surrounding Latin, hence the size nudge.
+
+### The registration question
+
+The Reserve buttons point at the contact form, so the form asks one extra
+question — "What is the one thing you are hoping to walk away clearer on?" —
+when the Anchored topic is selected, and requires it.
+
+**Conditional on purpose.** Someone asking about a nikah should not have to
+answer it, so the topic select is controlled rather than left to
+`defaultValue`, and the field appears and disappears with it. `ANCHORED_TOPIC`
+is exported from `src/content/site.ts` because two places have to agree on
+that id exactly — the Reserve links and this condition — and a typo in either
+would drop the question silently.
+
 ### The promo video
 
 464×832, 66 seconds, 10.9 MB, at `public/video/anchored-promo.mp4`. It is
@@ -360,6 +386,14 @@ frame anyway.
 ⚠️ **It has no captions track and it is a piece to camera.** That fails WCAG
 1.2.2, and this page's audience arrives from feeds they scroll with the sound
 off. The page says so on itself until `anchored.video.captions` is set.
+
+⚠️ **A 4K master exists and is not what should be served.** The second
+Dropbox link supplied on 9 October is the same 66-second clip at 2160×3840,
+~55 Mbps, **452 MB**, with its `moov` atom after `mdat` — so it cannot even
+begin playing until the whole file has downloaded. It is a camera master, not
+a web export. What the page needs is roughly 1080×1920, a few Mbps, faststart;
+that is a transcode, and there is no ffmpeg on this machine. Until one exists
+the page keeps the 10.9 MB cut, which works.
 
 ## The Al-Aqsa landing page
 

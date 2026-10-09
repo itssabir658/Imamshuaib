@@ -1,4 +1,5 @@
 import { anchored } from "@/content/anchored";
+import { ANCHORED_TOPIC } from "@/content/site";
 import { cn } from "@/lib/cn";
 
 /**
@@ -12,7 +13,7 @@ import { cn } from "@/lib/cn";
  * lands nowhere.
  */
 export const RESERVE_HREF =
-  anchored.cardHref ?? "/contact?program=anchored-retreat";
+  anchored.cardHref ?? `/contact?program=${ANCHORED_TOPIC}`;
 
 /**
  * The small engraved label — the page's running quiet voice beside the big

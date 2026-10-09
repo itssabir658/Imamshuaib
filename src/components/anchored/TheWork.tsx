@@ -1,5 +1,6 @@
 import { anchored } from "@/content/anchored";
 import { Container } from "@/components/ui/Container";
+import { withHonorific } from "./Honorific";
 import { Label } from "./Type";
 
 /**
@@ -52,7 +53,7 @@ export function TheWork() {
               </div>
 
               <p className="max-w-[34rem] font-sans text-[0.9375rem]/relaxed text-charcoal-600 lg:pt-1">
-                {w.body}
+                {withHonorific(w.body)}
               </p>
             </li>
           ))}

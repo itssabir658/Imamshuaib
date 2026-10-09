@@ -367,7 +367,15 @@ export function getService(slug: string) {
  * message arrives unlabelled. The Al-Aqsa landing page sends every
  * registration here, which makes that the one label that must not be lost.
  */
+/**
+ * The Anchored retreat's topic id, exported on its own because two places
+ * depend on it matching exactly: the Reserve links on /anchored, and the
+ * contact form, which asks one extra question when this topic is selected.
+ * A typo in either would silently drop that question.
+ */
+export const ANCHORED_TOPIC = "anchored-retreat";
+
 export const contactTopics = [
   { id: "al-aqsa-tour", label: "Journey to Al-Aqsa — tour registration" },
-  { id: "anchored-retreat", label: "Anchored — men's retreat, November 2026" },
+  { id: ANCHORED_TOPIC, label: "Anchored — men's retreat, November 2026" },
 ] as const;

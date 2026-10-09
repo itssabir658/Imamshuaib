@@ -1,5 +1,6 @@
 import { anchored } from "@/content/anchored";
 import { Container } from "@/components/ui/Container";
+import { withHonorific } from "./Honorific";
 import { Khatim } from "./Type";
 
 /**
@@ -47,7 +48,7 @@ export function QuoteFigure({
       </blockquote>
 
       <figcaption className="mt-7 font-sans text-[0.6875rem] leading-none font-semibold tracking-[0.22em] text-sand-300 uppercase">
-        {quote.source}
+        {withHonorific(quote.source)}
       </figcaption>
     </figure>
   );

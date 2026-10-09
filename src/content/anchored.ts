@@ -131,19 +131,27 @@ export const anchored = {
     },
   ],
 
-  /** SECTION 3 — the teaching. */
+  /**
+   * SECTION 3 — the teaching.
+   *
+   * Revised 9 October 2026. Al-Fatiha went from three sessions to one,
+   * "The servants of the Most Merciful" came in as 02, and "Sacred manhood"
+   * came out — that material now sits inside the Sunday closing circle rather
+   * than having a session of its own. The order here IS the running order;
+   * the schedule below has to agree with it.
+   */
   work: [
     {
       title: "Surah Al-Fatiha, up close.",
-      body: "Three sessions on the surah the Prophet (peace be upon him) called the greatest in the Qur'an. Not translation. Who Allah is, and what the seven verses you recite seventeen times a day are actually asking of you.",
+      body: "One in-depth session on the surah the Prophet (ﷺ) called the greatest in the Qur'an. Not translation. Who Allah is, and what the seven verses you recite seventeen times a day are actually asking of you.",
+    },
+    {
+      title: "The servants of the Most Merciful.",
+      body: "13 qualities Allah uses to describe the believers in Surah Al-Furqan. Humility that is not weakness. Spending that is neither wasteful nor stingy. Walking past nonsense with dignity. What these look like in a career, a marriage and a group chat.",
     },
     {
       title: "The diseases of the heart.",
       body: "Anger. Arrogance. Heedlessness. Love of the world. Each one named honestly, each one with a prophetic remedy. Drawn from the classical tradition of self-purification.",
-    },
-    {
-      title: "Sacred manhood.",
-      body: "The virtues upright men were deliberately raised into, and that almost no one is raised into now. Truthfulness, humility, courage, service, brotherhood.",
     },
     {
       title: "Understanding the monthly cycle.",
@@ -154,7 +162,7 @@ export const anchored = {
   /** SECTION 4 — the land. */
   property: [
     "Horseback riding on the land, both days.",
-    "Archery. The Prophet (peace be upon him) said strength is in shooting.",
+    "Archery. The Prophet (ﷺ) said strength is in shooting.",
     "Bonfire, where the real conversations happen.",
     "Hot tub, for after the trail.",
     "Fully catered by world renowned Chef Baig. Every meal, properly done.",
@@ -183,10 +191,10 @@ export const anchored = {
       items: [
         "Fajr in jama'ah and morning adhkar",
         "Breakfast",
-        "Session: Surah Al-Fatiha, parts one and two",
+        "Session: Surah Al-Fatiha, up close",
         "Horseback riding and archery",
         "Dhuhr, lunch, rest",
-        "Session: The diseases of the heart",
+        "Session: The servants of the Most Merciful",
         "Asr",
         "Session: Understanding the monthly cycle",
         "Maghrib, dinner, Isha",
@@ -198,8 +206,8 @@ export const anchored = {
       items: [
         "Fajr and morning adhkar",
         "Breakfast",
-        "Closing session: Surah Al-Fatiha part three, and what you carry home",
-        "What happens next",
+        "Session: The diseases of the heart",
+        "Closing circle: what you carry home",
         "12:00 PM departure",
       ],
     },
@@ -285,7 +293,7 @@ export const anchored = {
     },
     {
       text: "The best of you is the best to his family, and I am the best of you to my family.",
-      source: "The Prophet (peace be upon him), al-Tirmidhi",
+      source: "The Prophet (ﷺ), al-Tirmidhi",
       used: true,
     },
     {

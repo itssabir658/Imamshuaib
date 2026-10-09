@@ -55,10 +55,11 @@ export function WhoFor() {
 /**
  * The host.
  *
- * The one photograph in the project that fits this page — outdoors, on grass,
- * in front of conifers, in earth tones. It is 338×469, so it is displayed at
- * close to native width and never upscaled; `sizes` matches, so no larger
- * variant is requested that does not exist.
+ * The portrait the owner supplied for this page: 637×638, near enough square,
+ * shot indoors. It is displayed at 256–288px, comfortably under native, so it
+ * stays crisp; `sizes` matches so no larger variant is requested than exists.
+ * The source is a 434 KB PNG — next/image re-encodes it to WebP or AVIF on
+ * serve, so what a visitor downloads is a fraction of that.
  *
  * Set against the copy rather than beside it: the portrait runs off the top
  * of the text block and the paragraph is hung level with his shoulders, which
@@ -80,12 +81,12 @@ export function Host() {
       <Container>
         <div className="anchored-rise flex flex-col gap-10 sm:flex-row sm:items-end sm:gap-14 lg:gap-20">
           <Image
-            src="/images/imam-shuaib-outdoors.webp"
-            alt="Imam Shuaib, standing outdoors in front of pine trees"
-            width={338}
-            height={469}
-            sizes="(min-width: 640px) 320px, 260px"
-            className="w-64 shrink-0 object-cover sm:w-80"
+            src="/images/imam-shuaib-portrait.png"
+            alt="Imam Shuaib, in a grey thobe and cream kufi"
+            width={637}
+            height={638}
+            sizes="(min-width: 640px) 288px, 256px"
+            className="w-64 shrink-0 rounded-[2px] object-cover sm:w-72"
           />
 
           <div className="max-w-xl sm:pb-4">
