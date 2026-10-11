@@ -71,7 +71,7 @@ export function Investment() {
               {anchored.investment.cta}
             </a>
 
-            <SeatsLine className="mt-7" />
+            <SeatsLine className="mt-9" />
           </div>
 
           <div className="anchored-rise bg-charcoal p-8 sm:p-10">

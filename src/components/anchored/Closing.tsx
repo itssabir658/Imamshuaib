@@ -29,7 +29,7 @@ export function Closing() {
             {anchored.close.cta}
           </Reserve>
 
-          <SeatsLine tone="paper" className="mt-7" />
+          <SeatsLine tone="paper" align="center" className="mt-10" />
         </div>
       </Container>
     </section>

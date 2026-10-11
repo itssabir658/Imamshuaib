@@ -112,23 +112,41 @@ export function Rule({
  * could only ever drift out of date, and a stale count on a ten-seat retreat
  * is worse than none.
  *
- * The ten marks stay, because they are now literal rather than a gauge — ten
- * marks for ten seats, all identical, so nothing in them can be read as an
- * availability reading. They are aria-hidden; the sentence carries the fact,
- * since a screen reader hearing "diamond" ten times gets less information,
- * not more.
+ * It then spent a day set the way the counter had been — 11px, uppercase,
+ * 0.22em of tracking, `leading-none` — and looked cluttered, because that is
+ * a treatment for a two-word label and this is a seven-word sentence. At that
+ * size it wrapped to two lines and `leading-none` jammed them together, with
+ * the marks stranded to the left of a ragged block.
+ *
+ * So it is set as the sentence it is: sentence case, readable size, real line
+ * height, and the marks moved onto their own line above with space under them
+ * rather than sharing a row the text was going to outgrow.
+ *
+ * The ten marks are literal rather than a gauge — ten marks for ten seats,
+ * all identical, so nothing in them can be read as an availability reading.
+ * They are aria-hidden; the sentence carries the fact, since a screen reader
+ * hearing "diamond" ten times gets less information, not more.
  */
 export function SeatsLine({
   tone = "ink",
+  align = "start",
   className,
 }: {
   tone?: "ink" | "paper";
+  /** "center" for the closing block, which is a centred column. */
+  align?: "start" | "center";
   className?: string;
 }) {
   const ink = tone === "ink";
 
   return (
-    <div className={cn("flex flex-wrap items-center gap-x-4 gap-y-3", className)}>
+    <div
+      className={cn(
+        "flex flex-col gap-3.5",
+        align === "center" ? "items-center text-center" : "items-start",
+        className,
+      )}
+    >
       <span aria-hidden="true" className="flex items-center gap-[0.3125rem]">
         {Array.from({ length: anchored.seatsTotal }, (_, i) => (
           <span
@@ -143,7 +161,7 @@ export function SeatsLine({
 
       <p
         className={cn(
-          "font-sans text-[0.6875rem] leading-none font-semibold tracking-[0.22em] uppercase",
+          "max-w-[26ch] font-sans text-sm/relaxed font-medium",
           ink ? "text-gold-800" : "text-gold-300",
         )}
       >

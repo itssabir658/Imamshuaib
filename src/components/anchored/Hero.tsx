@@ -72,9 +72,9 @@ export function Hero() {
               {anchored.hero.cta}
             </Reserve>
 
-            <SeatsLine tone="paper" className="mt-7" />
+            <SeatsLine tone="paper" className="mt-9" />
 
-            <p className="mt-3 font-sans text-sm text-sand-300">
+            <p className="mt-5 font-sans text-sm/relaxed text-sand-300">
               {anchored.hero.note}
             </p>
           </div>

@@ -116,7 +116,14 @@ export const anchored = {
     line: "For the man who has been strong for everyone else.",
     scale: "Ten men. Two nights. One table.",
     cta: "Reserve your seat",
-    note: "10 seats only. $250 deposit secures your place.",
+    /**
+     * Was "10 seats only. $250 deposit secures your place." The "10 seats
+     * only" half was cut on 11 October: the line directly above it now reads
+     * "Ten seats. Confirmed personally by Imam Shuaib.", and two consecutive
+     * lines opening on the same fact was most of why the stack felt cluttered.
+     * The deposit is the only thing this line still needs to carry.
+     */
+    note: "$250 deposit secures your place.",
   },
 
   opening: {
