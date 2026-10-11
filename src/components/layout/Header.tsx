@@ -51,6 +51,11 @@ export function Header() {
 
   const overHero = !scrolled && DARK_HERO_ROUTES.has(pathname);
 
+  // No Donate CTA on /contact. Asked for on the Anchored reservation view,
+  // and right for the whole route: a page someone reached in order to send a
+  // message should not be competing with them for a different action.
+  const showDonate = pathname !== "/contact";
+
   return (
     <header
       className={cn(
@@ -93,13 +98,15 @@ export function Header() {
         </nav>
 
         <div className="ml-auto flex items-center gap-2 lg:ml-3">
-          <Button
-            href="/donate"
-            variant="gold"
-            className="hidden sm:inline-flex"
-          >
-            Donate
-          </Button>
+          {showDonate ? (
+            <Button
+              href="/donate"
+              variant="gold"
+              className="hidden sm:inline-flex"
+            >
+              Donate
+            </Button>
+          ) : null}
 
           <button
             ref={menuTrigger}
@@ -131,6 +138,7 @@ export function Header() {
       </div>
 
       <MobileMenu
+        showDonate={showDonate}
         open={menuOpen}
         mounted={mounted}
         triggerRef={menuTrigger}
@@ -268,11 +276,13 @@ function MobileMenu({
   mounted,
   triggerRef,
   onClose,
+  showDonate,
 }: {
   open: boolean;
   mounted: boolean;
   triggerRef: React.RefObject<HTMLButtonElement | null>;
   onClose: () => void;
+  showDonate: boolean;
 }) {
   const panel = useRef<HTMLDivElement>(null);
 
@@ -387,17 +397,19 @@ function MobileMenu({
           </ul>
         </nav>
 
-        <div className="flex items-center gap-3 border-t border-line px-5 py-5">
-          <Button
-            href="/donate"
-            variant="gold"
-            size="lg"
-            className="flex-1"
-            onClick={onClose}
-          >
-            Donate
-          </Button>
-        </div>
+        {showDonate ? (
+          <div className="flex items-center gap-3 border-t border-line px-5 py-5">
+            <Button
+              href="/donate"
+              variant="gold"
+              size="lg"
+              className="flex-1"
+              onClick={onClose}
+            >
+              Donate
+            </Button>
+          </div>
+        ) : null}
         <p className="px-5 pb-6 text-sm text-muted">
           <a
             href={"mailto:" + site.email}

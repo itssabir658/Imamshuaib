@@ -1,6 +1,6 @@
 import { anchored } from "@/content/anchored";
 import { Container } from "@/components/ui/Container";
-import { Label, RESERVE_HREF, Rule, SeatCount, reserveClasses } from "./Type";
+import { Label, RESERVE_HREF, Rule, SeatsLine, reserveClasses } from "./Type";
 
 /**
  * Price, and the deposit step.
@@ -71,74 +71,27 @@ export function Investment() {
               {anchored.investment.cta}
             </a>
 
-            <SeatCount className="mt-7" />
+            <SeatsLine className="mt-7" />
           </div>
 
           <div className="anchored-rise bg-charcoal p-8 sm:p-10">
-            <Label tone="paper">{anchored.investment.payment}</Label>
+            <Label tone="paper">{anchored.investment.howTitle}</Label>
 
-            <ul className="mt-7 space-y-7">
-              <li>
-                <h3 className="font-display text-base font-bold text-ivory">
-                  Card
-                </h3>
-                <p className="mt-2 font-sans text-sm/relaxed text-sand-300">
-                  {anchored.cardHref ? (
-                    <>
-                      Handled by Stripe. Card details are entered on Stripe&rsquo;s
-                      systems and never reach this website.
-                    </>
-                  ) : (
-                    <>
-                      <span aria-hidden="true">⚠️ </span>
-                      Stripe checkout is not connected yet. Add the Stripe
-                      Payment Link or Checkout route to{" "}
-                      <code className="font-mono text-[0.8125rem] text-ivory">
-                        anchored.cardHref
-                      </code>{" "}
-                      and both buttons on this page point at it.
-                    </>
-                  )}
+            <div className="mt-7 space-y-5">
+              {anchored.investment.howBody.map((line, i) => (
+                <p
+                  key={line}
+                  className={
+                    i === 0
+                      ? "font-display text-lg/snug font-bold text-ivory"
+                      : "font-sans text-sm/relaxed text-sand-300"
+                  }
+                >
+                  {line}
                 </p>
-              </li>
+              ))}
+            </div>
 
-              <li>
-                <h3 className="font-display text-base font-bold text-ivory">
-                  Interac e-Transfer
-                </h3>
-                <p className="mt-2 font-sans text-sm/relaxed text-sand-300">
-                  {anchored.etransferTo ? (
-                    <>
-                      Send ${"250"} to{" "}
-                      <a
-                        href={`mailto:${anchored.etransferTo}`}
-                        className="link-draw font-semibold break-all text-gold-300"
-                      >
-                        {anchored.etransferTo}
-                      </a>
-                      , with your full name in the message.
-                    </>
-                  ) : (
-                    <>
-                      <span aria-hidden="true">⚠️ </span>
-                      The e-transfer address has not been supplied, so the page
-                      does not print one. Add it to{" "}
-                      <code className="font-mono text-[0.8125rem] text-ivory">
-                        anchored.etransferTo
-                      </code>
-                      . Until then,{" "}
-                      <a
-                        href="/contact?program=anchored-retreat"
-                        className="link-draw font-semibold text-gold-300"
-                      >
-                        ask for it here
-                      </a>
-                      .
-                    </>
-                  )}
-                </p>
-              </li>
-            </ul>
           </div>
         </div>
       </Container>

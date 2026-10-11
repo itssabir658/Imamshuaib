@@ -30,15 +30,20 @@ export const anchored = {
   kicker: "A Men's Retreat",
   dates: "November 6 to 8, 2026",
   place: "Private countryside property, Waterdown, Ontario",
+  /** The short form, for lines where the full place would crowd the date. */
+  shortPlace: "Waterdown, Ontario",
 
   /**
-   * The one number Imam Shuaib is expected to keep current. The brief asks for
-   * "a simple 'X seats remaining' field Imam Shuaib can update" — this is it.
-   * Change the number, commit, done. Set it to null to hide the count
-   * entirely rather than publishing a stale one.
+   * A fixed line, not a counter.
+   *
+   * The original brief asked for an "X seats remaining" field for Imam Shuaib
+   * to keep current. It was removed on 11 October at his request: nothing was
+   * wired to it, so it was a number that could only ever go stale, and a
+   * stale count on a ten-seat retreat is worse than no count. This states the
+   * scale and how a seat is actually secured, both of which stay true.
    */
   seatsTotal: 10,
-  seatsRemaining: 10 as number | null,
+  seatsLine: "Ten seats. Confirmed personally by Imam Shuaib.",
 
   /**
    * The promo. "Goes directly under the hero section", per the brief.
@@ -95,20 +100,15 @@ export const anchored = {
   } | null,
 
   /**
-   * ⚠️ NEITHER DESTINATION IS SUPPLIED.
+   * THERE IS NO ONLINE CHECKOUT, ON PURPOSE.
    *
-   * `cardHref` must become a server route that creates a Stripe Checkout
-   * Session and redirects to Stripe's own hosted page. Card details must never
-   * be entered on this site — that is what keeps the whole thing out of PCI
-   * scope, and it is the same decision taken on /donate.
-   *
-   * `etransferTo` is the address a brother sends an Interac e-transfer to. The
-   * brief requires card and e-transfer to be visible together at the deposit
-   * step; with this null the page says the address is confirmed by reply
-   * rather than inventing one.
+   * This page used to hold a Stripe destination and an e-transfer address,
+   * both waiting to be supplied. On 11 October Imam Shuaib settled it the
+   * other way: every seat is confirmed personally, the form is the only way
+   * in, and the deposit is arranged by reply. So there is nothing to
+   * configure here and no half-wired payment path to leave lying around —
+   * every Reserve control points at the form.
    */
-  cardHref: null as string | null,
-  etransferTo: null as string | null,
 
   hero: {
     headline: "Anchored",
@@ -242,7 +242,7 @@ export const anchored = {
   about:
     "Sixteen years of community work. He is known for one thing above all: he stays reachable. The men he has mentored are still in touch years later. That is not a tagline, it is the model.",
 
-  /** SECTION 8 — price. */
+  /** SECTION 8 — price, and how a seat is actually secured. */
   investment: {
     tiers: [
       { name: "Early Bird", price: "$495", note: "Ends October 25th" },
@@ -253,7 +253,12 @@ export const anchored = {
     deposit: "$250 deposit secures your seat. Balance due October 28, 2026.",
     terms:
       "Deposit non-refundable after October 21. Seat transferable to another brother.",
-    payment: "Pay by card or e-transfer.",
+    /** Replaces "Pay by card or e-transfer" — 11 October. */
+    howTitle: "How this works",
+    howBody: [
+      "Every seat is confirmed personally.",
+      "There is no online checkout, on purpose. Submit the short form and Imam Shuaib will be in touch within 24 hours to confirm your place and send E-transfer details for the deposit.",
+    ],
     cta: "Secure my seat",
   },
 
@@ -277,7 +282,7 @@ export const anchored = {
     },
     {
       q: "How do I pay?",
-      a: "Card payment or e-transfer. Both options appear at checkout.",
+      a: "Send Imam Shuaib a WhatsApp or a text. He will confirm your seat and send E-transfer details. There is no online checkout, every seat is confirmed personally.",
     },
     {
       q: "What happens after Sunday?",

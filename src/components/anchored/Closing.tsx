@@ -1,6 +1,6 @@
 import { anchored } from "@/content/anchored";
 import { Container } from "@/components/ui/Container";
-import { Khatim, Reserve, SeatCount } from "./Type";
+import { Khatim, Reserve, SeatsLine } from "./Type";
 
 /**
  * The close. One line, one button, nothing else on the band.
@@ -29,7 +29,7 @@ export function Closing() {
             {anchored.close.cta}
           </Reserve>
 
-          <SeatCount tone="paper" className="mt-7" />
+          <SeatsLine tone="paper" className="mt-7" />
         </div>
       </Container>
     </section>

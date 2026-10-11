@@ -61,7 +61,6 @@ export function StickyReserve() {
     return () => io.disconnect();
   }, []);
 
-  const left = anchored.seatsRemaining;
 
   return (
     <div
@@ -82,11 +81,7 @@ export function StickyReserve() {
           <span className="block font-semibold text-ivory">
             {anchored.name}
           </span>
-          {left === null
-            ? anchored.dates
-            : left === 0
-              ? "All seats taken"
-              : `${left} of ${anchored.seatsTotal} seats remaining`}
+          {anchored.dates}
         </p>
         <a
           href={RESERVE_HREF}

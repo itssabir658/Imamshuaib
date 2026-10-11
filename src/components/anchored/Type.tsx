@@ -5,15 +5,11 @@ import { cn } from "@/lib/cn";
 /**
  * Where every "reserve" control on the page points.
  *
- * `cardHref` is meant to be a Stripe-hosted destination — a Payment Link or a
- * server route that creates a Checkout Session. Either way the card details
- * are entered on Stripe's systems and never on this one, which is what keeps
- * the site out of PCI scope. Until it is set, the buttons fall back to the
- * contact form with the enquiry pre-labelled, so nobody taps Reserve and
- * lands nowhere.
+ * The form, always. There is no online checkout by design — every seat is
+ * confirmed personally — so there is no payment destination to fall back
+ * from, and nothing here that could point somewhere half-wired.
  */
-export const RESERVE_HREF =
-  anchored.cardHref ?? `/contact?program=${ANCHORED_TOPIC}`;
+export const RESERVE_HREF = `/contact?program=${ANCHORED_TOPIC}`;
 
 /**
  * The small engraved label — the page's running quiet voice beside the big
@@ -109,51 +105,37 @@ export function Rule({
 }
 
 /**
- * Seats remaining, drawn as well as counted.
+ * The scale of the thing, stated rather than counted.
  *
- * Ten marks, one per seat, filled while the seat is free and hollow once it
- * is gone. The retreat's own pitch is "Ten men. Two nights. One table." — ten
- * is small enough to show rather than state, and a row you can take in at a
- * glance does more for scarcity than a number does. It is also the one piece
- * of information on this page that changes, so it is worth a picture.
+ * This was an "X of 10 seats remaining" counter. It came out on 11 October at
+ * Imam Shuaib's request: nothing was wired to it, so it was a number that
+ * could only ever drift out of date, and a stale count on a ten-seat retreat
+ * is worse than none.
  *
- * The marks are aria-hidden; the sentence beside them carries the fact. A
- * screen reader hearing "diamond diamond diamond…" ten times would be getting
- * less information, not more.
- *
- * `anchored.seatsRemaining` is the field the brief asks Imam Shuaib to keep
- * current. Null removes the whole thing — the right move the moment nobody is
- * updating it, because a stale count on a ten-seat retreat is worse than no
- * count.
+ * The ten marks stay, because they are now literal rather than a gauge — ten
+ * marks for ten seats, all identical, so nothing in them can be read as an
+ * availability reading. They are aria-hidden; the sentence carries the fact,
+ * since a screen reader hearing "diamond" ten times gets less information,
+ * not more.
  */
-export function SeatCount({
+export function SeatsLine({
   tone = "ink",
   className,
 }: {
   tone?: "ink" | "paper";
   className?: string;
 }) {
-  const left = anchored.seatsRemaining;
-  if (left === null) return null;
-
-  const total = anchored.seatsTotal;
   const ink = tone === "ink";
 
   return (
     <div className={cn("flex flex-wrap items-center gap-x-4 gap-y-3", className)}>
       <span aria-hidden="true" className="flex items-center gap-[0.3125rem]">
-        {Array.from({ length: total }, (_, i) => (
+        {Array.from({ length: anchored.seatsTotal }, (_, i) => (
           <span
             key={i}
             className={cn(
-              "size-1.5 rotate-45 transition-colors duration-500 ease-ios",
-              i < left
-                ? ink
-                  ? "bg-gold-600"
-                  : "bg-gold-400"
-                : ink
-                  ? "border border-sand-500/70"
-                  : "border border-sand-500/50",
+              "size-1.5 rotate-45",
+              ink ? "bg-gold-600" : "bg-gold-400",
             )}
           />
         ))}
@@ -165,9 +147,7 @@ export function SeatCount({
           ink ? "text-gold-800" : "text-gold-300",
         )}
       >
-        {left === 0
-          ? "All seats taken — ask about the waiting list"
-          : `${left} of ${total} seats remaining`}
+        {anchored.seatsLine}
       </p>
     </div>
   );

@@ -1,6 +1,6 @@
 import { anchored } from "@/content/anchored";
 import { Container } from "@/components/ui/Container";
-import { Label, Reserve, SeatCount } from "./Type";
+import { Label, Reserve, SeatsLine } from "./Type";
 
 /**
  * The masthead, as a split rather than a stack.
@@ -72,7 +72,7 @@ export function Hero() {
               {anchored.hero.cta}
             </Reserve>
 
-            <SeatCount tone="paper" className="mt-7" />
+            <SeatsLine tone="paper" className="mt-7" />
 
             <p className="mt-3 font-sans text-sm text-sand-300">
               {anchored.hero.note}

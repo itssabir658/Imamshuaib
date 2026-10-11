@@ -25,7 +25,7 @@ export function WhoFor() {
       </h2>
 
       <Container>
-        <Label className="mb-12">Ten men</Label>
+        <Label className="mb-12">Who is This For?</Label>
 
         <ul className="max-w-4xl">
           {anchored.who.forMen.map((line) => (

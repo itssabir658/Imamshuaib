@@ -257,15 +257,19 @@ announcing the early-bird price until someone redeployed. Both tiers are shown
 with their own deadlines and the reader does the arithmetic correctly every
 time.
 
-**Seats remaining** is `anchored.seatsRemaining` — the "simple field Imam
-Shuaib can update" the brief asks for. Setting it to `null` removes the count
-from the page, which is the right move the moment nobody is keeping it
-current: a stale count on a ten-seat retreat is worse than no count.
+**There is no online checkout, by decision.** The page carried a Stripe
+destination and an e-transfer address for a while, both waiting to be
+supplied. On 11 October Imam Shuaib settled it the other way: every seat is
+confirmed personally, the form is the only way in, and the deposit is arranged
+by reply. So there is nothing to configure and no half-wired payment path
+left in the code — every Reserve control points at the form.
 
-**The deposit step shows card and e-transfer together**, as the brief requires
-— not a toggle, not a second page. No card field appears on this page and none
-should ever be added; the card route hands off to Stripe's own hosted page,
-which is what keeps the site out of PCI scope.
+**The seat counter is gone too.** It was an "X of 10 seats remaining" field
+for him to keep current; nothing was wired to it, so it could only ever drift
+out of date, and a stale count on a ten-seat retreat is worse than none. In
+its place is a fixed line — "Ten seats. Confirmed personally by Imam Shuaib."
+The ten marks beside it stay, but they are now literal rather than a gauge:
+ten identical marks for ten seats, so nothing in them reads as availability.
 
 ### Art direction
 
@@ -573,13 +577,16 @@ around" note under the grid; flip it only when the itinerary is actually
 fixed. There is also no Open Graph image for the route, so a share card falls
 back to the site-wide portrait.
 
-**Anchored is missing three things.** `anchored.cardHref` (the Stripe
-Payment Link or Checkout route — the Reserve buttons fall back to the contact
-form until it is set), `anchored.etransferTo` (the page refuses to print an
-e-transfer address it was not given), and a captions track for the promo
-video. The currency is also unstated: the copy says "$495" and "$595", and
+**The contact form still does not send.** It validates, shows errors and
+renders a success state, but there is no mail provider wired to it — so a
+reservation submitted today reaches nobody. This is the one thing standing
+between the site and go-live. It needs a transactional email provider and an
+API key; the form must then send the submission to info@imamshuaib.com and an
+acknowledgement to the sender.
+
+**The retreat currency is unstated.** The copy says "$495" and "$595";
 Waterdown plus Interac makes CAD near-certain, but near-certain is not good
-enough to publish as structured data — which is why the page's schema.org
+enough to publish as structured data, which is why the page's schema.org
 Event deliberately carries no `offers`.
 
 **The biography has holes.** `src/content/pages.ts` builds the About page only

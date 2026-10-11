@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { ANCHORED_TOPIC, contactTopics, services } from "@/content/site";
+import { ANCHORED_TOPIC, contactTopics, services, site } from "@/content/site";
 import { ButtonAction } from "@/components/ui/Button";
 import { Field, FormResult, isEmail } from "./Field";
 
@@ -70,7 +70,10 @@ export function ContactForm() {
     if (!email) next.email = "Please enter an email address so we can reply.";
     else if (!isEmail(email))
       next.email = "That does not look like an email address.";
-    if (message.length < 10)
+    // Optional on the retreat path: name, email, phone and the retreat
+    // question already carry what Imam Shuaib needs to confirm a seat, and
+    // nobody should be made to write a paragraph to reserve one.
+    if (!isRetreat && message.length < 10)
       next.message = "A sentence or two about what you need, please.";
 
     if (isRetreat) {
@@ -182,7 +185,11 @@ export function ContactForm() {
         </Field>
       ) : null}
 
-      <Field label="Message" required error={errors.message}>
+      <Field
+        label="Message"
+        required={!isRetreat}
+        error={errors.message}
+      >
         {(p) => <textarea {...p} name="message" rows={6} className={`${p.className} resize-y`} />}
       </Field>
 
@@ -197,8 +204,19 @@ export function ContactForm() {
         <ButtonAction type="submit" size="lg">
           Send message
         </ButtonAction>
-        <p className="text-sm text-muted">
-          We reply to everything, usually within a few days.
+        <p className="text-sm/relaxed text-muted">
+          We typically reply within a few hours. For a faster response, send a
+          WhatsApp or text to{" "}
+          <a
+            href={`https://wa.me/${site.whatsapp}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold whitespace-nowrap text-gold-800 underline underline-offset-4"
+          >
+            {site.phone}
+            <span className="sr-only"> (opens WhatsApp in a new tab)</span>
+          </a>
+          .
         </p>
       </div>
     </form>

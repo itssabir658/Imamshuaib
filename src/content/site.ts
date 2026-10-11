@@ -24,14 +24,20 @@ export const site = {
   legalName: "Imam Shuaib Mansoori",
   url: "https://imamshuaib.com",
   tagline: "Empowering Muslims worldwide through faith and knowledge",
+  /** His own words, from the 11 October email. Used as the footer bio and as
+   *  the site-wide meta description — one source, so they cannot drift. */
   description:
-    "Imam Shuaib is an educator and community leader offering Qur'anic study, one-to-one coaching, and relationship counselling — clear, heartfelt Islamic teaching for every stage of life.",
-  email: "salam@imamshuaib.com",
-  phone: "+1 (000) 000-0000",
+    "Imam and educator in Milton, Ontario. Sixteen years of community work, including 1:1 coaching for men and relationship counseling. He is known for staying reachable.",
+  email: "info@imamshuaib.com",
+  phone: "+1 647 825 3166",
+  /** Same number as `phone`. Kept separate so the wa.me link and the human
+   *  readable number cannot drift apart, and digits-only because wa.me
+   *  rejects spaces and punctuation. */
+  whatsapp: "16478253166",
   social: {
-    youtube: "https://youtube.com/@imamshuaib",
-    instagram: "https://instagram.com/imamshuaib",
-    tiktok: "https://tiktok.com/@imamshuaib",
+    youtube: "https://www.youtube.com/khutbahs",
+    instagram: "https://www.instagram.com/imamshuaibmansoori",
+    facebook: "https://www.facebook.com/imamshuaibmansoori",
   },
 } as const;
 
@@ -190,7 +196,7 @@ export const services: Service[] = [
   },
   {
     id: "friday-sermon",
-    title: "Friday Sermon",
+    title: "Friday Sermons",
     description:
       "Weekly khutbah for masajid and campuses, written for the community actually in the room.",
     href: "/services/friday-sermon",
@@ -222,7 +228,7 @@ export const services: Service[] = [
   },
   {
     id: "nikah",
-    title: "Nikah Officiating",
+    title: "Nikah Officiation",
     description:
       "Officiating your marriage ceremony, with the counselling and paperwork handled before the day itself.",
     href: "/services/nikah",
@@ -349,7 +355,8 @@ export const partners = [
 
 /** ⚠️ PLACEHOLDER — every figure here is invented. Replace before launch. */
 export const stats = [
-  { value: "15+", label: "Years teaching" },
+  // Confirmed by Imam Shuaib on 11 October; the rest below are still invented.
+  { value: "16", label: "Years of community work" },
   { value: "3", label: "Continents called home" },
   { value: "1,200+", label: "Students guided" },
   { value: "100%", label: "Of gifts fund classes" },

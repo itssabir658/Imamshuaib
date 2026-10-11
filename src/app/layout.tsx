@@ -102,7 +102,11 @@ const structuredData = {
       url: site.url,
       email: `mailto:${site.email}`,
       image: `${site.url}/images/imam-shuaib-reading-quran.webp`,
-      sameAs: [site.social.youtube, site.social.instagram, site.social.tiktok],
+      sameAs: [
+        site.social.youtube,
+        site.social.instagram,
+        site.social.facebook,
+      ],
     },
     {
       "@type": "WebSite",
