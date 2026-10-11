@@ -6,13 +6,12 @@ import { Label } from "./Type";
 /**
  * Who the weekend is for.
  *
- * Three lines on a warmer paper, then the exclusion set hard against them in
- * ink. The "Not for:" line is the most useful sentence in the section and it
- * was previously small print under a rule — a retreat with ten personally
- * confirmed seats gains more from turning the wrong man away on the page than
- * from converting him and sorting it out on the phone. So it gets its own
- * block, in the page's strongest contrast, at the end of the list rather than
- * tucked beneath it.
+ * Three lines on a warmer paper, and nothing else.
+ *
+ * There was a charcoal "Not for:" block closing this section. It came out on
+ * 11 October at Imam Shuaib's request. The point it made — that seats are
+ * confirmed personally — is now carried by the deposit panel and the FAQ,
+ * where someone about to reserve will actually read it.
  */
 export function WhoFor() {
   return (
@@ -43,10 +42,6 @@ export function WhoFor() {
             </li>
           ))}
         </ul>
-
-        <p className="anchored-rise mt-12 max-w-2xl bg-charcoal p-8 font-display text-[clamp(1.0625rem,1rem+0.4vw,1.25rem)]/[1.45] font-medium text-balance text-ivory sm:p-10 lg:ml-auto">
-          {anchored.who.notFor}
-        </p>
       </Container>
     </section>
   );

@@ -227,15 +227,21 @@ export const anchored = {
     },
   ],
 
-  /** SECTION 6 — fit. */
+  /**
+   * SECTION 6 — fit.
+   *
+   * The "Not for: anyone looking for a holiday, a networking weekend, or a
+   * crowd" block was removed on 11 October at Imam Shuaib's request. It was
+   * in the original copy document, so do not reinstate it from there — the
+   * deletion is deliberate, and "confirmed personally" is now said in the
+   * deposit panel and the FAQ instead.
+   */
   who: {
     forMen: [
       "Married men who want to be better husbands, fathers, and leaders.",
       "Men who are doing fine on paper and know something is missing.",
       "Men who want a scholar they can actually call, not a speaker they once heard.",
     ],
-    notFor:
-      "Not for: anyone looking for a holiday, a networking weekend, or a crowd. Seats are confirmed by Imam Shuaib personally.",
   },
 
   /** SECTION 7 — the host. */
