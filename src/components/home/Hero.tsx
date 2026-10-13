@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { ArrowRight, Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 
@@ -7,8 +8,21 @@ import { Container } from "@/components/ui/Container";
  * This replaces "The Board" — a deep-teal strip over a white directory of four
  * programme tiles that lifted across the seam. It worked, but it was three
  * compositions stacked in one fold: an identity chip, a headline block, and a
- * card grid. The brief for this version was simply "simple", so it is one
- * column of type on paper and nothing else.
+ * card grid. The brief for this version was simply "simple", so it is type
+ * on paper and a photograph — no cards, no tiles, no stacked compositions.
+ *
+ * The eyebrow and its rule stay full width above the split, so the page still
+ * opens on one line of type running the whole measure. The portrait is the
+ * same frame the Anchored page uses, carrying the 2rem corner radius that
+ * AboutTeaser already gives his other photograph — so the two portraits on
+ * this page read as one treatment rather than two. No border: it is the only
+ * photograph on an otherwise empty field of paper, and a soft drop shadow
+ * lifts it off the stone without drawing a box around it.
+ *
+ * ORDER. The photo is last in the source, so on a phone the headline is the
+ * first thing on screen and the portrait follows the buttons. Putting it
+ * above the headline would push the one sentence that says what this is
+ * below the fold, on the traffic that matters most.
  *
  * The four tiles are not lost. `ServicesTeaser` further down the page already
  * lists the programmes properly, with room to describe them — which is what
@@ -35,36 +49,66 @@ export function Hero() {
 
         <div aria-hidden="true" className="mt-6 h-px w-full bg-sand-400" />
 
-        <h1
-          id="hero-title"
-          className="mt-12 max-w-[18ch] text-display font-bold text-balance text-charcoal lg:mt-16"
-        >
-          Empowering Muslims worldwide through{" "}
-          {/* gold-700 is 4.73:1 on ivory — comfortably past the 3:1 this size
-              needs, and warmer than the gold-800 the small labels use. */}
-          <span className="text-gold-700">faith &amp; knowledge</span>
-        </h1>
+        <div className="mt-12 grid items-center gap-12 lg:mt-16 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-14 xl:gap-20">
+          <div>
+            <h1
+              id="hero-title"
+              className="max-w-[18ch] text-display font-bold text-balance text-charcoal"
+            >
+              Empowering Muslims worldwide through{" "}
+              {/* gold-700 is 4.73:1 on ivory — comfortably past the 3:1 this
+                  size needs, and warmer than the gold-800 the small labels
+                  use. */}
+              <span className="text-gold-700">faith &amp; knowledge</span>
+            </h1>
 
-        <p className="mt-10 max-w-[34rem] font-sans text-lead text-charcoal-600">
-          Qur&rsquo;anic study, coaching, and counselling &mdash; in plain
-          language.
-        </p>
+            <p className="mt-10 max-w-[34rem] font-sans text-lead text-charcoal-600">
+              Qur&rsquo;anic study, coaching, and counselling &mdash; in plain
+              language.
+            </p>
 
-        <div className="mt-11 flex flex-col gap-4 sm:flex-row sm:items-center">
-          <Button href="/contact" variant="primary" size="lg" className="sm:px-8">
-            Book a session
-            <ArrowRight />
-          </Button>
-          <Button href="/services" variant="line" size="lg" className="sm:px-8">
-            Explore programs
-            <ArrowRight />
-          </Button>
+            <div className="mt-11 flex flex-col gap-4 sm:flex-row sm:items-center">
+              <Button
+                href="/contact"
+                variant="primary"
+                size="lg"
+                className="sm:px-8"
+              >
+                Book a session
+                <ArrowRight />
+              </Button>
+              <Button
+                href="/services"
+                variant="line"
+                size="lg"
+                className="sm:px-8"
+              >
+                Explore programs
+                <ArrowRight />
+              </Button>
+            </div>
+
+            <p className="mt-7 flex items-start gap-2.5 font-sans text-sm text-sand-700">
+              <StarGlyph />
+              No cost to join a Qur&rsquo;an circle
+            </p>
+          </div>
+
+          {/* priority, because it is above the fold at every breakpoint and
+              lazy-loading it would hand the page a late shift on the one
+              element people look at first. The source is 637px square, so it
+              is never asked to render wider than 26rem — past that it would
+              be upscaled. */}
+          <Image
+            src="/images/imam-shuaib-portrait.png"
+            alt="Imam Shuaib, in a grey thobe and cream kufi"
+            width={637}
+            height={638}
+            priority
+            sizes="(min-width: 1280px) 26rem, (min-width: 1024px) 22rem, (min-width: 640px) 20rem, 72vw"
+            className="w-[72%] max-w-[20rem] rounded-[2rem] object-cover shadow-[0_22px_48px_-26px_rgb(28_26_23/0.45)] lg:w-[22rem] lg:max-w-none xl:w-[26rem]"
+          />
         </div>
-
-        <p className="mt-7 flex items-start gap-2.5 font-sans text-sm text-sand-700">
-          <StarGlyph />
-          No cost to join a Qur&rsquo;an circle
-        </p>
       </Container>
     </section>
   );
