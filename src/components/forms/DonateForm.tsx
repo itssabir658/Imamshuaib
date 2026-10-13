@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { ButtonAction } from "@/components/ui/Button";
-import { Field, FormResult, isEmail } from "./Field";
+import { Field, FormResult } from "./Field";
+import { isEmail } from "@/lib/contact";
 import { cn } from "@/lib/cn";
 
 const PRESETS = [25, 50, 100, 250];

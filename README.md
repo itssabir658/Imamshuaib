@@ -577,12 +577,31 @@ around" note under the grid; flip it only when the itinerary is actually
 fixed. There is also no Open Graph image for the route, so a share card falls
 back to the site-wide portrait.
 
-**The contact form still does not send.** It validates, shows errors and
-renders a success state, but there is no mail provider wired to it — so a
-reservation submitted today reaches nobody. This is the one thing standing
-between the site and go-live. It needs a transactional email provider and an
-API key; the form must then send the submission to info@imamshuaib.com and an
-acknowledgement to the sender.
+**The contact form sends, but only once two things exist.** The code is
+finished — `src/app/api/contact/route.ts` posts the submission to
+info@imamshuaib.com with the sender as reply-to, and an acknowledgement back
+to the sender, through Resend. It needs:
+
+1. `RESEND_API_KEY` in the environment (see `.env.example`; on Vercel it goes
+   in Project Settings, never in a file);
+2. imamshuaib.com verified in the Resend dashboard by DNS, because Resend will
+   not send from an unverified domain. Until that is done, set
+   `CONTACT_FROM=Imam Shuaib <onboarding@resend.dev>` to exercise the flow —
+   that test sender can only deliver to the address that owns the Resend
+   account.
+
+Without the key the route answers 503 and the form says email is not
+configured, rather than showing a success state for a message that went
+nowhere. **A reservation submitted before the key is set still reaches
+nobody**, so this is the last gate before go-live.
+
+Validation lives in `src/lib/contact.ts` and runs on both sides. The route
+re-runs it on every request because a form's validation is a courtesy to the
+person typing, not a control — anyone can POST straight to the endpoint. The
+honeypot is re-checked there too, and answers 200 so a bot learns nothing from
+the difference. There is a small in-memory rate limit (3 per minute per IP);
+it is per-instance and resets on a cold start, so it stops the obvious loop
+and is not a substitute for Resend's own limits.
 
 **The retreat currency is unstated.** The copy says "$495" and "$595";
 Waterdown plus Interac makes CAD near-certain, but near-certain is not good
@@ -595,8 +614,9 @@ dates have been invented. The list of what a real bio still needs is in
 `about.gaps`, and it is rendered into the page as visually-hidden text so it
 travels with the page rather than living only here.
 
-**No form actually submits.** Contact, donate and newsletter all validate, show
-errors and render a success state, but none of them make a network call.
+**Donate and newsletter still do not submit.** Both validate, show errors and
+render a success state without making any network call. Contact is wired (see
+above); these two are not.
 
 **No payment is taken.** `/donate` collects amount, frequency and donor
 details and stops. There is deliberately no card field: the correct integration

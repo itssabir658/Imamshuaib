@@ -4,23 +4,28 @@ import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { ANCHORED_TOPIC, contactTopics, services, site } from "@/content/site";
 import { ButtonAction } from "@/components/ui/Button";
-import { Field, FormResult, isEmail } from "./Field";
-
-type Errors = Partial<
-  Record<"name" | "email" | "phone" | "message" | "outcome", string>
->;
+import { Field, FormResult } from "./Field";
+import {
+  type ContactErrors as Errors,
+  toContactInput,
+  validateContact,
+} from "@/lib/contact";
 
 /**
  * The contact form.
  *
- * ⚠️ IT DOES NOT SEND ANYTHING YET. Validation, error handling and the success
- * state are all real; the submit handler stops short of a network call because
- * there is no endpoint or mail provider configured. Wire `onSubmit` to a route
- * handler before launch — and until you do, do not link to this page from
- * anywhere that promises a reply.
+ * It posts to /api/contact, which sends the submission to Imam Shuaib and an
+ * acknowledgement to the sender through Resend.
  *
- * The honeypot is kept from the old site: a field hidden from people, ignored by
- * assistive tech, and irresistible to naive bots.
+ * Validation lives in `@/lib/contact` and is run by both sides. The copy that
+ * used to live here had a typo — `/D/g` where `/\D/g` was meant — so the
+ * phone check stripped literal "D"s instead of non-digits and let "not a
+ * phone!!" through on length alone. One definition, imported twice, is why
+ * that class of drift cannot happen again.
+ *
+ * The honeypot is kept from the old site: a field hidden from people, ignored
+ * by assistive tech, and irresistible to naive bots. It is checked here and
+ * again on the server.
  */
 export function ContactForm() {
   const params = useSearchParams();
@@ -35,7 +40,9 @@ export function ContactForm() {
   const isRetreat = program === ANCHORED_TOPIC;
 
   const [errors, setErrors] = useState<Errors>({});
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [acknowledged, setAcknowledged] = useState(true);
   const form = useRef<HTMLFormElement>(null);
   const attempts = useRef(0);
 
@@ -45,6 +52,7 @@ export function ContactForm() {
   // screen reader user submits an empty form and is told nothing at all.
   // `attempts` is in the dependency list so a second failed submit re-focuses
   // even when the error set is unchanged.
+  const sending = status === "sending";
   const errorCount = Object.keys(errors).length;
   useEffect(() => {
     if (errorCount === 0) return;
@@ -53,58 +61,82 @@ export function ContactForm() {
       ?.focus();
   }, [errorCount, errors, attempts.current]);
 
-  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
+    const input = toContactInput((k) => data.get(k));
 
-    if (String(data.get("website") ?? "").trim() !== "") return; // honeypot
-
-    const name = String(data.get("name") ?? "").trim();
-    const email = String(data.get("email") ?? "").trim();
-    const phone = String(data.get("phone") ?? "").trim();
-    const message = String(data.get("message") ?? "").trim();
-    const outcome = String(data.get("outcome") ?? "").trim();
-
-    const next: Errors = {};
-    if (!name) next.name = "Please tell us your name.";
-    if (!email) next.email = "Please enter an email address so we can reply.";
-    else if (!isEmail(email))
-      next.email = "That does not look like an email address.";
-    // Optional on the retreat path: name, email, phone and the retreat
-    // question already carry what Imam Shuaib needs to confirm a seat, and
-    // nobody should be made to write a paragraph to reserve one.
-    if (!isRetreat && message.length < 10)
-      next.message = "A sentence or two about what you need, please.";
-
-    if (isRetreat) {
-      // Deliberately loose. Phone formats differ by country and a strict
-      // pattern rejects real numbers far more often than it catches bad ones;
-      // seven digits is enough to catch an empty box or "n/a" without
-      // arguing with anyone's international format.
-      const digits = phone.replace(/D/g, "");
-      if (!phone) next.phone = "A number we can text, please.";
-      else if (digits.length < 7)
-        next.phone = "That looks too short to be a phone number.";
-
-      if (!outcome)
-        next.outcome = "Please answer this one — it shapes the weekend.";
-    }
+    // Hidden from people and from assistive tech, so only a bot fills it in.
+    if (input.website) return;
 
     attempts.current += 1;
+    const next = validateContact(input);
     setErrors(next);
+    setSubmitError(null);
     if (Object.keys(next).length > 0) return;
 
-    setSent(true);
+    setStatus("sending");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(input),
+      });
+      const payload = (await res.json().catch(() => ({}))) as {
+        ok?: boolean;
+        errors?: Errors;
+        message?: string;
+        acknowledged?: boolean;
+      };
+
+      if (res.ok && payload.ok) {
+        setAcknowledged(payload.acknowledged !== false);
+        setStatus("sent");
+        return;
+      }
+
+      // The server re-runs the same validation, so if it disagrees with the
+      // client the server is right — show its errors rather than a generic
+      // failure the person cannot act on.
+      if (res.status === 422 && payload.errors) {
+        setErrors(payload.errors);
+        setStatus("idle");
+        return;
+      }
+
+      setStatus("idle");
+      setSubmitError(
+        payload.message ??
+          "Something went wrong sending that. Please try again, or email " +
+            site.email +
+            ".",
+      );
+    } catch {
+      setStatus("idle");
+      setSubmitError(
+        "We could not reach the server. Check your connection and try again, or email " +
+          site.email +
+          ".",
+      );
+    }
   }
 
-  if (sent) {
+  if (status === "sent") {
     return (
-      <FormResult title="Message ready to send">
+      <FormResult
+        title={isRetreat ? "Your seat is requested" : "Message sent"}
+      >
         <p>
-          Your message passed validation — but this form is not connected to a
-          mail provider yet, so nothing has actually been sent. Wire it up
-          before launch.
+          {isRetreat
+            ? "JazakAllah Khair. Imam Shuaib will be in touch within 24 hours to confirm your seat and arrange the deposit."
+            : "JazakAllah Khair. Your message has reached Imam Shuaib and he will be in touch shortly."}
         </p>
+        {acknowledged ? (
+          <p className="mt-3">
+            A copy is on its way to your inbox. If it is not there in a few
+            minutes, check your spam folder.
+          </p>
+        ) : null}
       </FormResult>
     );
   }
@@ -200,9 +232,27 @@ export function ContactForm() {
         <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
       </div>
 
+      {/* A send that failed for a reason the person cannot fix by editing a
+          field — no mail provider, rate limited, network gone. role="alert"
+          because it appears after they acted and nothing else announces it.
+          Nothing they typed is cleared, so "try again" is one press. */}
+      {submitError ? (
+        <p
+          role="alert"
+          className="rounded-card border border-gold-300 bg-gold-50 px-5 py-4 text-[0.9375rem]/relaxed text-gold-800"
+        >
+          {submitError}
+        </p>
+      ) : null}
+
       <div className="flex flex-wrap items-center gap-4">
-        <ButtonAction type="submit" size="lg">
-          Send message
+        <ButtonAction
+          type="submit"
+          size="lg"
+          disabled={sending}
+          aria-busy={sending}
+        >
+          {sending ? "Sending…" : "Send message"}
         </ButtonAction>
         <p className="text-sm/relaxed text-muted">
           We typically reply within a few hours. For a faster response, send a

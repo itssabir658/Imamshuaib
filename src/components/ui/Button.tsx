@@ -59,7 +59,11 @@ const sizes: Record<Size, string> = {
 
 const base =
   "group/btn inline-flex items-center justify-center gap-2 rounded-pill font-semibold " +
-  "whitespace-nowrap";
+  // A disabled button that looks identical to an enabled one is why people
+  // press submit three times. Opacity rather than a colour swap, so every
+  // variant dims without its own disabled palette; at 60% the primary is
+  // still ~7:1 on canvas.
+  "whitespace-nowrap disabled:cursor-not-allowed disabled:opacity-60";
 
 type CommonProps = {
   variant?: Variant;
