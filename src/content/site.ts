@@ -166,7 +166,6 @@ export const services: Service[] = [
     icon: "dua",
     ctaText: "Get in touch",
     ctaHref: "/contact?program=end-of-life",
-    ctaNote: "Available at short notice for a bereavement.",
     featured: true,
     body: [
       "Almost nobody plans for this, and the cost of not planning falls on the people least able to carry it — a family making decisions about ghusl, burial and inheritance in the first forty-eight hours of grief.",

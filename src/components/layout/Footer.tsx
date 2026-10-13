@@ -113,9 +113,6 @@ export function Footer() {
                 {site.phone}
               </a>
             </address>
-            <p className="mt-5 text-sm/relaxed text-sand-300/80">
-              For a bereavement, please call rather than email.
-            </p>
           </div>
         </div>
 

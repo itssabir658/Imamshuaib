@@ -36,8 +36,8 @@ export const metadata: Metadata = {
  *
  * The two sidebar cards are hidden on the retreat view only. Imam Shuaib
  * asked for them gone from the reservation page, and they are clutter there —
- * but "Before you write" carries the bereavement and crisis guidance, which
- * has to stay on the contact page proper.
+ * but "Before you write" carries the scope-of-practice and crisis guidance,
+ * which has to stay on the contact page proper.
  */
 export default async function ContactPage({
   searchParams,
@@ -123,13 +123,6 @@ export default async function ContactPage({
               <div className="rounded-card border border-line bg-surface p-7">
                 <h2 className="text-h3 font-bold text-ink">Before you write</h2>
                 <ul className="mt-5 flex flex-col gap-4 text-[0.9375rem]/relaxed text-body">
-                  <li>
-                    <strong className="font-semibold text-ink">
-                      For a bereavement,
-                    </strong>{" "}
-                    call rather than email. End-of-life support is available at
-                    short notice.
-                  </li>
                   <li>
                     <strong className="font-semibold text-ink">
                       Coaching and counselling are pastoral, not clinical.
