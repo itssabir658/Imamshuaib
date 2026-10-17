@@ -54,7 +54,7 @@ export function Footer() {
           <div className="max-w-sm">
             <Logo href="/" onDark />
             <p className="mt-5 text-sm/relaxed text-sand-300">
-              {site.description}
+              {site.footerBio}
             </p>
             <SocialLinks className="mt-6 -ml-3" />
           </div>

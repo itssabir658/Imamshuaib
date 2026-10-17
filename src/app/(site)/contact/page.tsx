@@ -31,7 +31,7 @@ export const metadata: Metadata = {
  *
  * Reading `searchParams` makes this route dynamic. That is the trade for
  * getting the retreat masthead into the HTML rather than swapping it in after
- * hydration — "You've decided. Good." is the first thing on the page, and it
+ * hydration — "Let's get you a seat!" is the first thing on the page, and it
  * should not arrive late or flash the generic version first.
  *
  * The two sidebar cards are hidden on the retreat view only. Imam Shuaib
@@ -52,7 +52,7 @@ export default async function ContactPage({
       {isRetreat ? (
         <PageHeader
           eyebrow="Anchored"
-          title={"You’ve decided. Good."}
+          title={"Let’s get you a seat!"}
           lead="Ten seats, each one confirmed personally. Tell Imam Shuaib a little about yourself and he will be in touch within 24 hours."
         >
           <p className="font-sans text-sm font-semibold tracking-[0.1em] text-charcoal uppercase">

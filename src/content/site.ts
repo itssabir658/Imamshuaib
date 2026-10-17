@@ -24,10 +24,25 @@ export const site = {
   legalName: "Imam Shuaib Mansoori",
   url: "https://imamshuaib.com",
   tagline: "Empowering Muslims worldwide through faith and knowledge",
-  /** His own words, from the 11 October email. Used as the footer bio and as
-   *  the site-wide meta description — one source, so they cannot drift. */
+  /**
+   * The site-wide meta description — the sentence search engines quote for
+   * imamshuaib.com, and the one that rides on every share card.
+   *
+   * This used to be the same string as `footerBio`. They were split on 15
+   * October, when the footer bio was replaced with a coaching-focused line.
+   * That line is right under his name in the footer; it is wrong as the
+   * description of a whole site that also teaches Qur'an, officiates nikah
+   * and runs children's programmes, because it would quietly tell search
+   * engines those do not exist here.
+   *
+   * His 11 October wording, kept because it covers the practice as a whole.
+   */
   description:
     "Imam and educator in Milton, Ontario. Sixteen years of community work, including 1:1 coaching for men and relationship counseling. He is known for staying reachable.",
+
+  /** The footer bio, under his name. His words, 15 October. */
+  footerBio:
+    "Educator and community builder in Milton, Ontario. 16 years of spiritual and executive coaching, helping accomplished men find their footing.",
   email: "info@imamshuaib.com",
   phone: "+1 647 825 3166",
   /** Same number as `phone`. Kept separate so the wa.me link and the human

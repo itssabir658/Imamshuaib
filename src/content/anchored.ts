@@ -28,10 +28,15 @@
 export const anchored = {
   name: "Anchored",
   kicker: "A Men's Retreat",
-  dates: "November 6 to 8, 2026",
+  dates: "November 13 to 15, 2026",
   place: "Private countryside property, Waterdown, Ontario",
-  /** The short form, for lines where the full place would crowd the date. */
-  shortPlace: "Waterdown, Ontario",
+  /** The short form, for lines where the full place would crowd the date.
+   *
+   *  ⚠️ Says "Hamilton" where `place` above says "Ontario". That is the 15
+   *  October instruction verbatim for the registration page. Waterdown is a
+   *  community inside the City of Hamilton, so both are true, but the two
+   *  lines now name different things — flagged for Imam Shuaib. */
+  shortPlace: "Waterdown, Hamilton",
 
   /**
    * A fixed line, not a counter.
@@ -258,14 +263,16 @@ export const anchored = {
   /** SECTION 8 — price, and how a seat is actually secured. */
   investment: {
     tiers: [
-      { name: "Early Bird", price: "$495", note: "Ends October 25th" },
-      { name: "Standard", price: "$595", note: "After October 25th" },
-    ],
+      { name: "Early Bird", price: "$495", note: "Ends November 1st" },
+      // `lead` renders bold ahead of the note — 15 October: "Pls boldface
+      // After so it stands out".
+      { name: "Standard", price: "$595", note: "November 1st", lead: "After" },
+    ] as { name: string; price: string; note: string; lead?: string }[],
     includes:
       "Includes two nights accommodation, all meals by world renowned Chef Baig, horseback riding, archery, all sessions and materials, and two months of post-retreat live sessions with Imam Shuaib.",
-    deposit: "$250 deposit secures your seat. Balance due October 28, 2026.",
+    deposit: "$250 deposit secures your seat. Balance due November 4, 2026.",
     terms:
-      "Deposit non-refundable after October 21. Seat transferable to another brother.",
+      "Deposit non-refundable after November 1. Seat transferable to another brother.",
     /** Replaces "Pay by card or e-transfer" — 11 October. */
     howTitle: "How this works",
     howBody: [
@@ -305,7 +312,7 @@ export const anchored = {
 
   /** SECTION 10 */
   close: {
-    line: "Ten seats. One weekend. November 6.",
+    line: "Ten seats. One weekend. November 13.",
     cta: "Reserve your seat",
   },
 

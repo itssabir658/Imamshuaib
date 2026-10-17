@@ -8,19 +8,20 @@ import { Label, RESERVE_HREF, Rule, SeatsLine, reserveClasses } from "./Type";
  * Two things here are deliberate and easy to undo by accident:
  *
  * 1. NOTHING IS COMPUTED FROM TODAY'S DATE. It is tempting to compare against
- *    25 October and mark one tier "current". This page is statically
+ *    the deadline and mark one tier "current". This page is statically
  *    generated, so that comparison would be frozen at build time and the page
  *    would go on announcing the early-bird price for as long as nobody
  *    redeploys. Both tiers are shown as the copy writes them, with their own
  *    deadlines, and the reader does the arithmetic correctly every time.
  *
- * 2. BOTH PAYMENT ROUTES ARE VISIBLE TOGETHER. The brief: "Stripe checkout for
- *    card payments, plus an e-transfer option. Both must be visible at the
- *    deposit step." Not a toggle, not a second page — side by side, here.
+ * 2. THERE IS NO ONLINE CHECKOUT. The original brief asked for Stripe
+ *    alongside e-transfer, both visible at the deposit step. Imam Shuaib
+ *    removed that on 11 October: every seat is confirmed personally, the
+ *    form is the only way in, and `howBody` says so in as many words.
  *
- * ⚠️ No card field appears on this page and none should ever be added. The
- * card route hands off to Stripe's own hosted page, which is what keeps this
- * site out of PCI scope — the same decision taken on /donate.
+ * ⚠️ No card field appears on this page and none should ever be added. With
+ * no checkout at all there is nothing for one to do, and adding one would
+ * pull the site into PCI scope — the same decision taken on /donate.
  */
 export function Investment() {
   return (
@@ -46,6 +47,14 @@ export function Investment() {
                 {tier.price}
               </p>
               <p className="mt-4 font-sans text-sm text-charcoal-600">
+                {/* A real <strong>, not just a heavier weight: the emphasis
+                    was asked for so the deadline stands out, and assistive
+                    tech should hear it too. */}
+                {tier.lead ? (
+                  <strong className="font-bold text-charcoal">
+                    {tier.lead}{" "}
+                  </strong>
+                ) : null}
                 {tier.note}
               </p>
             </div>
