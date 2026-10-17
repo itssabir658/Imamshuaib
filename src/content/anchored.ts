@@ -1,5 +1,5 @@
 /**
- * ANCHORED — men's retreat, 6–8 November 2026, Waterdown, Ontario.
+ * ANCHORED — men's retreat, 13–15 November 2026, Waterdown, Hamilton.
  *
  * The copy below is the client's, transcribed verbatim from the landing-page
  * copy document of 8 October 2026. The brief says "Copy and paste it as
@@ -29,13 +29,17 @@ export const anchored = {
   name: "Anchored",
   kicker: "A Men's Retreat",
   dates: "November 13 to 15, 2026",
-  place: "Private countryside property, Waterdown, Ontario",
+  place: "Private countryside property, Waterdown, Hamilton",
   /** The short form, for lines where the full place would crowd the date.
    *
-   *  ⚠️ Says "Hamilton" where `place` above says "Ontario". That is the 15
-   *  October instruction verbatim for the registration page. Waterdown is a
-   *  community inside the City of Hamilton, so both are true, but the two
-   *  lines now name different things — flagged for Imam Shuaib. */
+   *  "Hamilton", not "Ontario", confirmed 17 October. Waterdown is a
+   *  community inside the City of Hamilton, so both are true; this matches
+   *  `place` above so the main page and the registration page name the
+   *  venue the same way, which was the point of the 15 October request.
+   *
+   *  The schema.org address on the Anchored page is deliberately NOT changed
+   *  to follow: there, `addressRegion` means the province and must stay
+   *  "ON". Display copy and a postal address are not the same field. */
   shortPlace: "Waterdown, Hamilton",
 
   /**

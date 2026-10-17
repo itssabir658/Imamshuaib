@@ -32,7 +32,7 @@ export function Property() {
       <Container>
         <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-24">
           <Label tone="clay" className="shrink-0 lg:w-40 lg:pt-5">
-            Waterdown, Ontario
+            {anchored.shortPlace}
           </Label>
 
           <ul className="max-w-3xl">
