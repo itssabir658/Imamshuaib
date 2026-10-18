@@ -114,6 +114,39 @@ export const tour = {
     },
   ],
 
+  /**
+   * "What makes this journey different" — his list, 18 October, verbatim.
+   *
+   * Each point is held in three parts rather than as one string because two
+   * of them carry Arabic mid-sentence. The script change has to be marked
+   * `lang="ar"` for WCAG 3.1.2, which cannot be done to a bare string, and
+   * every point keeps all three keys — empty where unused — so the array has
+   * one shape and the component does not need to narrow a union to render it.
+   */
+  different: {
+    title: "What makes this journey different",
+    points: [
+      { lead: "Jumu'ah prayer in Masjid al-Aqsa", arabic: "", tail: "" },
+      { lead: "Daily lessons inside Masjid al-Aqsa", arabic: "", tail: "" },
+      {
+        lead: "Selected passages from the Qur'an on the legacy of the family of Imran, Isa, Maryam, Dawud and Sulayman (",
+        arabic: "عليهم السلام",
+        tail: ")",
+      },
+      {
+        lead: "Real conversations on living as Muslims in the West",
+        arabic: "",
+        tail: "",
+      },
+      {
+        lead: "Visits to the Maqam of Salman al-Farisi (",
+        arabic: "رضي الله عنه",
+        tail: "), the Bab al-Rahma cemetery, the Mount of Olives, Bethlehem and Jericho",
+      },
+      { lead: "Families with children welcome", arabic: "", tail: "" },
+    ],
+  },
+
   /** Explore → Reflect → Learn → Experience, as the brief set it out. */
   journey: [
     {

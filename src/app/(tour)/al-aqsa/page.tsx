@@ -3,6 +3,7 @@ import { site } from "@/content/site";
 import { tour } from "@/content/tour";
 import { TourHero } from "@/components/tour/TourHero";
 import { Highlights } from "@/components/tour/Highlights";
+import { Different } from "@/components/tour/Different";
 import { Journey } from "@/components/tour/Journey";
 import { FinalCta } from "@/components/tour/FinalCta";
 import { StickyRegister } from "@/components/tour/StickyRegister";
@@ -41,6 +42,7 @@ export default function AlAqsaPage() {
       <TourHero />
       <StickyRegister />
       <Highlights />
+      <Different />
       <Journey />
       <FinalCta />
     </>
