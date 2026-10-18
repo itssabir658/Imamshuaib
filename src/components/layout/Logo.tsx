@@ -20,7 +20,12 @@ export function Logo({
     >
       <Image
         src="/images/logo-imam-shuaib.png"
-        alt=""
+        // Asked for on 18 October. Note the empty alt was not an oversight:
+        // the <Link> above carries aria-label="Imam Shuaib — home", which
+        // overrides anything inside it, so a screen reader still announces
+        // the destination and never this string. What it does buy is a
+        // sighted reader seeing the name if the image fails to load.
+        alt="Imam Shuaib logo"
         width={169}
         height={72}
         priority

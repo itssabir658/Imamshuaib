@@ -22,7 +22,10 @@ import type { NavItem, Service, Testimonial } from "@/lib/types";
 export const site = {
   name: "Imam Shuaib",
   legalName: "Imam Shuaib Mansoori",
-  url: "https://imamshuaib.com",
+  // www, not the apex: the apex 308-redirects here, and this string is
+  // what the Al-Aqsa QR code encodes, what canonical tags claim and what
+  // robots.txt advertises as the sitemap. Named the live host on 18 October.
+  url: "https://www.imamshuaib.com",
   tagline: "Empowering Muslims worldwide through faith and knowledge",
   /**
    * The site-wide meta description — the sentence search engines quote for
@@ -395,8 +398,9 @@ export function getService(slug: string) {
  * A typo in either would silently drop that question.
  */
 export const ANCHORED_TOPIC = "anchored-retreat";
+export const AL_AQSA_TOPIC = "al-aqsa-tour";
 
 export const contactTopics = [
-  { id: "al-aqsa-tour", label: "Journey to Al-Aqsa — tour registration" },
+  { id: AL_AQSA_TOPIC, label: "Journey to Al-Aqsa — tour registration" },
   { id: ANCHORED_TOPIC, label: "Anchored — men's retreat, November 2026" },
 ] as const;

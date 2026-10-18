@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { ANCHORED_TOPIC, site } from "@/content/site";
+import { AL_AQSA_TOPIC, ANCHORED_TOPIC, site } from "@/content/site";
 import { anchored } from "@/content/anchored";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Section } from "@/components/ui/Section";
@@ -46,10 +46,24 @@ export default async function ContactPage({
 }) {
   const { program } = await searchParams;
   const isRetreat = program === ANCHORED_TOPIC;
+  const isAlAqsa = program === AL_AQSA_TOPIC;
+
+  // Both registration paths drop the sidebar and run a single column: someone
+  // who arrived by scanning a QR code or pressing "Reserve" has already
+  // decided, and a column of alternatives beside the form is only a way out
+  // of it. "Before you write" still carries the scope-of-practice and crisis
+  // guidance, which is why it stays on the contact page proper.
+  const isRegistration = isRetreat || isAlAqsa;
 
   return (
     <>
-      {isRetreat ? (
+      {isAlAqsa ? (
+        <PageHeader
+          eyebrow="First Qiblah. Third Holiest Masjid."
+          title="Al-Aqsa is calling"
+          lead="Join Imam Shuaib in Bayt al-Maqdis. Children welcome, tentatively March 27 to April 7, 2027. Register your interest and Imam Shuaib will personally walk you through every step."
+        />
+      ) : isRetreat ? (
         <PageHeader
           eyebrow="Anchored"
           title={"Let’s get you a seat!"}
@@ -66,7 +80,7 @@ export default async function ContactPage({
       <Section tone="canvas">
         <div
           className={
-            isRetreat
+            isRegistration
               ? "max-w-[38rem]"
               : "grid gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16"
           }
@@ -99,7 +113,7 @@ export default async function ContactPage({
             ) : null}
           </div>
 
-          {isRetreat ? null : (
+          {isRegistration ? null : (
             <aside className="flex flex-col gap-6">
               <div className="glass-surface-light glass-rim-light rounded-card p-7">
                 <h2 className="text-h3 font-bold text-ink">Directly</h2>

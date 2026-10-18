@@ -8,7 +8,10 @@ import { FinalCta } from "@/components/tour/FinalCta";
 import { StickyRegister } from "@/components/tour/StickyRegister";
 
 export const metadata: Metadata = {
-  title: `${tour.name} — ${tour.dates}`,
+  // His 18 October instruction was the joined string, in the title as well
+  // as the hero. ⚠️ It makes a ~130-character <title>: browsers truncate the
+  // tab and Google will rewrite it in results. Flagged; swap to `tour.dates` for the short form if he would rather.
+  title: `${tour.name} — ${tour.datesFull}`,
   description: tour.hero.standfirst,
   alternates: { canonical: "/al-aqsa" },
   openGraph: {

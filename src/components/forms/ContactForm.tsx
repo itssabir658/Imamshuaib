@@ -2,7 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { ANCHORED_TOPIC, contactTopics, services, site } from "@/content/site";
+import {
+  AL_AQSA_TOPIC,
+  ANCHORED_TOPIC,
+  contactTopics,
+  services,
+  site,
+} from "@/content/site";
 import { ButtonAction } from "@/components/ui/Button";
 import { Field, FormResult } from "./Field";
 import {
@@ -38,6 +44,7 @@ export function ContactForm() {
   // phone number or answer a retreat question, so both are conditional.
   const [program, setProgram] = useState(preselected);
   const isRetreat = program === ANCHORED_TOPIC;
+  const isAlAqsa = program === AL_AQSA_TOPIC;
 
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
@@ -124,12 +131,20 @@ export function ContactForm() {
   if (status === "sent") {
     return (
       <FormResult
-        title={isRetreat ? "Your seat is requested" : "Message sent"}
+        title={
+          isRetreat
+            ? "Your seat is requested"
+            : isAlAqsa
+              ? "Registration received"
+              : "Message sent"
+        }
       >
         <p>
           {isRetreat
             ? "JazakAllah Khair. Imam Shuaib will be in touch within 24 hours to confirm your seat and arrange the deposit."
-            : "JazakAllah Khair. Your message has reached Imam Shuaib and he will be in touch shortly."}
+            : isAlAqsa
+              ? "JazakAllah Khair! You’ve taken the first step. Expect a personal message from Imam Shuaib within 24 hours."
+              : "JazakAllah Khair. Your message has reached Imam Shuaib and he will be in touch shortly."}
         </p>
         {acknowledged ? (
           <p className="mt-3">
@@ -164,41 +179,118 @@ export function ContactForm() {
         {(p) => <input {...p} name="email" type="email" autoComplete="email" />}
       </Field>
 
-      <Field label="What is this about?">
-        {(p) => (
-          <select
-            {...p}
-            name="program"
-            value={program}
-            onChange={(e) => setProgram(e.target.value)}
-          >
-            <option value="">Something else</option>
-            {services.map((s) => (
-              <option key={s.id} value={s.id}>
-                {s.title}
-              </option>
-            ))}
-            {contactTopics.map((t) => (
-              <option key={t.id} value={t.id}>
-                {t.label}
-              </option>
-            ))}
-          </select>
-        )}
-      </Field>
+      {/* THE TOPIC SELECT IS HIDDEN ON THE AL-AQSA PATH. People reach that
+          page by scanning a QR code at an info session — they have already
+          chosen, and a dropdown whose only effect would be to tear down the
+          form they are halfway through is a trap, not a choice. The value
+          still travels, as a hidden input. */}
+      {isAlAqsa ? (
+        <input type="hidden" name="program" value={program} />
+      ) : (
+        <Field label="What is this about?">
+          {(p) => (
+            <select
+              {...p}
+              name="program"
+              value={program}
+              onChange={(e) => setProgram(e.target.value)}
+            >
+              <option value="">Something else</option>
+              {services.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.title}
+                </option>
+              ))}
+              {contactTopics.map((t) => (
+                <option key={t.id} value={t.id}>
+                  {t.label}
+                </option>
+              ))}
+            </select>
+          )}
+        </Field>
+      )}
 
       {/* Phone sits BELOW the topic select on purpose. It changes from
-          optional to required when the retreat is chosen, and a field that
+          optional to required when a programme is chosen, and a field that
           rewrites itself above the control you just used is a change most
           people never see. */}
       <Field
-        label={isRetreat ? "Phone (text/WhatsApp)" : "Phone"}
-        required={isRetreat}
+        label={isRetreat || isAlAqsa ? "Phone (text/WhatsApp)" : "Phone"}
+        required={isRetreat || isAlAqsa}
         error={errors.phone}
-        hint={isRetreat ? undefined : "Only if you would rather be called."}
+        hint={
+          isRetreat || isAlAqsa
+            ? undefined
+            : "Only if you would rather be called."
+        }
       >
         {(p) => <input {...p} name="phone" type="tel" autoComplete="tel" />}
       </Field>
+
+      {isAlAqsa ? (
+        <>
+          {/* inputMode="numeric" so a phone shows the number pad. `min` is
+              checked again in validateContact, because a min attribute is a
+              hint to the browser and nothing more — this form sets noValidate
+              and anyone can POST straight past it. */}
+          <Field label="Number of adults" required error={errors.adults}>
+            {(p) => (
+              <input
+                {...p}
+                name="adults"
+                type="number"
+                inputMode="numeric"
+                min={1}
+                step={1}
+                defaultValue="1"
+              />
+            )}
+          </Field>
+
+          <Field
+            label="Number of children"
+            required
+            error={errors.children}
+            hint="Enter 0 if none."
+          >
+            {(p) => (
+              <input
+                {...p}
+                name="children"
+                type="number"
+                inputMode="numeric"
+                min={0}
+                step={1}
+                defaultValue="0"
+              />
+            )}
+          </Field>
+
+          <Field label="City and country">
+            {(p) => (
+              <input
+                {...p}
+                name="cityCountry"
+                type="text"
+                autoComplete="address-level2"
+              />
+            )}
+          </Field>
+
+          <Field label="Which option interests you?">
+            {(p) => (
+              <select {...p} name="tourOption" defaultValue="">
+                <option value="">No preference yet</option>
+                <option value="Al-Aqsa only">Al-Aqsa only</option>
+                <option value="Three Cities (Al-Aqsa, Madinah, Makkah)">
+                  Three Cities (Al-Aqsa, Madinah, Makkah)
+                </option>
+              </select>
+            )}
+          </Field>
+        </>
+      ) : null}
 
       {isRetreat ? (
         <Field
@@ -218,11 +310,18 @@ export function ContactForm() {
       ) : null}
 
       <Field
-        label="Message"
-        required={!isRetreat}
+        label={isAlAqsa ? "Any questions?" : "Message"}
+        required={!isRetreat && !isAlAqsa}
         error={errors.message}
       >
-        {(p) => <textarea {...p} name="message" rows={6} className={`${p.className} resize-y`} />}
+        {(p) => (
+          <textarea
+            {...p}
+            name="message"
+            rows={isAlAqsa ? 4 : 6}
+            className={`${p.className} resize-y`}
+          />
+        )}
       </Field>
 
       {/* Honeypot. Hidden from people and from assistive tech, so only a bot
@@ -252,7 +351,11 @@ export function ContactForm() {
           disabled={sending}
           aria-busy={sending}
         >
-          {sending ? "Sending…" : "Send message"}
+          {sending
+            ? "Sending…"
+            : isAlAqsa
+              ? "Count me in"
+              : "Send message"}
         </ButtonAction>
         <p className="text-sm/relaxed text-muted">
           We typically reply within a few hours. For a faster response, send a

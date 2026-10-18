@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
-import { contactTopics, services, site } from "@/content/site";
+import { AL_AQSA_TOPIC, contactTopics, services, site } from "@/content/site";
 import {
   isRetreatSubmission,
   toContactInput,
@@ -124,6 +124,7 @@ export async function POST(request: Request) {
   }
 
   const isRetreat = isRetreatSubmission(input.program);
+  const isAlAqsa = input.program === AL_AQSA_TOPIC;
   const topic = LABELS.get(input.program) ?? "Something else";
   const resend = new Resend(key);
 
@@ -133,8 +134,23 @@ export async function POST(request: Request) {
     ["Phone", input.phone || "—"],
     ["About", topic],
   ];
+
+  // The tour asks who is travelling, because that is what decides rooms,
+  // flights and whether the Three Cities extension is workable at all.
+  if (isAlAqsa) {
+    rows.push(["Adults", input.adults]);
+    rows.push(["Children", input.children]);
+    if (input.cityCountry) rows.push(["City and country", input.cityCountry]);
+    rows.push(["Option", input.tourOption || "Not stated"]);
+  }
+
   if (input.outcome) rows.push(["Hoping to be clearer on", input.outcome]);
-  rows.push(["Message", input.message || "—"]);
+  rows.push([isAlAqsa ? "Questions" : "Message", input.message || "—"]);
+
+  // A literal, stable token so these can be filtered in a mail client
+  // without relying on the subject line's wording — "tagged al-aqsa-tour,
+  // so I can tell them apart", 18 October.
+  if (input.program) rows.push(["Programme tag", input.program]);
 
   const text = rows.map(([k, v]) => `${k}: ${v}`).join("\n\n");
   const html = rows
@@ -154,7 +170,9 @@ export async function POST(request: Request) {
       subject: oneLine(
         isRetreat
           ? `Anchored reservation — ${input.name}`
-          : `${topic} — ${input.name}`,
+          : isAlAqsa
+            ? `Al-Aqsa registration — ${input.name}`
+            : `${topic} — ${input.name}`,
       ),
       text,
       html,
@@ -173,7 +191,9 @@ export async function POST(request: Request) {
     // so the general case gets its own.
     const ackText = isRetreat
       ? "JazakAllah Khair. Imam Shuaib will be in touch within 24 hours to confirm your seat and arrange the deposit."
-      : "JazakAllah Khair. Your message has reached Imam Shuaib and he will be in touch shortly.";
+      : isAlAqsa
+        ? "JazakAllah Khair! You’ve taken the first step. Expect a personal message from Imam Shuaib within 24 hours."
+        : "JazakAllah Khair. Your message has reached Imam Shuaib and he will be in touch shortly.";
 
     const ack = await resend.emails.send({
       from: FROM,
@@ -181,7 +201,9 @@ export async function POST(request: Request) {
       replyTo: site.email,
       subject: isRetreat
         ? "Your Anchored reservation"
-        : `Thank you for writing to ${site.name}`,
+        : isAlAqsa
+          ? "Your Al-Aqsa registration"
+          : `Thank you for writing to ${site.name}`,
       text: `${ackText}\n\n— ${site.legalName}\n${site.email}\n${site.phone}`,
       html:
         `<p style="margin:0 0 20px">${esc(ackText)}</p>` +

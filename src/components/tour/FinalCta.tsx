@@ -1,3 +1,4 @@
+import { site } from "@/content/site";
 import { tour } from "@/content/tour";
 import { Container } from "@/components/ui/Container";
 import { RegisterCard } from "./RegisterCard";
@@ -31,20 +32,23 @@ export function FinalCta() {
               {tour.finalCta.body}
             </p>
             <p className="mt-8 font-sans text-sm text-sand-700">
-              Questions before you register?{" "}
               <a
-                href="/contact?program=al-aqsa-tour"
+                href={`https://wa.me/${site.whatsapp}`}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="font-semibold text-gold-800 underline underline-offset-4"
               >
-                Speak to the team
-              </a>
+                Questions? WhatsApp Imam Shuaib
+                <span className="sr-only"> (opens WhatsApp in a new tab)</span>
+              </a>{" "}
+              <span className="whitespace-nowrap">{site.phone}</span>
             </p>
           </div>
 
           <RegisterCard
             headingId="register-final"
             as="h3"
-            className="w-full max-w-sm lg:w-[22.5rem] lg:shrink-0"
+            className="w-full max-w-sm lg:w-[25rem] lg:shrink-0"
           />
         </div>
       </Container>

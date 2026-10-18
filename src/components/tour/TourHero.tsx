@@ -49,6 +49,13 @@ export function TourHero() {
               </span>
             </p>
 
+            {/* Sentence case, no tracking: this is a clause, not a label.
+                sand-200 on the dark ground clears AA comfortably and sits
+                a step quieter than the gold date above it. */}
+            <p className="mt-4 max-w-md font-sans text-sm/relaxed text-sand-200">
+              {tour.extension}
+            </p>
+
             <p className="mt-7 max-w-xl text-lead text-sand-200">
               {tour.hero.standfirst}
             </p>

@@ -48,13 +48,29 @@ export async function RegisterCard({
       <div className="mt-6 flex justify-center">
         <div
           className={cn(
-            "relative rounded-2xl bg-white p-5",
-            // 20px of quiet zone around a 176px code is a shade over the four
-            // modules the spec asks for. Scanners fail without it.
+            "relative w-full max-w-[19rem] rounded-2xl bg-white p-4 sm:p-5",
+            // The white padding IS the quiet zone — the code is generated
+            // with margin: 0, so there is none inside the SVG. Scanners fail
+            // without it.
             "ring-1 ring-sand-200",
           )}
         >
-          <QrCode value={tour.registerUrl} className="size-44 sm:size-48" />
+          {/* Sized up on 18 October for a Zoom screen share: the code is
+              scanned off someone else's shared window, at whatever size Zoom
+              scaled it to, by a phone held at arm's length. 176px was fine
+              for a page you hold; it is not fine for that.
+
+              FLUID, NOT FIXED, AND THAT MATTERS. A fixed size-64 rendered
+              248x256 here: a global max-width:100% clamped the width to the
+              card while the height kept its 256px, so the modules came out
+              as rectangles. A squashed QR is the kind of thing that scans
+              on the laptop you tested it on and fails on half the phones in
+              the room. Width drives it and height follows, so it is square
+              at every card width. */}
+          <QrCode
+            value={tour.registerUrl}
+            className="h-auto w-full max-w-[17rem]"
+          />
         </div>
       </div>
 

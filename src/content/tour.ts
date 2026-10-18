@@ -1,6 +1,21 @@
 import { site } from "./site";
 
 /**
+ * The 18 October wording, kept verbatim but held in three pieces.
+ *
+ * He sent it as one string joined by a pipe. That is right for the page
+ * title, and wrong for the hero, where the date sits in a small pill in
+ * uppercase with letter-spacing — a treatment built for "March 27 to
+ * April 7" and not for a hundred-character sentence with two clauses in it.
+ * Setting a sentence as a label is the same mistake that made the Anchored
+ * seats line look cluttered, so the two clauses are split for display and
+ * rejoined for the title. Nothing is reworded.
+ */
+const TOUR_DATES = "Tentative: March 27 to April 7, 2027";
+const TOUR_EXTENSION =
+  "Possible Three Cities extension: Al-Aqsa, Madinah and Makkah";
+
+/**
  * ⚠️ TWO THINGS MUST BE SUPPLIED BEFORE THIS PAGE GOES LIVE
  *
  *   1. `dates`      — currently the literal placeholder from the brief.
@@ -18,8 +33,12 @@ import { site } from "./site";
 
 export const tour = {
   name: "Journey to Al-Aqsa",
-  /** ⚠️ PLACEHOLDER — the real travel dates go here. */
-  dates: "[TOUR DATES]",
+  /** The pill in the hero. Short enough to be set as a label. */
+  dates: TOUR_DATES,
+  /** The second clause, set as the sentence it is, under the pill. */
+  extension: TOUR_EXTENSION,
+  /** Both, joined exactly as he wrote them — for the page title. */
+  datesFull: `${TOUR_DATES} | ${TOUR_EXTENSION}`,
   /** True once the places below are a confirmed itinerary, not an intention. */
   itineraryConfirmed: false,
 
@@ -31,10 +50,9 @@ export const tour = {
    * is handled by a tour operator or a booking platform, replace this one
    * string and the QR code regenerates with it on the next build.
    *
-   * ⚠️ This resolves through `site.url`, which is still the intended domain
-   * rather than a confirmed live one. A QR code is printed, shared and
-   * screenshotted — it has to be right before anyone scans it. Re-check this
-   * after the domain is final.
+   * Resolves through `site.url`, which now names www.imamshuaib.com — the
+   * host that actually serves, so a scan lands without a redirect hop.
+   * Confirmed against production on 18 October.
    */
   registerUrl: `${site.url}/contact?program=al-aqsa-tour`,
 

@@ -1,11 +1,13 @@
-import { ANCHORED_TOPIC } from "@/content/site";
+import { AL_AQSA_TOPIC, ANCHORED_TOPIC } from "@/content/site";
 
 export type ContactField =
   | "name"
   | "email"
   | "phone"
   | "message"
-  | "outcome";
+  | "outcome"
+  | "adults"
+  | "children";
 
 export type ContactErrors = Partial<Record<ContactField, string>>;
 
@@ -16,9 +18,23 @@ export type ContactInput = {
   program: string;
   outcome: string;
   message: string;
+
+  /**
+   * Al-Aqsa only. Held as strings because that is what a form submits and
+   * what a JSON body may arrive as; parsed at the point of validation so an
+   * empty box and a zero stay distinguishable.
+   */
+  adults: string;
+  children: string;
+  cityCountry: string;
+  tourOption: string;
+
   /** Honeypot. Anything in it means a bot filled the form. */
   website: string;
 };
+
+/** Whole, non-negative, and actually a number — "2 kids" is not a count. */
+const asCount = (v: string) => (/^\d+$/.test(v.trim()) ? Number(v) : null);
 
 export const isEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
 
@@ -35,6 +51,10 @@ export function toContactInput(get: (k: string) => unknown): ContactInput {
     program: str("program"),
     outcome: str("outcome"),
     message: str("message"),
+    adults: str("adults"),
+    children: str("children"),
+    cityCountry: str("cityCountry"),
+    tourOption: str("tourOption"),
     website: str("website"),
   };
 }
@@ -56,6 +76,7 @@ export function toContactInput(get: (k: string) => unknown): ContactInput {
  */
 export function validateContact(input: ContactInput): ContactErrors {
   const isRetreat = input.program === ANCHORED_TOPIC;
+  const isAlAqsa = input.program === AL_AQSA_TOPIC;
   const errors: ContactErrors = {};
 
   if (!input.name) errors.name = "Please tell us your name.";
@@ -65,8 +86,31 @@ export function validateContact(input: ContactInput): ContactErrors {
   else if (!isEmail(input.email))
     errors.email = "That does not look like an email address.";
 
-  if (!isRetreat && input.message.length < 10)
+  // Only the general enquiry needs a message. Both registration paths ask
+  // their own questions instead, and on those "Any questions?" is optional —
+  // somebody registering for a tour may simply have none.
+  if (!isRetreat && !isAlAqsa && input.message.length < 10)
     errors.message = "A sentence or two about what you need, please.";
+
+  if (isAlAqsa) {
+    const digits = input.phone.replace(/D/g, "");
+    if (!input.phone) errors.phone = "A number we can text, please.";
+    else if (digits.length < 7)
+      errors.phone = "That looks too short to be a phone number.";
+
+    // How many are travelling is the whole point of the enquiry — it decides
+    // rooms, flights and whether the Three Cities extension is even workable.
+    const adults = asCount(input.adults);
+    if (!input.adults) errors.adults = "How many adults are travelling?";
+    else if (adults === null) errors.adults = "Please enter a number.";
+    else if (adults < 1) errors.adults = "At least one adult, please.";
+
+    // Zero is a real answer here, so an empty box and "0" must not be
+    // confused — which is why these are parsed rather than coerced.
+    const children = asCount(input.children);
+    if (!input.children) errors.children = "How many children? Enter 0 if none.";
+    else if (children === null) errors.children = "Please enter a number.";
+  }
 
   if (isRetreat) {
     // Deliberately loose. Phone formats differ by country and a strict
