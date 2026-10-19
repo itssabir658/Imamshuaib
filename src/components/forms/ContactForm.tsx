@@ -10,6 +10,8 @@ import {
   site,
 } from "@/content/site";
 import { ButtonAction } from "@/components/ui/Button";
+import { tour } from "@/content/tour";
+import { Button } from "@/components/ui/Button";
 import { Field, FormResult } from "./Field";
 import {
   type ContactErrors as Errors,
@@ -151,6 +153,30 @@ export function ContactForm() {
             A copy is on its way to your inbox. If it is not there in a few
             minutes, check your spam folder.
           </p>
+        ) : null}
+
+        {/* The WhatsApp group. Only on this screen — never on the form —
+            because the group is where the package and pricing get announced,
+            and a join link beside the form would let people take that and
+            skip registering. */}
+        {isAlAqsa ? (
+          <div className="mt-7 border-t border-sand-300 pt-6">
+            <p className="font-display text-h3 font-bold text-charcoal">
+              {tour.whatsappGroup.heading}
+            </p>
+            <p className="mt-3">{tour.whatsappGroup.body}</p>
+            <Button
+              href={tour.whatsappGroup.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="primary"
+              size="lg"
+              className="mt-6"
+            >
+              {tour.whatsappGroup.cta}
+              <span className="sr-only"> (opens WhatsApp in a new tab)</span>
+            </Button>
+          </div>
         ) : null}
       </FormResult>
     );

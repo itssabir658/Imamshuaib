@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { AL_AQSA_TOPIC, contactTopics, services, site } from "@/content/site";
+import { tour } from "@/content/tour";
 import {
   isRetreatSubmission,
   toContactInput,
@@ -195,6 +196,38 @@ export async function POST(request: Request) {
         ? "JazakAllah Khair! You’ve taken the first step. Expect a personal message from Imam Shuaib within 24 hours."
         : "JazakAllah Khair. Your message has reached Imam Shuaib and he will be in touch shortly.";
 
+    // The Al-Aqsa letter is his, written out on 18 October, and it has a
+    // job the generic acknowledgement does not: getting the person into the
+    // WhatsApp group where the package is announced. The date comes from
+    // tour.datesPlain rather than being typed again, so when the dates move
+    // the letter moves with them.
+    const firstName = input.name.trim().split(/\s+/)[0];
+    const group = tour.whatsappGroup;
+
+    const alAqsaLines = [
+      `Assalamu Alaikum ${firstName},`,
+      "",
+      `Thank you for registering your interest in the Journey to Al-Aqsa with Imam Shuaib, tentatively ${tour.datesPlain}.`,
+      "",
+      "Next step: join our private WhatsApp group for travellers. Package details, pricing and registration will be announced there first.",
+      "",
+      `${group.cta}: ${group.url}`,
+      "",
+      "With Du'as,",
+      site.legalName,
+      `imamshuaib.com | WhatsApp ${site.phone}`,
+    ].join("\n");
+
+    const alAqsaHtml =
+      `<p style="margin:0 0 20px">Assalamu Alaikum ${esc(firstName)},</p>` +
+      `<p style="margin:0 0 20px">Thank you for registering your interest in the Journey to Al-Aqsa with Imam Shuaib, tentatively ${esc(tour.datesPlain)}.</p>` +
+      `<p style="margin:0 0 24px">Next step: join our private WhatsApp group for travellers. Package details, pricing and registration will be announced there first.</p>` +
+      // Inline styles only: every class is stripped by a good number of mail
+      // clients, and a button that arrives unstyled is just a bare URL.
+      `<p style="margin:0 0 28px"><a href="${esc(group.url)}" style="display:inline-block;background:#1c1a17;color:#fbf8f2;text-decoration:none;padding:14px 26px;border-radius:999px;font-weight:600">${esc(group.cta)}</a></p>` +
+      `<p style="margin:0;color:#4a453f">With Du'as,<br>${esc(site.legalName)}<br>` +
+      `imamshuaib.com | WhatsApp ${esc(site.phone)}</p>`;
+
     const ack = await resend.emails.send({
       from: FROM,
       to: [input.email],
@@ -202,13 +235,16 @@ export async function POST(request: Request) {
       subject: isRetreat
         ? "Your Anchored reservation"
         : isAlAqsa
-          ? "Your Al-Aqsa registration"
+          ? "You’ve taken the first step toward Al-Aqsa"
           : `Thank you for writing to ${site.name}`,
-      text: `${ackText}\n\n— ${site.legalName}\n${site.email}\n${site.phone}`,
-      html:
-        `<p style="margin:0 0 20px">${esc(ackText)}</p>` +
-        `<p style="margin:0;color:#4a453f">— ${esc(site.legalName)}<br>` +
-        `${esc(site.email)}<br>${esc(site.phone)}</p>`,
+      text: isAlAqsa
+        ? alAqsaLines
+        : `${ackText}\n\n— ${site.legalName}\n${site.email}\n${site.phone}`,
+      html: isAlAqsa
+        ? alAqsaHtml
+        : `<p style="margin:0 0 20px">${esc(ackText)}</p>` +
+          `<p style="margin:0;color:#4a453f">— ${esc(site.legalName)}<br>` +
+          `${esc(site.email)}<br>${esc(site.phone)}</p>`,
     });
 
     // The submission is already delivered at this point, so a failed

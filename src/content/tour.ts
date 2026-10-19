@@ -11,7 +11,8 @@ import { site } from "./site";
  * seats line look cluttered, so the two clauses are split for display and
  * rejoined for the title. Nothing is reworded.
  */
-const TOUR_DATES = "Tentative: March 27 to April 7, 2027";
+const TOUR_DATES_PLAIN = "March 27 to April 7, 2027";
+const TOUR_DATES = `Tentative: ${TOUR_DATES_PLAIN}`;
 const TOUR_EXTENSION =
   "Possible Three Cities extension: Al-Aqsa, Madinah and Makkah";
 
@@ -35,6 +36,8 @@ export const tour = {
   name: "Journey to Al-Aqsa",
   /** The pill in the hero. Short enough to be set as a label. */
   dates: TOUR_DATES,
+  /** Without the "Tentative:" prefix, for sentences that supply their own. */
+  datesPlain: TOUR_DATES_PLAIN,
   /** The second clause, set as the sentence it is, under the pill. */
   extension: TOUR_EXTENSION,
   /** Both, joined exactly as he wrote them — for the page title. */
@@ -62,6 +65,22 @@ export const tour = {
       "An unforgettable spiritual journey through Al-Aqsa, Jerusalem and its most sacred Islamic landmarks.",
     summary:
       "Join Imam Shuaib on a guided journey through the sacred sites of Al-Quds, exploring its rich Islamic history, spirituality and heritage.",
+  },
+
+  /**
+   * The private WhatsApp group for travellers — 18 October.
+   *
+   * It appears ONLY after the form is submitted, never on the form itself.
+   * That is his instruction and the reason is in it: the group is where the
+   * package and pricing get announced, so it is worth something, and the
+   * details are captured first. A join link on the form page would let
+   * people take the valuable part and skip the registration.
+   */
+  whatsappGroup: {
+    url: "https://chat.whatsapp.com/JeGrqI7mFx58ST7C0CFoIS",
+    heading: "Ready to go?",
+    body: "Join our private WhatsApp group for travellers. Package details, pricing and registration will be announced there first.",
+    cta: "Join the private WhatsApp group",
   },
 
   qr: {
