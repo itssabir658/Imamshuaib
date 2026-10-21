@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { AL_AQSA_TOPIC, ANCHORED_TOPIC, site } from "@/content/site";
 import { anchored } from "@/content/anchored";
+import { tour } from "@/content/tour";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Section } from "@/components/ui/Section";
 import { ContactForm } from "@/components/forms/ContactForm";
@@ -10,16 +11,80 @@ import { SocialLinks } from "@/components/layout/SocialLinks";
 const lead =
   "Tell Imam Shuaib what you need in a couple of sentences. If he is not the right person for it, he will say so and point you to someone who is.";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description: lead,
-  alternates: { canonical: "/contact" },
-  openGraph: {
-    title: `Contact — ${site.name}`,
-    description: lead,
-    url: "/contact",
+/**
+ * The dedicated registration views, keyed by programme.
+ *
+ * One definition feeding both the masthead and the metadata, because they had
+ * already drifted apart: the page said "Al-Aqsa is calling" while every link
+ * preview of it said "Contact — Imam Shuaib". Shared here, a WhatsApp card
+ * cannot disagree with the page it points at.
+ *
+ * The Al-Aqsa dates come from tour.datesPlain rather than being typed again,
+ * so the lead follows when they move.
+ */
+const REGISTRATION = {
+  [ANCHORED_TOPIC]: {
+    metaTitle: "Anchored Registration",
+    eyebrow: "Anchored",
+    title: "Let’s get you a seat!",
+    lead: "Ten seats, each one confirmed personally. Tell Imam Shuaib a little about yourself and he will be in touch within 24 hours.",
+    metaSuffix: ` ${anchored.dates}, ${anchored.shortPlace}.`,
   },
-};
+  [AL_AQSA_TOPIC]: {
+    metaTitle: "Al-Aqsa Registration",
+    eyebrow: "First Qiblah. Third Holiest Masjid.",
+    title: "Al-Aqsa is calling",
+    lead: `Join Imam Shuaib in Bayt al-Maqdis. Children welcome, tentatively ${tour.datesPlain}. Register your interest and Imam Shuaib will personally walk you through every step.`,
+    metaSuffix: "",
+  },
+} as const;
+
+type RegistrationKey = keyof typeof REGISTRATION;
+
+const registrationView = (program?: string) =>
+  program && program in REGISTRATION
+    ? REGISTRATION[program as RegistrationKey]
+    : undefined;
+
+/**
+ * Dynamic, because one route serves three pages.
+ *
+ * A static `metadata` export cannot see the query string, which is why every
+ * share of a registration link — and WhatsApp previews especially, since the
+ * brief says that is where the traffic comes from — announced itself as
+ * "Contact — Imam Shuaib" regardless of what the page actually said.
+ */
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ program?: string }>;
+}): Promise<Metadata> {
+  const { program } = await searchParams;
+  const view = registrationView(program);
+
+  const title = view ? view.metaTitle : "Contact";
+  const description = view ? `${view.lead}${view.metaSuffix}` : lead;
+  const url = view ? `/contact?program=${program}` : "/contact";
+
+  return {
+    title,
+    description,
+    // Self-referential rather than pointing at bare /contact: these are
+    // genuinely different pages, and collapsing them onto one canonical
+    // would ask search engines to drop two of the three.
+    alternates: { canonical: url },
+    openGraph: {
+      title: `${title} — ${site.name}`,
+      description,
+      url,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} — ${site.name}`,
+      description,
+    },
+  };
+}
 
 /**
  * Contact, and — with `?program=anchored-retreat` — the Anchored reservation
@@ -59,15 +124,15 @@ export default async function ContactPage({
     <>
       {isAlAqsa ? (
         <PageHeader
-          eyebrow="First Qiblah. Third Holiest Masjid."
-          title="Al-Aqsa is calling"
-          lead="Join Imam Shuaib in Bayt al-Maqdis. Children welcome, tentatively March 27 to April 7, 2027. Register your interest and Imam Shuaib will personally walk you through every step."
+          eyebrow={REGISTRATION[AL_AQSA_TOPIC].eyebrow}
+          title={REGISTRATION[AL_AQSA_TOPIC].title}
+          lead={REGISTRATION[AL_AQSA_TOPIC].lead}
         />
       ) : isRetreat ? (
         <PageHeader
-          eyebrow="Anchored"
-          title={"Let’s get you a seat!"}
-          lead="Ten seats, each one confirmed personally. Tell Imam Shuaib a little about yourself and he will be in touch within 24 hours."
+          eyebrow={REGISTRATION[ANCHORED_TOPIC].eyebrow}
+          title={REGISTRATION[ANCHORED_TOPIC].title}
+          lead={REGISTRATION[ANCHORED_TOPIC].lead}
         >
           <p className="font-sans text-sm font-semibold tracking-[0.1em] text-charcoal uppercase">
             {anchored.dates} &nbsp;|&nbsp; {anchored.shortPlace}

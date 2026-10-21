@@ -47,6 +47,8 @@ export function ContactForm() {
   const [program, setProgram] = useState(preselected);
   const isRetreat = program === ANCHORED_TOPIC;
   const isAlAqsa = program === AL_AQSA_TOPIC;
+  /** Arrived on a page built for one programme, rather than at /contact. */
+  const isRegistration = isRetreat || isAlAqsa;
 
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
@@ -205,12 +207,14 @@ export function ContactForm() {
         {(p) => <input {...p} name="email" type="email" autoComplete="email" />}
       </Field>
 
-      {/* THE TOPIC SELECT IS HIDDEN ON THE AL-AQSA PATH. People reach that
-          page by scanning a QR code at an info session — they have already
-          chosen, and a dropdown whose only effect would be to tear down the
-          form they are halfway through is a trap, not a choice. The value
-          still travels, as a hidden input. */}
-      {isAlAqsa ? (
+      {/* THE TOPIC SELECT IS HIDDEN ON BOTH REGISTRATION PAGES. People reach
+          these by scanning a QR code or pressing "Reserve your seat" — they
+          have already chosen, and a dropdown listing the other nine
+          programmes, whose only effect would be to tear down the form they
+          are halfway through, is a trap rather than a choice. Each page says
+          in its own masthead what is being registered for. The value still
+          travels, as a hidden input. */}
+      {isRegistration ? (
         <input type="hidden" name="program" value={program} />
       ) : (
         <Field label="What is this about?">
