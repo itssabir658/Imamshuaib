@@ -207,9 +207,10 @@ export const anchored = {
    * through the optimiser is the quickest way to exhaust it, and these are
    * fixed photographs that will never need resizing on the fly.
    *
-   * Two of the sixteen he sent are not here: both show a Christmas wreath
-   * from the cottage's own listing photos, which is not what this page
-   * should be showing. Flagged for him rather than quietly dropped.
+   * All fourteen he sent are here. Sixteen arrived, but two were
+   * byte-for-byte duplicates. Two of these carry a Christmas wreath from the
+   * cottage's own listing photos; they were held back on 26 October and he
+   * asked for them in, which is his call to make.
    */
   gallery: [
     {
@@ -225,12 +226,20 @@ export const anchored = {
       alt: "A wall-mounted television above a reclaimed wood console in the living area",
     },
     {
+      slug: "hallway",
+      alt: "The open landing, with wide pine floorboards and the dining room beyond",
+    },
+    {
       slug: "dining-table",
       alt: "The dining table laid for a meal beneath a lantern chandelier",
     },
     {
       slug: "kitchen",
       alt: "The kitchen, with butcher-block counters and a wide plank floor",
+    },
+    {
+      slug: "kitchen-range",
+      alt: "The kitchen range and farmhouse sink, with a tall fridge alongside",
     },
     {
       slug: "porch",

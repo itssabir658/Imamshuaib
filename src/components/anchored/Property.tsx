@@ -20,7 +20,7 @@ import { Label } from "./Type";
  * paper on both sides of this one.
  *
  * THE GALLERY IS PLAIN <img>, NOT next/image, and that is deliberate. The
- * project is at 75% of Vercel's free image-optimisation allowance; twelve
+ * project is at 75% of Vercel's free image-optimisation allowance; fourteen
  * more images through the optimiser would finish it, and these are fixed
  * photographs that never need resizing on the fly. They are converted to
  * WebP ahead of time at two widths, with the srcset written by hand, so the
