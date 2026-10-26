@@ -47,15 +47,17 @@ export function Investment() {
                 {tier.price}
               </p>
               <p className="mt-4 font-sans text-sm text-charcoal-600">
-                {/* A real <strong>, not just a heavier weight: the emphasis
-                    was asked for so the deadline stands out, and assistive
-                    tech should hear it too. */}
-                {tier.lead ? (
-                  <strong className="font-bold text-charcoal">
-                    {tier.lead}{" "}
+                {tier.note}
+                {/* A real <strong>, not just a heavier weight, so assistive
+                    tech conveys the emphasis too. The rule under it is a
+                    gold border rather than text-decoration: an underline on
+                    non-link text invites people to click it, and a border
+                    sits lower and reads as a highlight. */}
+                {tier.strong ? (
+                  <strong className="border-b-2 border-gold-500 pb-0.5 font-bold text-charcoal">
+                    {tier.strong}
                   </strong>
                 ) : null}
-                {tier.note}
               </p>
             </div>
           ))}

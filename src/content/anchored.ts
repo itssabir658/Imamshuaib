@@ -1,5 +1,5 @@
 /**
- * ANCHORED — men's retreat, 13–15 November 2026, Waterdown, Hamilton.
+ * ANCHORED — men's retreat, 11–13 December 2026, Waterdown, Hamilton.
  *
  * The copy below is the client's, transcribed verbatim from the landing-page
  * copy document of 8 October 2026. The brief says "Copy and paste it as
@@ -28,7 +28,7 @@
 export const anchored = {
   name: "Anchored",
   kicker: "A Men's Retreat",
-  dates: "November 13 to 15, 2026",
+  dates: "December 11 to 13, 2026",
   place: "Private countryside property, Waterdown, Hamilton",
   /** The short form, for lines where the full place would crowd the date.
    *
@@ -195,7 +195,71 @@ export const anchored = {
     "Archery. The Prophet (ﷺ) said strength is in shooting.",
     "Bonfire, where the real conversations happen.",
     "Hot tub, for after the trail.",
-    "Fully catered by world renowned Chef Baig. Every meal, properly done.",
+    "Fully catered. Every meal, properly done.",
+  ],
+
+  /**
+   * The cottage, 23 October.
+   *
+   * Served as plain <img> with a hand-written srcset rather than through
+   * next/image, and converted to WebP ahead of time. Vercel's free image
+   * optimisation allowance is already at 75%; putting twelve more images
+   * through the optimiser is the quickest way to exhaust it, and these are
+   * fixed photographs that will never need resizing on the fly.
+   *
+   * Two of the sixteen he sent are not here: both show a Christmas wreath
+   * from the cottage's own listing photos, which is not what this page
+   * should be showing. Flagged for him rather than quietly dropped.
+   */
+  gallery: [
+    {
+      slug: "living-window-seat",
+      alt: "The living room, with a cushioned window seat looking out over the paddock",
+    },
+    {
+      slug: "living-sofas",
+      alt: "Sofas and a low round table in the living room, the field visible through the window",
+    },
+    {
+      slug: "living-tv",
+      alt: "A wall-mounted television above a reclaimed wood console in the living area",
+    },
+    {
+      slug: "dining-table",
+      alt: "The dining table laid for a meal beneath a lantern chandelier",
+    },
+    {
+      slug: "kitchen",
+      alt: "The kitchen, with butcher-block counters and a wide plank floor",
+    },
+    {
+      slug: "porch",
+      alt: "The covered porch, with a table, chairs and a barbecue looking onto the lawn",
+    },
+    {
+      slug: "bedroom-double",
+      alt: "A bedroom with a double bed and a window onto the garden",
+    },
+    {
+      slug: "bedroom-bunks",
+      alt: "A bedroom with a pine bunk bed and a single bed",
+    },
+    {
+      slug: "bedroom-bunk-room",
+      alt: "A pine bunk bed beside a chest of drawers",
+    },
+    {
+      slug: "bathroom-vanity",
+      alt: "A bathroom vanity with a framed mirror and a patterned tiled floor",
+    },
+    {
+      slug: "bathroom-shower",
+      alt: "A bathroom with a shower, folded towels on a stool and botanical prints",
+    },
+    {
+      slug: "bathroom-tub",
+      alt: "A bathroom with a shower, crate shelving and a framed mirror",
+    },
   ],
 
   /**
@@ -267,13 +331,15 @@ export const anchored = {
   /** SECTION 8 — price, and how a seat is actually secured. */
   investment: {
     tiers: [
-      { name: "Early Bird", price: "$495", note: "Ends November 1st" },
-      // `lead` renders bold ahead of the note — 15 October: "Pls boldface
-      // After so it stands out".
-      { name: "Standard", price: "$595", note: "November 1st", lead: "After" },
-    ] as { name: string; price: string; note: string; lead?: string }[],
+      // `strong` renders bold and underlined after `note` — 26 October:
+      // "make both dates stand out visually... so there is no confusion
+      // about the cut-off". The emphasis is on the date itself now; it used
+      // to sit on the word "After", which is not the part anyone misreads.
+      { name: "Early Bird", price: "$495", note: "Ends ", strong: "November 20" },
+      { name: "Standard", price: "$595", note: "", strong: "After November 20" },
+    ] as { name: string; price: string; note: string; strong?: string }[],
     includes:
-      "Includes two nights accommodation, all meals by world renowned Chef Baig, horseback riding, archery, all sessions and materials, and two months of post-retreat live sessions with Imam Shuaib.",
+      "Includes two nights accommodation, all meals fully catered, horseback riding, archery, all sessions and materials, and two months of post-retreat live sessions with Imam Shuaib.",
     deposit: "$250 deposit secures your seat. Balance due November 4, 2026.",
     terms:
       "Deposit non-refundable after November 1. Seat transferable to another brother.",
@@ -294,7 +360,7 @@ export const anchored = {
     },
     {
       q: "What do I bring?",
-      a: "Warm layers, boots, a prayer mat, a notebook. Everything else is handled.",
+      a: "A winter coat, gloves, a warm hat, waterproof boots, a prayer mat and a notebook. Everything else is handled.",
     },
     {
       q: "How far is the drive?",
@@ -316,7 +382,7 @@ export const anchored = {
 
   /** SECTION 10 */
   close: {
-    line: "Ten seats. One weekend. November 13.",
+    line: "Ten seats. One weekend. December 11.",
     cta: "Reserve your seat",
   },
 

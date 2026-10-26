@@ -402,5 +402,5 @@ export const AL_AQSA_TOPIC = "al-aqsa-tour";
 
 export const contactTopics = [
   { id: AL_AQSA_TOPIC, label: "Journey to Al-Aqsa — tour registration" },
-  { id: ANCHORED_TOPIC, label: "Anchored — men's retreat, November 2026" },
+  { id: ANCHORED_TOPIC, label: "Anchored — men's retreat, December 2026" },
 ] as const;
