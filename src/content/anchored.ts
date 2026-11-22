@@ -344,8 +344,8 @@ export const anchored = {
       // "make both dates stand out visually... so there is no confusion
       // about the cut-off". The emphasis is on the date itself now; it used
       // to sit on the word "After", which is not the part anyone misreads.
-      { name: "Early Bird", price: "$495", note: "Ends ", strong: "November 20" },
-      { name: "Standard", price: "$595", note: "", strong: "After November 20" },
+      { name: "Early Bird", price: "$495", note: "Ends ", strong: "December 8" },
+      { name: "Standard", price: "$595", note: "", strong: "After December 8" },
     ] as { name: string; price: string; note: string; strong?: string }[],
     includes:
       "Includes two nights accommodation, all meals fully catered, horseback riding, archery, all sessions and materials, and two months of post-retreat live sessions with Imam Shuaib.",
