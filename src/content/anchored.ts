@@ -351,7 +351,7 @@ export const anchored = {
       "Includes two nights accommodation, all meals fully catered, horseback riding, archery, all sessions and materials, and two months of post-retreat live sessions with Imam Shuaib.",
     deposit: "$250 deposit secures your seat.",
     terms:
-      "Deposit non-refundable after December 2. Seat transferable to another brother.",
+      "Deposit non-refundable after December 10. Seat transferable to another brother.",
     /** Replaces "Pay by card or e-transfer" — 11 October. */
     howTitle: "How this works",
     howBody: [
